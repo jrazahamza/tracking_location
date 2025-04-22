@@ -1,4 +1,4 @@
-name: Laravel Deployment
+name: Deploy Laravel Application
 
 on:
   push:
@@ -10,66 +10,59 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          extensions: mbstring, bcmath, pdo, tokenizer, xml, ctype, json
+    - name: Set up SSH key for GitHub
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.CPANEL_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.CPANEL_HOST }}
-          username: ${{ secrets.CPANEL_USERNAME }}
-          key: ${{ secrets.CPANEL_SSH_KEY }}
-          passphrase: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
-          port: 22
-          script: |
-            echo "🚀 Starting deployment on server..."
+    - name: Deploy via SSH
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.CPANEL_HOST }}
+        username: ${{ secrets.CPANEL_USERNAME }}
+        key: ${{ secrets.CPANEL_SSH_KEY }}
+        passphrase: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
+        port: 22
+        script: |
+          echo "🚀 Starting deployment on server..."
 
-            cd ${{ secrets.DEPLOY_PATH }} || exit 1
-            echo "📂 Changed directory to $(pwd)"
+          # Change directory to the correct deployment folder
+          cd ${{ secrets.DEPLOY_PATH }} || exit 1
+          echo "📂 Changed directory to $(pwd)"
 
-            echo "🔄 Backing up .env file..."
-            cp .env .env.backup || { echo "⚠️ No .env file found, skipping backup."; }
+          # Backup .env file before fetching
+          echo "🔄 Backing up .env file..."
+          cp .env .env.backup
 
-            echo "🔄 Fetching latest changes..."
-            attempt=0
-            max_attempts=3
-            until git fetch git@github.com:your-username/your-repository.git main || [ $attempt -eq $max_attempts ]; do
-              echo "❌ Git fetch failed. Retrying... ($attempt)"
-              ((attempt++))
-              sleep 10  # Wait before retrying
-            done
+          # Fetch latest changes from GitHub repository
+          echo "🔄 Fetching latest changes..."
+          attempt=0
+          max_attempts=3
+          until git fetch git@github.com:your-username/your-repository.git main || [ $attempt -eq $max_attempts ]; do
+            echo "❌ Git fetch failed. Retrying... ($attempt)"
+            ((attempt++))
+            sleep 10
+          done
 
-            if [ $attempt -eq $max_attempts ]; then
-              echo "❌ Git fetch failed after $max_attempts attempts!"
-              exit 1
-            fi
+          # Run Laravel optimizations
+          echo "⚡ Running Laravel optimizations..."
+          php artisan optimize:clear
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
 
-            echo "🔄 Resetting repository to latest commit..."
-            git reset --hard git@github.com:your-username/your-repository.git || { echo "❌ Git reset failed!"; exit 1; }
+          # Set correct permissions for storage and cache directories
+          echo "🛠️ Setting permissions..."
+          chmod -R 775 storage bootstrap/cache
+          chown -R $USER:www-data storage bootstrap/cache
 
-            echo "🔄 Restoring .env file..."
-            cp .env.backup .env || { echo "⚠️ .env backup not found, skipping restore."; }
+          # Restart queues if using Laravel queues
+          echo "🚀 Restarting queues..."
+          php artisan queue:restart
 
-            echo "📦 Installing dependencies..."
-            composer install --no-dev --optimize-autoloader || { echo "❌ Composer install failed!"; exit 1; }
-
-            echo "⚡ Running Laravel optimizations..."
-            php artisan optimize:clear
-            php artisan config:cache
-            php artisan route:cache
-            php artisan view:cache
-
-            echo "🛠️ Setting permissions..."
-            chmod -R 775 storage bootstrap/cache
-            chown -R $USER:www-data storage bootstrap/cache
-
-            echo "🚀 Restarting queues..."
-            php artisan queue:restart
-
-            echo "✅ Deployment successful!"
+          echo "✅ Deployment successful!"
