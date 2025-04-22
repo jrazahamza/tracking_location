@@ -19,6 +19,13 @@ jobs:
           php-version: '8.2'
           extensions: mbstring, bcmath, pdo, tokenizer, xml, ctype, json
 
+      - name: Set up SSH key for deployment
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.CPANEL_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.CPANEL_HOST }} >> ~/.ssh/known_hosts
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.10
         with:

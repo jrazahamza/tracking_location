@@ -41,9 +41,4 @@ Route::middleware(['guest'])->group(function () {
 });
 
 // hello
-// hello
-// changesss
-// changesss
-// changesss
-// changesss
-// hello
+// demo
