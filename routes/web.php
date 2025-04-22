@@ -41,3 +41,7 @@ Route::middleware(['guest'])->group(function () {
 });
 
 
+<<<<<<< HEAD
+=======
+// Test
+>>>>>>> 05fc8415fb746f90a77958bdcc6a48422779e41d
