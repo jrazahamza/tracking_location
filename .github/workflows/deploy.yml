@@ -36,13 +36,17 @@ jobs:
             echo "🔄 Backing up .env file..."
             cp .env .env.backup || { echo "⚠️ No .env file found, skipping backup."; }
 
+            echo "🔑 Adding SSH Key for GitHub..."
+            eval "$(ssh-agent -s)"
+            ssh-add ~/.ssh/id_rsa || { echo "❌ Failed to add SSH key!"; exit 1; }
+
             echo "🔄 Fetching latest changes..."
             attempt=0
             max_attempts=3
             until git fetch origin main || [ $attempt -eq $max_attempts ]; do
               echo "❌ Git fetch failed. Retrying... ($attempt)"
               ((attempt++))
-              sleep 10
+              sleep 10  # Wait before retrying
             done
 
             if [ $attempt -eq $max_attempts ]; then
