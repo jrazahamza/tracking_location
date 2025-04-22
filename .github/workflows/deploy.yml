@@ -1,4 +1,4 @@
-name: Deploy Laravel Application
+name: Laravel Deployment
 
 on:
   push:
@@ -10,61 +10,76 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up SSH key for deployment
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.CPANEL_SSH_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ secrets.CPANEL_HOST }} >> ~/.ssh/known_hosts
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, bcmath, pdo, tokenizer, xml, ctype, json
 
-    - name: Deploy to cPanel via SSH
-      uses: appleboy/ssh-action@v0.1.10
-      with:
-        host: ${{ secrets.CPANEL_HOST }}
-        username: ${{ secrets.CPANEL_USERNAME }}
-        key: ${{ secrets.CPANEL_SSH_KEY }}
-        passphrase: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
-        port: 22
-        script: |
-          echo "🚀 Starting deployment on server..."
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.CPANEL_HOST }}
+          username: ${{ secrets.CPANEL_USERNAME }}
+          key: ${{ secrets.CPANEL_SSH_KEY }}
+          passphrase: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
+          port: 22
+          script: |
+            echo "🚀 Starting deployment on server..."
 
-          # Change directory to the deployment path
-          cd ${{ secrets.DEPLOY_PATH }} || exit 1
-          echo "📂 Changed directory to $(pwd)"
+            cd ${{ secrets.DEPLOY_PATH }} || exit 1
+            echo "📂 Changed directory to $(pwd)"
 
-          # Backup .env file
-          echo "🔄 Backing up existing .env"
-          cp .env .env.backup || echo "⚠️ .env not found, skipping backup."
+            echo "🔄 Backing up .env file..."
+            cp .env .env.backup || { echo "⚠️ No .env file found, skipping backup."; }
 
-          # Pull latest code from GitHub
-          echo "🔄 Pulling latest changes from GitHub using HTTPS..."
-          git reset --hard
-          git clean -fd
-          git pull https://github.com/jrazahamza/tracking_location.git main
+            echo "🔑 Adding SSH Key for GitHub..."
+            eval "$(ssh-agent -s)"
+            ssh-add ~/.ssh/id_rsa || { echo "❌ Failed to add SSH key!"; exit 1; }
 
-          # Run Laravel optimization commands
-          echo "⚡ Running Laravel optimizations..."
-          php artisan optimize:clear || true
-          php artisan config:cache || true
-          php artisan route:cache || true
-          php artisan view:cache || true
-          php artisan up || true
+            echo "🔄 Fetching latest changes..."
+            attempt=0
+            max_attempts=3
+            until git fetch origin main || [ $attempt -eq $max_attempts ]; do
+              echo "❌ Git fetch failed. Retrying... ($attempt)"
+              ((attempt++))
+              sleep 10  # Wait before retrying
+            done
 
-          # Set file permissions for storage and cache directories
-          echo "🛠️ Setting permissions..."
-          chmod -R 775 storage bootstrap/cache
-          chown -R $USER:$USER storage bootstrap/cache || echo "Permission issue ignored"
+            if [ $attempt -eq $max_attempts ]; then
+              echo "❌ Git fetch failed after $max_attempts attempts!"
+              exit 1
+            fi
 
-          # Run database migrations if required
-          echo "⚡ Running migrations..."
-          php artisan migrate --force || echo "Migration failed"
+            echo "🔄 Resetting repository to latest commit..."
+            git reset --hard origin/main || { echo "❌ Git reset failed!"; exit 1; }
 
-          # Restart queue workers if configured
-          echo "🚀 Restarting Laravel queue (if applicable)..."
-          php artisan queue:restart || echo "Queue not configured"
+            echo "🔄 Restoring .env file..."
+            cp .env.backup .env || { echo "⚠️ .env backup not found, skipping restore."; }
 
-          # Deployment complete message
-          echo "✅ Deployment complete!"
+            echo "📦 Installing dependencies..."
+            composer install --no-dev --optimize-autoloader || { echo "❌ Composer install failed!"; exit 1; }
+
+            echo "⚡ Running Laravel optimizations..."
+            php artisan optimize:clear
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+
+            echo "⚡ Running database migrations..."
+            php artisan migrate --force || { echo "❌ Migration failed!"; exit 1; }
+
+            echo "🛠️ Setting permissions..."
+            chmod -R 775 storage bootstrap/cache
+            chown -R $USER:www-data storage bootstrap/cache
+
+            echo "🚀 Restarting queues..."
+            php artisan queue:restart
+
+            echo "⚡ Running Laravel scheduler..."
+            php artisan schedule:run || echo "Scheduler not configured."
+
+            echo "✅ Deployment successful!"
