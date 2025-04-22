@@ -45,7 +45,7 @@ jobs:
 
             echo "🔑 Adding SSH Key for GitHub..."
             eval "$(ssh-agent -s)"
-            ssh-add ~/.ssh/id_rsa || { echo "❌ Failed to add SSH key!"; exit 1; }
+            echo "${{ secrets.CPANEL_SSH_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa || { echo "❌ Failed to add SSH key!"; exit 1; }
 
             echo "🔄 Fetching latest changes..."
             attempt=0
