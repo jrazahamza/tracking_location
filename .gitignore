@@ -5,7 +5,7 @@ node_modules/
 /public/storage
 /storage/*.key
 /storage/pail
-/vendor
+vendor
 .env
 /.idea
 /.vscode
