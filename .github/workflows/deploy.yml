@@ -57,10 +57,6 @@ jobs:
           php artisan route:clear
           php artisan view:clear
 
-          # Run migrations if necessary
-          echo "🔄 Running migrations..."
-          php artisan migrate --force
-
           # Set correct permissions for storage and cache directories
           echo "🛠️ Setting permissions..."
           chmod -R 775 storage bootstrap/cache
