@@ -1,0 +1,79 @@
+name: Laravel Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, bcmath, pdo, tokenizer, xml, ctype, json
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.CPANEL_HOST }}
+          username: ${{ secrets.CPANEL_USERNAME }}
+          key: ${{ secrets.CPANEL_SSH_KEY }}
+          passphrase: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
+          port: 22
+          script: |
+            echo "🚀 Starting deployment on server..."
+
+            cd ${{ secrets.DEPLOY_PATH }} || exit 1
+            echo "📂 Changed directory to $(pwd)"
+
+            echo "🔄 Backing up .env file..."
+            cp .env .env.backup || { echo "⚠️ No .env file found, skipping backup."; }
+
+            echo "🔑 Adding SSH Key for GitHub..."
+            eval "$(ssh-agent -s)"
+            ssh-add ~/.ssh/id_rsa || { echo "❌ Failed to add SSH key!"; exit 1; }
+
+            echo "🔄 Fetching latest changes..."
+            attempt=0
+            max_attempts=3
+            until git fetch origin main || [ $attempt -eq $max_attempts ]; do
+              echo "❌ Git fetch failed. Retrying... ($attempt)"
+              ((attempt++))
+              sleep 10  # Wait before retrying
+            done
+
+            if [ $attempt -eq $max_attempts ]; then
+              echo "❌ Git fetch failed after $max_attempts attempts!"
+              exit 1
+            fi
+
+            echo "🔄 Resetting repository to latest commit..."
+            git reset --hard origin/main || { echo "❌ Git reset failed!"; exit 1; }
+
+            echo "🔄 Restoring .env file..."
+            cp .env.backup .env || { echo "⚠️ .env backup not found, skipping restore."; }
+
+            echo "📦 Installing dependencies..."
+            composer install --no-dev --optimize-autoloader || { echo "❌ Composer install failed!"; exit 1; }
+
+            echo "⚡ Running Laravel optimizations..."
+            php artisan optimize:clear
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+
+            echo "🛠️ Setting permissions..."
+            chmod -R 775 storage bootstrap/cache
+            chown -R $USER:www-data storage bootstrap/cache
+
+            echo "🚀 Restarting queues..."
+            php artisan queue:restart
+
+            echo "✅ Deployment successful!"
