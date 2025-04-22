@@ -31,17 +31,21 @@ jobs:
         script: |
           echo "🚀 Starting deployment on server..."
 
+          # Change directory to the deployment path
           cd ${{ secrets.DEPLOY_PATH }} || exit 1
           echo "📂 Changed directory to $(pwd)"
 
+          # Backup .env file
           echo "🔄 Backing up existing .env"
           cp .env .env.backup || echo "⚠️ .env not found, skipping backup."
 
+          # Pull latest code from GitHub
           echo "🔄 Pulling latest changes from GitHub using HTTPS..."
           git reset --hard
           git clean -fd
           git pull https://github.com/jrazahamza/tracking_location.git main
 
+          # Run Laravel optimization commands
           echo "⚡ Running Laravel optimizations..."
           php artisan optimize:clear || true
           php artisan config:cache || true
@@ -49,11 +53,18 @@ jobs:
           php artisan view:cache || true
           php artisan up || true
 
+          # Set file permissions for storage and cache directories
           echo "🛠️ Setting permissions..."
           chmod -R 775 storage bootstrap/cache
           chown -R $USER:$USER storage bootstrap/cache || echo "Permission issue ignored"
 
+          # Run database migrations if required
+          echo "⚡ Running migrations..."
+          php artisan migrate --force || echo "Migration failed"
+
+          # Restart queue workers if configured
           echo "🚀 Restarting Laravel queue (if applicable)..."
           php artisan queue:restart || echo "Queue not configured"
 
+          # Deployment complete message
           echo "✅ Deployment complete!"
