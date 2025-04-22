@@ -13,14 +13,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up SSH key for GitHub
+    - name: Set up SSH key for deployment
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.CPANEL_SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        ssh-keyscan -H ${{ secrets.CPANEL_HOST }} >> ~/.ssh/known_hosts
 
-    - name: Deploy via SSH
+    - name: Deploy to cPanel via SSH
       uses: appleboy/ssh-action@v0.1.10
       with:
         host: ${{ secrets.CPANEL_HOST }}
@@ -31,48 +31,31 @@ jobs:
         script: |
           echo "🚀 Starting deployment on server..."
 
-          # Change directory to the correct deployment folder
           cd ${{ secrets.DEPLOY_PATH }} || exit 1
           echo "📂 Changed directory to $(pwd)"
 
-          # Backup .env file before fetching
-          echo "🔄 Backing up .env file..."
-          cp .env .env.backup
+          echo "🔄 Backing up existing .env"
+          cp .env .env.backup || echo "⚠️ .env not found, skipping backup."
 
-          # Fetch and pull latest changes from GitHub repository
-          echo "🔄 Fetching latest changes..."
-          attempt=0
-          max_attempts=3
-          until git fetch git@github.com:jrazahamza/tracking_location.git main || [ $attempt -eq $max_attempts ]; do
-            echo "❌ Git fetch failed. Retrying... ($attempt)"
-            ((attempt++))
-            sleep 10
-          done
-          git pull origin main
+          echo "🔄 Pulling latest changes from GitHub using HTTPS..."
+          git reset --hard
+          git clean -fd
+          git pull https://github.com/jrazahamza/tracking_location.git main
 
-          # Run Laravel optimizations
           echo "⚡ Running Laravel optimizations..."
-          php artisan optimize:clear
-          php artisan config:clear
-          php artisan route:clear
-          php artisan view:clear
+          php artisan down || true
+          php artisan migrate --force || true
+          php artisan optimize:clear || true
+          php artisan config:cache || true
+          php artisan route:cache || true
+          php artisan view:cache || true
+          php artisan up || true
 
-
-          # Set correct permissions for storage and cache directories
           echo "🛠️ Setting permissions..."
           chmod -R 775 storage bootstrap/cache
-          chown -R www-data:www-data storage bootstrap/cache
+          chown -R $USER:$USER storage bootstrap/cache || echo "Permission issue ignored"
 
-          # Restart queues if using Laravel queues
-          echo "🚀 Restarting queues..."
-          php artisan queue:restart
+          echo "🚀 Restarting Laravel queue (if applicable)..."
+          php artisan queue:restart || echo "Queue not configured"
 
-          # Restart web server if necessary (without sudo if you don't have sudo permissions)
-          echo "🚀 Restarting Nginx..."
-          if [ -x "$(command -v sudo)" ]; then
-            sudo service nginx restart
-          else
-            echo "🔧 Cannot restart Nginx (no sudo permissions)"
-          fi
-
-          echo "✅ Deployment successful!"
+          echo "✅ Deployment complete!"
