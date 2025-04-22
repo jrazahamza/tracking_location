@@ -39,7 +39,7 @@ jobs:
             echo "🔄 Fetching latest changes..."
             attempt=0
             max_attempts=3
-            until git fetch https://github.com/your-username/your-repository.git main || [ $attempt -eq $max_attempts ]; do
+            until git fetch git@github.com:your-username/your-repository.git main || [ $attempt -eq $max_attempts ]; do
               echo "❌ Git fetch failed. Retrying... ($attempt)"
               ((attempt++))
               sleep 10  # Wait before retrying
@@ -51,7 +51,7 @@ jobs:
             fi
 
             echo "🔄 Resetting repository to latest commit..."
-            git reset --hard https://github.com/your-username/your-repository.git || { echo "❌ Git reset failed!"; exit 1; }
+            git reset --hard git@github.com:your-username/your-repository.git || { echo "❌ Git reset failed!"; exit 1; }
 
             echo "🔄 Restoring .env file..."
             cp .env.backup .env || { echo "⚠️ .env backup not found, skipping restore."; }
