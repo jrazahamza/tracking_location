@@ -57,10 +57,11 @@ jobs:
           php artisan route:clear
           php artisan view:clear
 
+
           # Set correct permissions for storage and cache directories
           echo "🛠️ Setting permissions..."
           chmod -R 775 storage bootstrap/cache
-          chown -R $USER:$USER storage bootstrap/cache
+          chown -R www-data:www-data storage bootstrap/cache
 
           # Restart queues if using Laravel queues
           echo "🚀 Restarting queues..."
