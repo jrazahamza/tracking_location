@@ -16,14 +16,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-profile', [HomeController::class, 'updateProfile'])->name('profile.update');
     Route::get('/change-password', [HomeController::class, 'changePassword'])->name('change.password');
     Route::post('/update-password', [HomeController::class, 'updatePassword'])->name('update.password');
-
+    
     Route::get('/tracking', [TrackingController::class, 'showTrackingForm'])->name('tracking.form');
     Route::post('/tracking/send', [TrackingController::class, 'sendTrackingRequest'])->name('tracking.send');
     Route::get('/track/{id}', [TrackingController::class, 'trackUser'])->name('tracking.view');
     Route::get('/approve-tracking-request/{token}', [TrackingController::class, 'approveTrackingRequest'])->name('approve.tracking.request');
     Route::post('/tracking/save-location', [TrackingController::class, 'saveLocation'])->name('tracking.save-location');
     Route::get('/tracking-history', [TrackingController::class, 'trackingHistory'])->name('tracking.history');
-    Route::get('/tracking-cencel', [TrackingController::class, 'cancelTrackingByToken'])->name('tracking.cancel-by-token');
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
@@ -40,3 +39,5 @@ Route::middleware(['guest'])->group(function () {
     Route::get('reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
     Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });
+
+
