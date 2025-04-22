@@ -24,7 +24,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.CPANEL_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.CPANEL_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.10
@@ -45,7 +45,10 @@ jobs:
 
             echo "🔑 Adding SSH Key for GitHub..."
             eval "$(ssh-agent -s)"
-            echo "${{ secrets.CPANEL_SSH_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa || { echo "❌ Failed to add SSH key!"; exit 1; }
+            ssh-add ~/.ssh/id_rsa || { echo "❌ Failed to add SSH key!"; exit 1; }
+
+            echo "🔄 Changing Git URL to SSH..."
+            git remote set-url origin git@github.com:jrazahamza/tracking_location.git
 
             echo "🔄 Fetching latest changes..."
             attempt=0
