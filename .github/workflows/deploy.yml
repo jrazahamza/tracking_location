@@ -41,7 +41,13 @@ jobs:
 
           # Fetch and pull latest changes from GitHub repository
           echo "🔄 Fetching latest changes..."
-          git fetch git@github.com:jrazahamza/tracking_location.git main
+          attempt=0
+          max_attempts=3
+          until git fetch git@github.com:jrazahamza/tracking_location.git main || [ $attempt -eq $max_attempts ]; do
+            echo "❌ Git fetch failed. Retrying... ($attempt)"
+            ((attempt++))
+            sleep 10
+          done
           git pull origin main
 
           # Run Laravel optimizations
@@ -51,18 +57,25 @@ jobs:
           php artisan route:clear
           php artisan view:clear
 
+          # Run migrations if necessary
+          echo "🔄 Running migrations..."
+          php artisan migrate --force
+
           # Set correct permissions for storage and cache directories
           echo "🛠️ Setting permissions..."
           chmod -R 775 storage bootstrap/cache
-          chown -R $USER:www-data storage bootstrap/cache
+          chown -R $USER:$USER storage bootstrap/cache
 
           # Restart queues if using Laravel queues
           echo "🚀 Restarting queues..."
           php artisan queue:restart
 
-          # Restart web server if necessary
+          # Restart web server if necessary (without sudo if you don't have sudo permissions)
           echo "🚀 Restarting Nginx..."
-          sudo service nginx restart
+          if [ -x "$(command -v sudo)" ]; then
+            sudo service nginx restart
+          else
+            echo "🔧 Cannot restart Nginx (no sudo permissions)"
+          fi
 
           echo "✅ Deployment successful!"
-
