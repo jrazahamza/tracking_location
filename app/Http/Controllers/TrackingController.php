@@ -12,9 +12,15 @@ use App\Models\TrackingRequest;
 
 class TrackingController extends Controller
 {
-    public function showTrackingForm()
+    public function trackingRequests()
     {
-        return view('dashboard.pages.send_request')->with('title', 'Tracking Request');
+        $trackingRequests = TrackingRequest::where('is_active', 1)->where('is_deleted', 0)->paginate(10);
+        return view('dashboard.pages.tracking-requests' , compact('trackingRequests'))->with('title', 'Tracking Request');
+    }
+
+    public function trackingRequestsForm()
+    {
+        return view('dashboard.pages.send_request')->with('title', 'Send Tracking Request');
     }
 
     public function sendTrackingRequest(Request $request)

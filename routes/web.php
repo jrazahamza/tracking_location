@@ -17,7 +17,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/change-password', [HomeController::class, 'changePassword'])->name('change.password');
     Route::post('/update-password', [HomeController::class, 'updatePassword'])->name('update.password');
 
-    Route::get('/tracking', [TrackingController::class, 'showTrackingForm'])->name('tracking.form');
+    Route::get('/tracking-request-form', [TrackingController::class, 'trackingRequestsForm'])->name('tracking.request.form');
+    Route::get('/tracking-requests', [TrackingController::class, 'trackingRequests'])->name('tracking.requests');
     Route::post('/tracking/send', [TrackingController::class, 'sendTrackingRequest'])->name('tracking.send');
     Route::get('/track/{id}', [TrackingController::class, 'trackUser'])->name('tracking.view');
     Route::get('/approve-tracking-request/{token}', [TrackingController::class, 'approveTrackingRequest'])->name('approve.tracking.request');

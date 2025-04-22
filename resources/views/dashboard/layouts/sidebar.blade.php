@@ -28,7 +28,14 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('tracking.form') }}" class="nav-link {{ Request::path() == 'tracking' ? 'active' : '' }}">
+                    <a href="{{ route('tracking.request.form') }}" class="nav-link {{ Request::path() == 'tracking' ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-speedometer"></i>
+                        <p>New Tracking Requests</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('tracking.requests') }}" class="nav-link {{ Request::path() == 'tracking' ? 'active' : '' }}">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>Active Tracking Requests</p>
                     </a>
