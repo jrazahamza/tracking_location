@@ -100,7 +100,7 @@
 
 
                 <p class="mb-0">
-                    <a href="{{ route('login') }}" class="link-primary text-center">I already have a membership</a>
+                    <a href="{{ route('login.form') }}" class="link-primary text-center">I already have a membership</a>
                 </p>
             </div>
 

@@ -29,9 +29,9 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::middleware(['guest'])->group(function () {
-    Route::get('register', [AuthController::class, 'register_form'])->name('register');
+    Route::get('register', [AuthController::class, 'register_form'])->name('register.form');
     Route::post('register', [AuthController::class, 'register'])->name('register');
-    Route::get('login', [AuthController::class, 'login_form'])->name('login');
+    Route::get('login', [AuthController::class, 'login_form'])->name('login.form');
     Route::post('login', [AuthController::class, 'login'])->name('login');
 
     Route::get('forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
