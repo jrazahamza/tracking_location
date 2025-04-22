@@ -1,10 +1,3 @@
-name: Laravel Deployment
-
-on:
-  push:
-    branches:
-      - main
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -24,7 +17,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.CPANEL_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; git fetch origin main'
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.10
@@ -32,11 +25,10 @@ jobs:
           host: ${{ secrets.CPANEL_HOST }}
           username: ${{ secrets.CPANEL_USERNAME }}
           key: ${{ secrets.CPANEL_SSH_KEY }}
-          passphrase: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}  # Add passphrase to GitHub Secrets
           port: 22
           script: |
             echo "🚀 Starting deployment on server..."
-
             cd ${{ secrets.DEPLOY_PATH }} || exit 1
             echo "📂 Changed directory to $(pwd)"
 
@@ -48,7 +40,7 @@ jobs:
             ssh-add ~/.ssh/id_rsa || { echo "❌ Failed to add SSH key!"; exit 1; }
 
             echo "🔄 Changing Git URL to SSH..."
-            git remote set-url origin git@github.com:jrazahamza/tracking_location.git
+            git remote set-url origin git@github.com:${{ secrets.GITHUB_USER }}/your-repository.git
 
             echo "🔄 Fetching latest changes..."
             attempt=0
