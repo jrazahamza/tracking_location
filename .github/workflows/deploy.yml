@@ -39,22 +39,17 @@ jobs:
           echo "🔄 Backing up .env file..."
           cp .env .env.backup
 
-          # Fetch latest changes from GitHub repository
+          # Fetch and pull latest changes from GitHub repository
           echo "🔄 Fetching latest changes..."
-          attempt=0
-          max_attempts=3
-          until git fetch git@github.com:jrazahamza/tracking_location.git main || [ $attempt -eq $max_attempts ]; do
-            echo "❌ Git fetch failed. Retrying... ($attempt)"
-            ((attempt++))
-            sleep 10
-          done
+          git fetch git@github.com:jrazahamza/tracking_location.git main
+          git pull origin main
 
           # Run Laravel optimizations
           echo "⚡ Running Laravel optimizations..."
           php artisan optimize:clear
-          php artisan config:cache
-          php artisan route:cache
-          php artisan view:cache
+          php artisan config:clear
+          php artisan route:clear
+          php artisan view:clear
 
           # Set correct permissions for storage and cache directories
           echo "🛠️ Setting permissions..."
@@ -65,4 +60,9 @@ jobs:
           echo "🚀 Restarting queues..."
           php artisan queue:restart
 
+          # Restart web server if necessary
+          echo "🚀 Restarting Nginx..."
+          sudo service nginx restart
+
           echo "✅ Deployment successful!"
+
