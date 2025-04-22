@@ -16,7 +16,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-profile', [HomeController::class, 'updateProfile'])->name('profile.update');
     Route::get('/change-password', [HomeController::class, 'changePassword'])->name('change.password');
     Route::post('/update-password', [HomeController::class, 'updatePassword'])->name('update.password');
-    
+
     Route::get('/tracking', [TrackingController::class, 'showTrackingForm'])->name('tracking.form');
     Route::post('/tracking/send', [TrackingController::class, 'sendTrackingRequest'])->name('tracking.send');
     Route::get('/track/{id}', [TrackingController::class, 'trackUser'])->name('tracking.view');
@@ -40,8 +40,3 @@ Route::middleware(['guest'])->group(function () {
     Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });
 
-
-<<<<<<< HEAD
-=======
-// Test
->>>>>>> 05fc8415fb746f90a77958bdcc6a48422779e41d
