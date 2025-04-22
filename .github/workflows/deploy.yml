@@ -43,7 +43,7 @@ jobs:
           echo "🔄 Fetching latest changes..."
           attempt=0
           max_attempts=3
-          until git fetch git@github.com:your-username/your-repository.git main || [ $attempt -eq $max_attempts ]; do
+          until git fetch git@github.com:jrazahamza/tracking_location.git main || [ $attempt -eq $max_attempts ]; do
             echo "❌ Git fetch failed. Retrying... ($attempt)"
             ((attempt++))
             sleep 10
