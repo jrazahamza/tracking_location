@@ -36,7 +36,7 @@ jobs:
           host: ${{ secrets.CPANEL_HOST }}
           username: ${{ secrets.CPANEL_USERNAME }}
           key: ${{ secrets.CPANEL_SSH_KEY }}
-          passphrase: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
+          # passphrase: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
           port: 22
           script: |
             echo "🚀 Starting deployment on server..."
