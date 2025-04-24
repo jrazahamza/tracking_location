@@ -10,15 +10,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Setup PHP environment
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           extensions: mbstring, bcmath, pdo, tokenizer, xml, ctype, json
 
+      # Set up SSH key for deployment
       - name: Set up SSH key for deployment
         run: |
           mkdir -p ~/.ssh
@@ -26,13 +29,14 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; git fetch origin main'
 
+      # Deploy to cPanel via SSH
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.CPANEL_HOST }}
           username: ${{ secrets.CPANEL_USERNAME }}
           key: ${{ secrets.CPANEL_SSH_KEY }}
-          passphrase: ${{ secrets.CPANEL_SSH_PASSPHRASE }} 
+          passphrase: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
           port: 22
           script: |
             echo "🚀 Starting deployment on server..."
@@ -47,7 +51,7 @@ jobs:
             ssh-add ~/.ssh/id_rsa || { echo "❌ Failed to add SSH key!"; exit 1; }
 
             echo "🔄 Changing Git URL to SSH..."
-            git remote set-url origin git@github.com:${{ secrets.GITHUB_USER }}/your-repository.git
+            git remote set-url origin git@github.com:${{ secrets.GITHUB_USER }}/tracking_location.git
 
             echo "🔄 Fetching latest changes..."
             attempt=0
@@ -74,6 +78,9 @@ jobs:
 
             echo "⚡ Running Laravel optimizations..."
             php artisan optimize:clear
+            php artisan config:clear
+            php artisan route:clear
+            php artisan view:clear
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
