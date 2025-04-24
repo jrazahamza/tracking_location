@@ -41,15 +41,3 @@ Route::middleware(['guest'])->group(function () {
     Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });
 
-
-// demo1
-// demo1
-// demo2
-// demo3
-// demo3
-// demo3// demo1
-// demo1
-// demo2
-// demo3
-// demo3
-// demo3
