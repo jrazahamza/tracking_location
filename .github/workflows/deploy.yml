@@ -85,9 +85,6 @@ jobs:
             php artisan route:cache
             php artisan view:cache
 
-            echo "⚡ Running database migrations..."
-            php artisan migrate --force || { echo "❌ Migration failed!"; exit 1; }
-
             echo "🛠️ Setting permissions..."
             chmod -R 775 storage bootstrap/cache
             chown -R $USER:www-data storage bootstrap/cache
