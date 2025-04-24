@@ -51,7 +51,7 @@ jobs:
             ssh-add ~/.ssh/id_rsa || { echo "❌ Failed to add SSH key!"; exit 1; }
 
             echo "🔄 Changing Git URL to SSH..."
-            git remote set-url origin git@github.com:${{ secrets.GITHUB_USER }}/tracking_location.git
+            git remote set-url origin git@github.com:jrazahamza/tracking_location.git
 
             echo "🔄 Fetching latest changes..."
             attempt=0
