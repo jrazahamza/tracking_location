@@ -53,17 +53,17 @@ jobs:
             echo "🔄 Changing Git URL to SSH..."
             git remote set-url origin git@github.com:jrazahamza/tracking_location.git
 
-            echo "🔄 Fetching latest changes..."
+            echo "🔄 Pulling  latest changes..."
             attempt=0
             max_attempts=3
-            until git fetch origin main || [ $attempt -eq $max_attempts ]; do
-              echo "❌ Git fetch failed. Retrying... ($attempt)"
+            until git pull origin main || [ $attempt -eq $max_attempts ]; do
+              echo "❌ Git pull  failed. Retrying... ($attempt)"
               ((attempt++))
               sleep 10  # Wait before retrying
             done
 
             if [ $attempt -eq $max_attempts ]; then
-              echo "❌ Git fetch failed after $max_attempts attempts!"
+              echo "❌ Git pull  failed after $max_attempts attempts!"
               exit 1
             fi
 
