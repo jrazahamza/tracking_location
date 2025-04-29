@@ -1,274 +1,263 @@
 @extends('dashboard.layouts.main')
-@section('content')
 
-<main class="app-main">
-    <!--begin::App Content Header-->
-    <div class="app-content-header">
-        <!--begin::Container-->
-        <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row">
-                <div class="col-sm-6">
-                    <h3 class="mb-0">Dashboard</h3>
+@section('content')
+    <!-- Content Wrapper. Contains page content -->
+    <main class="app-main">
+        <!--begin::App Content Header-->
+        <div class="app-content-header">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="mb-0">Tracking History</h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-end">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                        </ol>
+                    </div>
                 </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-end">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Dashboard v3</li>
-                    </ol>
-                </div>
+                <!--end::Row-->
             </div>
-            <!--end::Row-->
+            <!--end::Container-->
         </div>
-        <!--end::Container-->
-    </div>
-    <div class="app-content">
-        <!--begin::Container-->
-        <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="card mb-4">
-                        <div class="card-header border-0">
-                            <div class="d-flex justify-content-between">
-                                <h3 class="card-title">Online Store Visitors</h3>
-                                <a href="javascript:void(0);"
-                                    class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">View
-                                    Report</a>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>{{ $totalTrackingRequests }}</h3>
+
+                                <p>Total Tracking Requests</p>
                             </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <p class="d-flex flex-column">
-                                    <span class="fw-bold fs-5">820</span> <span>Visitors Over Time</span>
-                                </p>
-                                <p class="ms-auto d-flex flex-column text-end">
-                                    <span class="text-success"> <i class="bi bi-arrow-up"></i> 12.5% </span>
-                                    <span class="text-secondary">Since last week</span>
-                                </p>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
                             </div>
-                            <!-- /.d-flex -->
-                            <div class="position-relative mb-4">
-                                <div id="visitors-chart"></div>
-                            </div>
-                            <div class="d-flex flex-row justify-content-end">
-                                <span class="me-2">
-                                    <i class="bi bi-square-fill text-primary"></i> This Week
-                                </span>
-                                <span> <i class="bi bi-square-fill text-secondary"></i> Last Week </span>
-                            </div>
+                            {{-- <a href="#" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a> --}}
                         </div>
                     </div>
-                    <!-- /.card -->
-                    <div class="card mb-4">
-                        <div class="card-header border-0">
-                            <h3 class="card-title">Products</h3>
-                            <div class="card-tools">
-                                <a href="#" class="btn btn-tool btn-sm"> <i class="bi bi-download"></i> </a>
-                                <a href="#" class="btn btn-tool btn-sm"> <i class="bi bi-list"></i> </a>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>{{ $activeRequests }}</h3>
+
+                                <p>Active Tracking Requests</p>
                             </div>
-                        </div>
-                        <div class="card-body table-responsive p-0">
-                            <table class="table table-striped align-middle">
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Price</th>
-                                        <th>Sales</th>
-                                        <th>More</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <img src="{{ asset('admin/assets/img/default-150x150.png') }}" alt="Product 1"
-                                                class="rounded-circle img-size-32 me-2" />
-                                            Some Product
-                                        </td>
-                                        <td>$13 USD</td>
-                                        <td>
-                                            <small class="text-success me-1">
-                                                <i class="bi bi-arrow-up"></i>
-                                                12%
-                                            </small>
-                                            12,000 Sold
-                                        </td>
-                                        <td>
-                                            <a href="#" class="text-secondary"> <i class="bi bi-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="{{ asset('admin/assets/img/default-150x150.png') }}" alt="Product 1"
-                                                class="rounded-circle img-size-32 me-2" />
-                                            Another Product
-                                        </td>
-                                        <td>$29 USD</td>
-                                        <td>
-                                            <small class="text-info me-1">
-                                                <i class="bi bi-arrow-down"></i>
-                                                0.5%
-                                            </small>
-                                            123,234 Sold
-                                        </td>
-                                        <td>
-                                            <a href="#" class="text-secondary"> <i class="bi bi-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="{{ asset('admin/assets/img/default-150x150.png') }}" alt="Product 1"
-                                                class="rounded-circle img-size-32 me-2" />
-                                            Amazing Product
-                                        </td>
-                                        <td>$1,230 USD</td>
-                                        <td>
-                                            <small class="text-danger me-1">
-                                                <i class="bi bi-arrow-down"></i>
-                                                3%
-                                            </small>
-                                            198 Sold
-                                        </td>
-                                        <td>
-                                            <a href="#" class="text-secondary"> <i class="bi bi-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="{{ asset('admin/assets/img/default-150x150.png') }}" alt="Product 1"
-                                                class="rounded-circle img-size-32 me-2" />
-                                            Perfect Item
-                                            <span class="badge text-bg-danger">NEW</span>
-                                        </td>
-                                        <td>$199 USD</td>
-                                        <td>
-                                            <small class="text-success me-1">
-                                                <i class="bi bi-arrow-up"></i>
-                                                63%
-                                            </small>
-                                            87 Sold
-                                        </td>
-                                        <td>
-                                            <a href="#" class="text-secondary"> <i class="bi bi-search"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="icon">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>
+                            {{-- <a href="#" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a> --}}
                         </div>
                     </div>
-                    <!-- /.card -->
+                    <!-- ./col -->
+                    {{-- <div class="col-lg-2 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3>{{ $totalUsers }}</h3>
+
+                                <p>User Registrations</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div> --}}
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3>{{ $pendingRequests }}</h3>
+
+                                <p>Pending Tracking Request</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>
+                            {{-- <a href="#" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a> --}}
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3>{{ $cancelledRequests }}</h3>
+
+                                <p>Cencel Tracking Request</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-pie-graph"></i>
+                            </div>
+                            {{-- <a href="#" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a> --}}
+                        </div>
+                    </div>
+                    <!-- ./col -->
                 </div>
-                <!-- /.col-md-6 -->
-                <div class="col-lg-6">
-                    <div class="card mb-4">
-                        <div class="card-header border-0">
-                            <div class="d-flex justify-content-between">
-                                <h3 class="card-title">Sales</h3>
-                                <a href="javascript:void(0);"
-                                    class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">View
-                                    Report</a>
+                <!-- /.row -->
+                <!-- Main row -->
+                <div class="row">
+                    <!-- Left col -->
+                    <section class="col-lg-7 connectedSortable">
+                        <!-- Custom tabs (Charts with tabs)-->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title fw-bold">
+                                    Tracking Record
+                                </h2>
+                                <div class="card-tools">
+                                    <ul class="nav nav-pills ms-auto">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="{{ route('tracking.history') }}">Records</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- /.card-header -->
+
+                            <div class="card-body p-0">
+                                <div class="table-responsive"
+                                    style="max-height: 550px; min-height: 420px; overflow-y: auto;">
+                                    <table class="table table-striped mb-0">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Requester Name</th>
+                                                <th>Target Email</th>
+                                                <th>Latitude</th>
+                                                <th>Longitude</th>
+                                                <th>Status</th>
+                                                <th>Created By</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if ($trackingRequests->count() > 0)
+                                                @foreach ($trackingRequests as $key => $value)
+                                                    <tr class="align-middle">
+                                                        <td>{{ ++$key }}</td>
+                                                        <td>{{ $value->user ? $value->user->full_name : '' }}</td>
+                                                        <td>{{ $value->target_user_email }}</td>
+                                                        <td>{{ $value->latitude }}</td>
+                                                        <td>{{ $value->longitude }}</td>
+                                                        <td>
+                                                            @if ($value->status == 'pending')
+                                                                <span class="badge badge-pending">Pending</span>
+                                                            @elseif ($value->status == 'active')
+                                                                <span class="badge badge-active">Active</span>
+                                                            @elseif ($value->status == 'cancelled')
+                                                                <span class="badge badge-cancel">Cancel</span>
+                                                            @else
+                                                                <span class="badge badge-unknown">Unknown</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ $value->created_at->format('d-M-Y') }}</td>
+
+                                                        <td>
+                                                            {{-- <a href="{{ route('tracking.view', $value->id) }}" class="btn btn-primary">Track</a> --}}
+                                                            <a href="{{ route('tracking.view', $value->id) }}"
+                                                                class="btn btn-primary">
+                                                                <i class="fas fa-map-marker-alt"></i> Track
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td colspan="8" class="text-center">No Tracking Available</td>
+                                                </tr>
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </section>
+                    <!-- /.Left col -->
+                    <!-- right col (We are only adding the ID to make the widgets sortable)-->
+
+                    {{-- <section class="col-lg-5 connectedSortable">
+
+                        <!-- Map card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Location</h3>
+                            </div>
+                            <div class="card-body p-0">
+                                <iframe src="https://www.google.com/maps?q=33.6844,73.0479&hl=es;z=14&output=embed"
+                                    width="100%" height="420" style="border:0;" allowfullscreen="" loading="lazy">
+                                </iframe>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <p class="d-flex flex-column">
-                                    <span class="fw-bold fs-5">$18,230.00</span> <span>Sales Over Time</span>
-                                </p>
-                                <p class="ms-auto d-flex flex-column text-end">
-                                    <span class="text-success"> <i class="bi bi-arrow-up"></i> 33.1% </span>
-                                    <span class="text-secondary">Since Past Year</span>
-                                </p>
+                    </section> --}}
+
+
+
+                    <!-- Map Section -->
+                    <section class="col-lg-5 connectedSortable mt-3">
+                        <div class="row col-12">
+                            <h4 class="mb-2"><b>Explore Location by Latitude & Longitude</b></h4>
+
+                            <div class="mb-3 col-5">
+                                <label for="latitude">Latitude:</label>
+                                <input type="text" id="latitude" class="form-control" placeholder="Enter Latitude">
                             </div>
-                            <!-- /.d-flex -->
-                            <div class="position-relative mb-4">
-                                <div id="sales-chart"></div>
+                            <div class="mb-3 col-5">
+                                <label for="longitude">Longitude:</label>
+                                <input type="text" id="longitude" class="form-control" placeholder="Enter Longitude">
                             </div>
-                            <div class="d-flex flex-row justify-content-end">
-                                <span class="me-2">
-                                    <i class="bi bi-square-fill text-primary"></i> This year
-                                </span>
-                                <span> <i class="bi bi-square-fill text-secondary"></i> Last year </span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.card -->
-                    <div class="card">
-                        <div class="card-header border-0">
-                            <h3 class="card-title">Online Store Overview</h3>
-                            <div class="card-tools">
-                                <a href="#" class="btn btn-sm btn-tool"> <i class="bi bi-download"></i> </a>
-                                <a href="#" class="btn btn-sm btn-tool"> <i class="bi bi-list"></i> </a>
+                            <div class="col-2">
+                                <button onclick="updateMap()" class="btn btn-primary mb-3">Show Location</button>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
-                                <p class="text-success fs-2">
-                                    <svg height="32" fill="none" stroke="currentColor" stroke-width="1.5"
-                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                                        aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3">
-                                        </path>
-                                    </svg>
-                                </p>
-                                <p class="d-flex flex-column text-end">
-                                    <span class="fw-bold">
-                                        <i class="bi bi-graph-up-arrow text-success"></i> 12%
-                                    </span>
-                                    <span class="text-secondary">CONVERSION RATE</span>
-                                </p>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Location</h3>
                             </div>
-                            <!-- /.d-flex -->
-                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
-                                <p class="text-info fs-2">
-                                    <svg height="32" fill="none" stroke="currentColor" stroke-width="1.5"
-                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                                        aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z">
-                                        </path>
-                                    </svg>
-                                </p>
-                                <p class="d-flex flex-column text-end">
-                                    <span class="fw-bold">
-                                        <i class="bi bi-graph-up-arrow text-info"></i> 0.8%
-                                    </span>
-                                    <span class="text-secondary">SALES RATE</span>
-                                </p>
+                            <div class="card-body p-0">
+                                <iframe id="mapFrame"
+                                    src="https://www.google.com/maps?q=33.6844,73.0479&hl=es;z=14&output=embed"
+                                    width="100%" height="420" style="border:0;" allowfullscreen="" loading="lazy">
+                                </iframe>
                             </div>
-                            <!-- /.d-flex -->
-                            <div class="d-flex justify-content-between align-items-center mb-0">
-                                <p class="text-danger fs-2">
-                                    <svg height="32" fill="none" stroke="currentColor" stroke-width="1.5"
-                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                                        aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z">
-                                        </path>
-                                    </svg>
-                                </p>
-                                <p class="d-flex flex-column text-end">
-                                    <span class="fw-bold">
-                                        <i class="bi bi-graph-down-arrow text-danger"></i>
-                                        1%
-                                    </span>
-                                    <span class="text-secondary">REGISTRATION RATE</span>
-                                </p>
-                            </div>
-                            <!-- /.d-flex -->
                         </div>
-                    </div>
+                    </section>
+                    <!-- right col -->
                 </div>
-                <!-- /.col-md-6 -->
-            </div>
-            <!--end::Row-->
+                <!-- /.row (main row) -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
         </div>
-        <!--end::Container-->
-    </div>
-    <!--end::App Content-->
-</main>
+    </main>
+@endsection
+@section('js')
+    <script>
+        function updateMap() {
+            var lat = document.getElementById('latitude').value.trim();
+            var lng = document.getElementById('longitude').value.trim();
+            if (lat && lng) {
+                var mapUrl = `https://www.google.com/maps?q=${lat},${lng}&hl=es;z=14&output=embed`;
+                document.getElementById('mapFrame').src = mapUrl;
+            } else {
+                alert("Please enter both latitude and longitude.");
+            }
+        }
+    </script>
 @endsection

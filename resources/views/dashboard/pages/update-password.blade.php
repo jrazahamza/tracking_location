@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.main')
 @section('content')
     <div class="container mt-5">
-        <h2>My Profile</h2>
+        <h2>Update Password</h2>
 
         {{-- @if (session('message'))
             <div class="alert alert-success">{{ session('message') }}</div>

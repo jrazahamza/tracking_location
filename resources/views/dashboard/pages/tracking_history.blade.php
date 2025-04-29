@@ -43,29 +43,47 @@
                                             <th>Target Email</th>
                                             <th>Latitude</th>
                                             <th>Longitude</th>
+                                            <th>Status</th>
                                             <th>Created By</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @if ($trackingRequests->count() > 0)
                                         @foreach ($trackingRequests as $key => $value)
-                                            <tr class="align-middle">
-                                                <td>{{ ++$key }}</td>
-                                                <td>{{ $value->user ? $value->user->full_name : '' }}</td>
-                                                <td>{{ $value->target_user_email }}</td>
-                                                <td>{{ $value->latitude }}</td>
-                                                <td>{{ $value->longitude }}</td>
-                                                <td>{{ $value->created_at->format('d-M-Y') }}</td>
+                                                <tr class="align-middle">
+                                                    <td>{{ ++$key }}</td>
+                                                    <td>{{ $value->user ? $value->user->full_name : '' }}</td>
+                                                    <td>{{ $value->target_user_email }}</td>
+                                                    <td>{{ $value->latitude }}</td>
+                                                    <td>{{ $value->longitude }}</td>
+                                                    <td>
+                                                        @if ($value->status == 'pending')
+                                                            <span class="badge badge-pending">Pending</span>
+                                                        @elseif ($value->status == 'active')
+                                                            <span class="badge badge-active">Active</span>
+                                                        @elseif ($value->status == 'cancelled')
+                                                            <span class="badge badge-cancel">Cancel</span>
+                                                        @else
+                                                            <span class="badge badge-unknown">Unknown</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $value->created_at->format('d-M-Y') }}</td>
 
-                                                <td>
-                                                    {{-- <a href="{{ route('tracking.view', $value->id) }}" class="btn btn-primary">Track</a> --}}
-                                                    <a href="{{ route('tracking.view', $value->id) }}"
-                                                        class="btn btn-primary">
-                                                        <i class="fas fa-map-marker-alt"></i> Track
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                                    <td>
+                                                        {{-- <a href="{{ route('tracking.view', $value->id) }}" class="btn btn-primary">Track</a> --}}
+                                                        <a href="{{ route('tracking.view', $value->id) }}"
+                                                            class="btn btn-primary">
+                                                            <i class="fas fa-map-marker-alt"></i> Track
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                        <tr>
+                                            <td colspan="8" class="text-center">No Tracking Available</td>
+                                        </tr>
+                                        @endif
 
                                     </tbody>
                                 </table>

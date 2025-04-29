@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TrackingRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -10,7 +12,26 @@ class HomeController extends Controller
 {
     public function dashboard()
     {
-        return view('dashboard.pages.dashboard')->with('title', 'Dashboard');
+        $user = Auth::user();
+
+        $query = TrackingRequest::with('user')
+            ->where('is_active', 1)
+            ->where('is_deleted', 0);
+
+        if ($user->role_id != '1') {
+            $query->where('user_id', $user->id);
+        }
+
+        $allTrackingRequests = $query->get();
+
+        $totalTrackingRequests = $allTrackingRequests->count();
+        $pendingRequests = $allTrackingRequests->where('status', 'pending')->count();
+        $activeRequests = $allTrackingRequests->where('status', 'active')->count();
+        $cancelledRequests = $allTrackingRequests->where('status', 'cancelled')->count();
+
+        $trackingRequests = $query->orderByDesc('id')->paginate(10);
+
+        return view('dashboard.pages.dashboard', compact('trackingRequests', 'totalTrackingRequests', 'pendingRequests', 'activeRequests', 'cancelledRequests'))->with('title', 'Dashboard');
     }
 
     public function profile()
@@ -79,6 +100,4 @@ class HomeController extends Controller
 
         return back()->with('message', 'Password updated successfully!');
     }
-
-
 }

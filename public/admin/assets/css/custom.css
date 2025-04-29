@@ -1,0 +1,19 @@
+.badge-pending {
+    background-color: #ffc107;
+    color: white;
+}
+
+.badge-active {
+    background-color: #28a745;
+    color: white;
+}
+
+.badge-cancel {
+    background-color: #dc3545;
+    color: white;
+}
+
+.badge-unknown {
+    background-color: #6c757d;
+    color: white;
+}

@@ -12,10 +12,23 @@ use App\Models\TrackingRequest;
 
 class TrackingController extends Controller
 {
-    public function trackingRequests()
+    public function trackingRequests(Request $request)
     {
-        $trackingRequests = TrackingRequest::where('is_active', 1)->where('is_deleted', 0)->paginate(10);
-        return view('dashboard.pages.tracking-requests' , compact('trackingRequests'))->with('title', 'Tracking Request');
+        $user = Auth::user();
+        $status = $request->get('status', 'active');
+
+        $query = TrackingRequest::with('user')
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->where('status', $status);
+
+        if ($user->role_id != '1') {
+            $query->where('user_id', $user->id);
+        }
+
+        $trackingRequests = $query->orderByDesc('id')->paginate(10);
+
+        return view('dashboard.pages.tracking-requests', compact('trackingRequests', 'status'))->with('title', 'Tracking Request');
     }
 
     public function trackingRequestsForm()
@@ -111,9 +124,9 @@ class TrackingController extends Controller
     {
         $user = Auth::user();
         if ($user->role_id == '1') {
-            $trackingRequests = TrackingRequest::where('is_active', 1)->where('is_deleted', 0)->paginate(10);
+            $trackingRequests = TrackingRequest::with('user')->where('is_active', 1)->where('is_deleted', 0)->orderByDesc('id')->paginate(10);
         } else {
-            $trackingRequests = TrackingRequest::where('user_id', $user->id)->where('is_active', 1)->where('is_deleted', 0)->paginate(10);
+            $trackingRequests = TrackingRequest::with('user')->where('user_id', $user->id)->where('is_active', 1)->where('is_deleted', 0)->orderByDesc('id')->paginate(10);
         }
         return view('dashboard.pages.tracking_history', compact('trackingRequests'))->with('title', 'Tracking History');
     }

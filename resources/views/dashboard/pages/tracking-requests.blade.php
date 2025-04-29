@@ -12,7 +12,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Tracking Requests</li>
                         </ol>
                     </div>
@@ -31,8 +31,24 @@
                     <div class="col-md-12">
                         <div class="card mb-4">
                             <div class="card-header">
-                                <h3 class="card-title">Tracking Requests</h3>
+
+                                <div class="row col-lg-12">
+                                    <div class="mb-3 col-lg-2">
+                                        <h3 class="card-title">Tracking Requests</h3>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <a href="{{ route('tracking.requests', ['status' => 'active']) }}"
+                                            class="btn btn-sm {{ $status == 'active' ? 'btn-primary' : 'btn-outline-primary' }}">Active</a>
+                                        <a href="{{ route('tracking.requests', ['status' => 'pending']) }}"
+                                            class="btn btn-sm {{ $status == 'pending' ? 'btn-warning' : 'btn-outline-warning' }}">Pending</a>
+                                        <a href="{{ route('tracking.requests', ['status' => 'cancelled']) }}"
+                                            class="btn btn-sm {{ $status == 'cancelled' ? 'btn-danger' : 'btn-outline-danger' }}">Cancelled</a>
+                                    </div>
+                                </div>
+
                             </div>
+
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table class="table table-bordered">
@@ -49,35 +65,41 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($trackingRequests as $key => $value)
-                                            <tr class="align-middle">
-                                                <td>{{ ++$key }}</td>
-                                                <td>{{ $value->user ? $value->user->full_name : '' }}</td>
-                                                <td>{{ $value->target_user_email }}</td>
-                                                <td>{{ $value->latitude }}</td>
-                                                <td>{{ $value->longitude }}</td>
-                                                <td>
-                                                    @if ($value->status == 'pending')
-                                                        <span class="badge badge-pending">Pending</span>
-                                                    @elseif ($value->status == 'active')
-                                                        <span class="badge badge-active">Active</span>
-                                                    @elseif ($value->status == 'cancelled')
-                                                        <span class="badge badge-cancel">Cancel</span>
-                                                    @else
-                                                        <span class="badge badge-unknown">Unknown</span>
-                                                    @endif
-                                                </td>
-                                                <td>{{ $value->created_at->format('d-M-Y') }}</td>
+                                        @if ($trackingRequests->count() > 0)
+                                            @foreach ($trackingRequests as $key => $value)
+                                                <tr class="align-middle">
+                                                    <td>{{ ++$key }}</td>
+                                                    <td>{{ $value->user ? $value->user->full_name : '' }}</td>
+                                                    <td>{{ $value->target_user_email }}</td>
+                                                    <td>{{ $value->latitude }}</td>
+                                                    <td>{{ $value->longitude }}</td>
+                                                    <td>
+                                                        @if ($value->status == 'pending')
+                                                            <span class="badge badge-pending">Pending</span>
+                                                        @elseif ($value->status == 'active')
+                                                            <span class="badge badge-active">Active</span>
+                                                        @elseif ($value->status == 'cancelled')
+                                                            <span class="badge badge-cancel">Cancel</span>
+                                                        @else
+                                                            <span class="badge badge-unknown">Unknown</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $value->created_at->format('d-M-Y') }}</td>
 
-                                                <td>
-                                                    {{-- <a href="{{ route('tracking.view', $value->id) }}" class="btn btn-primary">Track</a> --}}
-                                                    <a href="{{ route('tracking.view', $value->id) }}"
-                                                        class="btn btn-primary">
-                                                        <i class="fas fa-map-marker-alt"></i> Track
-                                                    </a>
-                                                </td>
+                                                    <td>
+                                                        {{-- <a href="{{ route('tracking.view', $value->id) }}" class="btn btn-primary">Track</a> --}}
+                                                        <a href="{{ route('tracking.view', $value->id) }}"
+                                                            class="btn btn-primary">
+                                                            <i class="fas fa-map-marker-alt"></i> Track
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan="8" class="text-center">No Tracking Available</td>
                                             </tr>
-                                        @endforeach
+                                        @endif
 
                                     </tbody>
                                 </table>
@@ -107,25 +129,4 @@
 @endsection
 @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        .badge-pending {
-    background-color: #ffc107;
-    color: white;
-}
-
-.badge-active {
-    background-color: #28a745;
-    color: white;
-}
-
-.badge-cancel {
-    background-color: #dc3545;
-    color: white;
-}
-
-.badge-unknown {
-    background-color: #6c757d;
-    color: white;
-}
-    </style>
 @endsection
