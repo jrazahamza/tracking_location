@@ -1,0 +1,701 @@
+*{
+    padding: 0%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Colors */
+    --primary-color: #FF9800;     
+    --secondary-color: #007BFF;   
+    --white-color: #fff;       
+    --dark-color: #1D1D1D;
+    --success-color: #22C55E;
+  
+    /* Text Colors */
+    --text-color: #777777;
+    --text-heading-color: #1D1D1D;
+    --text-footer-color: #A6A6A6;
+  
+    /* Font */
+    --main-font: 'Space Grotesk';
+    --secondary-font: 'Poppins', sans-serif;
+  
+    /* Border radius */
+    /* --radius-small: 5px;
+    --radius-medium: 10px;
+    --radius-large: 20px; */
+  
+    /* Spacing */
+    /* --spacing-small: 8px;
+    --spacing-medium: 16px;
+    --spacing-large: 32px; */
+  
+    /* Other Reusable */
+    --cus-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  .gradient-text {
+    background: linear-gradient(to right, #007BFF, #00C853);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+.success{
+  color: var(--success-color);
+}
+.btn-outline{
+    border: 1px solid var(--primary-color);
+    color: var(--white-color);
+}
+.btn-bg{
+    background-color: var(--primary-color);
+    color: var(--white-color);
+}
+.custom-nav-cls {
+    z-index: 5;
+}
+/* Banner background */
+.banner {
+    height: 100vh;
+    background-color: #000;
+    /* background-image: radial-gradient(circle at center, #0f0f0f 20%, #000 70%); */
+    background-image: url(/images/banner-img.png);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    top: -90px;
+  }
+  .main-banner-content {
+    height: 50%;
+    display: flex;
+    align-items: flex-end;
+}
+ .main-heading{
+    font-family: var(--main-font);
+    font-size: 58px;
+    font-weight: bold;
+ }
+  .heading-two{
+    font-family: var(--main-font);
+    font-size: 48px;
+    /* font-size: calc(24px, 3.5vw, 48px) !important; */
+    font-weight: 500;
+  }
+  .heading-three{
+    font-family: var(--main-font);
+    font-size: 17px;
+  }
+
+  /* Call to action background */
+  .cta-section {
+    background: #e0f0ff;
+  }
+  .right-form-card .card{
+    box-shadow: var(--cus-box-shadow);
+  }
+
+
+/* General Heading */
+h2 {
+    text-align: center;
+    color: var(--heading-color);
+    margin-bottom: 40px;
+  }
+  /* want to locate banner */
+  .want-to-locate-banner{
+    width: 100%;
+    height: 315px;
+    background-image: url('/images/first-banner-img.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+  .want-to-locate-banner .want-content{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 50%;
+    align-items: flex-start;
+    justify-content: center;
+    margin-left: 62px;
+    color: var(--white-color);
+  }
+
+  /* end want to locate banner */
+
+
+
+  /* How It Works Section  */
+    .how-it-works{
+        margin: 100px 0px;
+    }
+    .how-it-works .step{
+        border-radius: 22px;
+        padding: 50px 24px;
+        box-shadow: 0px 0.5px 2px #A6A6A6;
+    }
+    .how-it-works {
+        padding: var(--section-padding) 20px;
+      }
+      
+      .steps {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+      }
+      
+      .step {
+        text-align: center;
+        max-width: 300px;
+      }
+      
+      .step img {
+        height: 60px;
+        margin-bottom: 15px;
+      }
+  /* How It Works Section  */
+
+
+  /* why-choose-us */
+  .why-choose-us{
+    padding: 70px 0px;
+    background-color: #F4F9FF;
+
+  }
+  .features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+  }
+  
+  .feature {
+    text-align: center;
+    max-width: 250px;
+  }
+  
+  .feature img {
+    height: 50px;
+    margin-bottom: 15px;
+  }
+  .why-choose-us .features .feature:nth-child(even) {
+    margin-top:100px;
+    }
+  
+  /* why-choose-us */
+
+  
+  
+  /* How It Works */
+ 
+  
+  
+  
+  /* CTA Section */
+  .cta-locate {
+    margin: 100px 0px;
+    text-align: center;
+    padding: var(--section-padding) 20px;
+  }
+  
+  .btn-locate {
+    display: inline-block;
+    background: var(--main-color);
+    color: #fff;
+    padding: 15px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+
+
+  /* Trusted Users */
+  .trusted-users {
+    padding: var(--section-padding) 20px;
+    background: url('grid-bg.png') center/cover no-repeat;
+  }
+  
+  .review {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  
+  .reviewer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+  }
+  
+  .reviewer img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  /* Swiper Pagination */
+  .swiper-pagination-bullet {
+    background: var(--main-color);
+  }
+  
+  @media (max-width: 768px) {
+    .steps, .features {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
+
+
+  /* start tracking banner */
+  .start-tracking{
+    width: 100%;
+    height: 315px;
+    background-image: url('/images/banner-two-img.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+  .start-tracking .start-tack-content{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 50%;
+    align-items: flex-start;
+    justify-content: center;
+    margin-left: 62px;
+    color: var(--white-color);
+  }
+
+  /* end start tracking banner */
+
+
+  /* Simple & Affordable */
+  .simple-affordable{
+    background-color: #F4F9FF;
+    border-radius: 20px;
+  }
+  .get-tril-card{
+    padding: 42px 92px 42px 0px;
+  }
+  .card-pricing {
+    background: white;
+    box-shadow: 0px 0px 30px rgba(0,0,0,0.05);
+    border-radius: 15px;
+    padding: 30px;
+  }
+  .afford-content{
+    margin-left: 93px;
+  }
+  .afford-content h2{
+    text-align: left;
+    margin-bottom: 0px;
+  }
+  /* end Simple & Affordable */
+
+  
+  /* FAQ Section */
+  
+  
+  /*end FAQ Section */
+
+  .faq-section .faq-card {
+    background: white;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.08);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    height: 100%;
+  }
+  .faq-card-header {
+    display: flex;
+    justify-content: center;
+    margin-top: -46px;
+    margin-bottom: 40px;
+    }
+  .faq-section .icon-check {
+    color: green;
+    margin-right: 8px;
+  }
+  .faq-section .btn-orange {
+    background-color: #ff7a00;
+    color: white;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    border: none;
+  }
+  .faq-section .btn-orange:hover {
+    background-color: #ff6600;
+  }
+  .faq-section .locate-btn {
+    margin-top: 30px;
+    text-align: center;
+  }
+
+
+
+
+
+/* start tracking banner */
+.track-a-phone{
+    width: 100%;
+    height: 315px;
+    background-image: url('/images/track-a-phone-bg.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    margin-bottom: 100px;
+  }
+  .track-a-phone .track-phone-content{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 50%;
+    align-items: flex-start;
+    justify-content: center;
+    margin-left: 62px;
+    color: var(--white-color);
+  }
+
+  /* end start tracking banner */
+
+
+  /* constact us page */
+  .contact-banner {
+    height: 60vh;
+    background-color: #000;
+    /* background-image: radial-gradient(circle at center, #0f0f0f 20%, #000 70%); */
+    background-image: url(/images/banner-img.png);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    top: -90px;
+  }
+
+  /* contact us form  */
+  .contact-section {
+    display: flex;
+    max-width: 1100px;
+    margin: 50px auto;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .contact-left {
+    background-image: url('../images/contact-us-form-left-img.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-color: #007be5;
+    color: #fff;
+    padding: 40px;
+    width: 40%;
+    position: relative;
+    border-radius: 20px;
+  }
+
+  .contact-left h2 {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 30px;
+  }
+
+  .contact-left p {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  .contact-left .email-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .contact-left .email-icon {
+    background: #00c26e;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contact-left .response-time {
+    font-size: 14px;
+    color: #d0e8ff;
+  }
+
+  .contact-right {
+    background-color: #f4f4f4;
+    padding: 40px;
+    width: 60%;
+  }
+
+  .contact-right label {
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  .contact-right .form-control {
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .submit-btn {
+    background-color: #FF9800;
+    border: none;
+    padding: 12px 25px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: 0.3s ease;
+  }
+
+  .submit-btn:hover {
+    background-color: #e69512;
+  }
+
+  @media (max-width: 768px) {
+    .contact-section {
+      flex-direction: column;
+    }
+
+    .contact-left,
+    .contact-right {
+      width: 100%;
+    }
+  }
+  /* end contact us form  */
+
+
+  /* end of constact us page */
+
+  
+  /* Find Location */
+  .find-loca .main-heading{
+    max-width: 730px;
+  }
+  .find-loc-left-img img{
+    width: 100%;
+    object-fit: contain;
+  }
+  .header-conten{
+    margin-bottom: 40px;
+  }
+  .security {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    padding-left:0px;
+}
+.security li{
+    padding:4px 12px;
+    list-style:none;
+    background-color:#e9ecefd1;
+    
+}
+.pay-card {
+  display: flex;
+  justify-content: flex-start;
+  gap: 14px;
+}
+.get-start{
+  color:#007BFF;
+  font-size: 32px;
+}
+
+
+  /* end Find Location */
+
+/* faq page */
+
+.tracking-section {
+  /* max-width: 900px; */
+  margin: 60px auto;
+  padding: 0 15px;
+}
+
+.tracking-section h2 {
+  font-weight: 600;
+  font-size: 32px;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.tracking-box {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 25px 30px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.tracking-box h5 {
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.tracking-box p {
+  margin: 0;
+  font-size: 15px;
+  color: #444;
+}
+
+.tracking-box strong {
+  font-weight: 600;
+  color: #000;
+}
+
+@media (max-width: 768px) {
+  .tracking-section h2 {
+    font-size: 26px;
+  }
+
+  .tracking-box h5 {
+    font-size: 16px;
+  }
+
+  .tracking-box {
+    padding: 20px;
+  }
+}
+
+/* end of faq page */
+
+
+
+
+
+  /* Footer */
+  .footer-logo{
+    margin-bottom: 50px;
+  }
+  .list-unstyled{
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    align-items: center;
+  }  
+  .copy-right{
+    display: flex;
+    justify-content: space-between;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  @media screen and (max-width: 768px) {
+
+    .banner {
+      height: 100vh;
+      background-color: #000;
+      background-image: url(/images/banner-mobile-img.png);
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      top: -90px;
+  }
+    .want-to-locate-banner {
+        width: 100%;
+        height: 315px;
+        background-image: url(/images/mobile-banner-one.png) !important;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% 100%;
+    }
+    .want-to-locate-banner .want-content {
+      justify-content: flex-start;
+      margin-left: 62px;
+      padding-top: 40px;
+      width: 70%;
+  }
+    .start-tracking {
+        width: 100%;
+        height: 315px;
+        background-image: url(/images/mobile-banner-two.png) !important;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% 100%;
+    }
+    .why-choose-us .features .feature:nth-child(even) {
+      margin-top: 0px;
+    }
+    .start-tracking .start-tack-content {
+      justify-content: flex-start;
+      margin-left: 62px;
+      padding-top: 40px;
+      width: 70%;
+  }
+  .card-pricing {
+    max-width: 84%;
+    margin: auto;
+  }
+  .simple-affordable {
+    padding: 60px 0px;
+}
+  .afford-content {
+    margin-left: 10px;
+  }
+  .get-tril-card {
+    padding: unset !important;    
+  }
+    .track-a-phone {
+        width: 100%;
+        height: 315px;
+        background-image: url(/images/mobile-banner-three.png) !important;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% 100%;
+        margin-bottom: 100px;
+    }
+    .track-a-phone .track-phone-content {
+      padding-top: 40px;
+      justify-content: flex-start;
+      width: 70%;
+    }
+    .heading-two {
+      font-size: 24px;
+    }
+    .main-heading {
+      font-size: 28px;
+    }
+
+  }
+
+
+
+

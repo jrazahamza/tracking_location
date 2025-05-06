@@ -3,14 +3,25 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TrackingController;
+use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [WebController::class, 'home'])->name('home');
+Route::get('/find-location', [WebController::class, 'findLocation'])->name('find.location');
+Route::get('/faqs', [WebController::class, 'faqs'])->name('faqs');
+Route::get('/contact-us', [WebController::class, 'contactUs'])->name('contact-us');
+Route::post('/contact-submit', [WebController::class, 'contactFormSubmission'])->name('contact.submit');
+
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/contacts', [HomeController::class, 'contacts'])->name('contacts');
+    Route::get('/contact-delete/{id}', [HomeController::class, 'contact_delete'])->name('contact.delete');
 
     Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
     Route::post('/update-profile', [HomeController::class, 'updateProfile'])->name('profile.update');
@@ -24,6 +35,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/approve-tracking-request/{token}', [TrackingController::class, 'approveTrackingRequest'])->name('approve.tracking.request');
     Route::post('/tracking/save-location', [TrackingController::class, 'saveLocation'])->name('tracking.save-location');
     Route::get('/tracking-history', [TrackingController::class, 'trackingHistory'])->name('tracking.history');
+    Route::get('/tracking-historys', [TrackingController::class, 'trackingHistory'])->name('tracking.historys');
+
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });

@@ -42,7 +42,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
-    <script>
+    {{-- <script>
         // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
         // IT'S ALL JUST JUNK FOR DEMO
         // ++++++++++++++++++++++++++++++++++++++++++
@@ -149,7 +149,7 @@
             sales_chart_options,
         );
         sales_chart.render();
-    </script>
+    </script> --}}
 
     <script>
         @if (Session::has('message'))

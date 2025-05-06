@@ -1,7 +1,5 @@
 @extends('dashboard.layouts.main')
-
 @section('content')
-    <!-- Content Wrapper. Contains page content -->
     <main class="app-main">
         <!--begin::App Content Header-->
         <div class="app-content-header">
@@ -244,7 +242,6 @@
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
-        </div>
     </main>
 @endsection
 @section('js')

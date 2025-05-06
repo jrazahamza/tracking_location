@@ -4,11 +4,11 @@
         <!--begin::Brand Link-->
         <a href="{{ route('dashboard') }}" class="brand-link">
             <!--begin::Brand Image-->
-            <img src="{{ asset('admin/assets/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
-                class="brand-image opacity-75 shadow" />
+            <img src="{{ asset('web/images/logo-location-finder.png' ?? 'admin/assets/img/AdminLTELogo.png') }}"
+                alt="AdminLTE Logo" class="brand-image opacity-75 shadow" />
             <!--end::Brand Image-->
             <!--begin::Brand Text-->
-            <span class="brand-text fw-light">AdminLTE</span>
+            {{-- <span class="brand-text fw-light">AdminLTE</span> --}}
             <!--end::Brand Text-->
         </a>
         <!--end::Brand Link-->
@@ -21,21 +21,24 @@
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
                 <li class="nav-item menu-open">
                 <li class="nav-item">
-                    <a href="{{ route('dashboard') }}" class="nav-link {{ Request::path() == 'dashboard' ? 'active' : '' }}">
+                    <a href="{{ route('dashboard') }}"
+                        class="nav-link {{ Request::path() == 'dashboard' ? 'active' : '' }}">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('tracking.request.form') }}" class="nav-link {{ Request::path() == 'tracking' ? 'active' : '' }}">
+                    <a href="{{ route('tracking.request.form') }}"
+                        class="nav-link {{ Request::path() == 'tracking' ? 'active' : '' }}">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>New Tracking Requests</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('tracking.requests') }}" class="nav-link {{ Request::path() == 'tracking' ? 'active' : '' }}">
+                    <a href="{{ route('tracking.requests') }}"
+                        class="nav-link {{ Request::path() == 'tracking' ? 'active' : '' }}">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>Active Tracking Requests</p>
                     </a>
@@ -49,14 +52,26 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('tracking.history') }}" class="nav-link {{ Request::path() == 'tracking-history' ? 'active' : '' }}">
+                    <a href="{{ route('tracking.history') }}"
+                        class="nav-link {{ Request::path() == 'tracking-history' ? 'active' : '' }}">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>Tracking History</p>
                     </a>
                 </li>
 
+                @if (Auth::user()->role_id == '1')
+                    <li class="nav-item">
+                        <a href="{{ route('contacts') }}"
+                            class="nav-link {{ Request::path() == 'contacts' ? 'active' : '' }}">
+                            <i class="nav-icon bi bi-speedometer"></i>
+                            <p>All Contacts</p>
+                        </a>
+                    </li>
+                @endif
+
                 <li class="nav-item">
-                    <a href="{{ route('profile') }}" class="nav-link {{ Request::path() == 'profile' ? 'active' : '' }}">
+                    <a href="{{ route('profile') }}"
+                        class="nav-link {{ Request::path() == 'profile' ? 'active' : '' }}">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>Account Settings</p>
                     </a>

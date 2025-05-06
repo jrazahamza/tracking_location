@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\contactUs;
 use App\Models\TrackingRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -38,6 +39,27 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         return view('dashboard.pages.user-profile', compact('user'))->with('title', 'Profile');
+    }
+
+    public function contacts()
+    {
+        $user = Auth::user();
+        if ($user->role_id != '1') {
+            abort(403, 'Access Denied.');
+        }
+        $contacts = contactUs::where('is_active', 1)->where('is_deleted', 0)->latest()->paginate(10);
+        return view('dashboard.pages.contacts', compact('contacts'))->with('title', 'All Contacts');
+    }
+
+    // contact_delete
+    public function contact_delete($id)
+    {
+        $contact = contactUs::findOrFail($id);
+        $contact->is_active = 0;
+        $contact->is_deleted = 1;
+        $contact->save();
+
+        return back()->with('message', 'Contact deleted successfully!');
     }
 
     public function updateProfile(Request $request)
