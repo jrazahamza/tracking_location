@@ -6,31 +6,31 @@
 
 :root {
     /* Colors */
-    --primary-color: #FF9800;     
-    --secondary-color: #007BFF;   
-    --white-color: #fff;       
+    --primary-color: #FF9800;
+    --secondary-color: #007BFF;
+    --white-color: #fff;
     --dark-color: #1D1D1D;
     --success-color: #22C55E;
-  
+
     /* Text Colors */
     --text-color: #777777;
     --text-heading-color: #1D1D1D;
     --text-footer-color: #A6A6A6;
-  
+
     /* Font */
     --main-font: 'Space Grotesk';
     --secondary-font: 'Poppins', sans-serif;
-  
+
     /* Border radius */
     /* --radius-small: 5px;
     --radius-medium: 10px;
     --radius-large: 20px; */
-  
+
     /* Spacing */
     /* --spacing-small: 8px;
     --spacing-medium: 16px;
     --spacing-large: 32px; */
-  
+
     /* Other Reusable */
     --cus-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
@@ -61,7 +61,7 @@
     height: 100vh;
     background-color: #000;
     /* background-image: radial-gradient(circle at center, #0f0f0f 20%, #000 70%); */
-    background-image: url(/images/banner-img.png);
+    background-image: url(../images/banner-img.png);
     background-size: cover;
     background-position: center;
     position: relative;
@@ -107,7 +107,7 @@ h2 {
   .want-to-locate-banner{
     width: 100%;
     height: 315px;
-    background-image: url('/images/first-banner-img.png');
+    background-image: url('../images/first-banner-img.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -139,19 +139,19 @@ h2 {
     .how-it-works {
         padding: var(--section-padding) 20px;
       }
-      
+
       .steps {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         gap: 30px;
       }
-      
+
       .step {
         text-align: center;
         max-width: 300px;
       }
-      
+
       .step img {
         height: 60px;
         margin-bottom: 15px;
@@ -171,12 +171,12 @@ h2 {
     justify-content: center;
     gap: 30px;
   }
-  
+
   .feature {
     text-align: center;
     max-width: 250px;
   }
-  
+
   .feature img {
     height: 50px;
     margin-bottom: 15px;
@@ -184,23 +184,23 @@ h2 {
   .why-choose-us .features .feature:nth-child(even) {
     margin-top:100px;
     }
-  
+
   /* why-choose-us */
 
-  
-  
+
+
   /* How It Works */
- 
-  
-  
-  
+
+
+
+
   /* CTA Section */
   .cta-locate {
     margin: 100px 0px;
     text-align: center;
     padding: var(--section-padding) 20px;
   }
-  
+
   .btn-locate {
     display: inline-block;
     background: var(--main-color);
@@ -211,7 +211,7 @@ h2 {
     font-weight: bold;
     margin-top: 20px;
   }
-  
+
 
 
   /* Trusted Users */
@@ -219,7 +219,7 @@ h2 {
     padding: var(--section-padding) 20px;
     background: url('grid-bg.png') center/cover no-repeat;
   }
-  
+
   .review {
     background: #fff;
     padding: 20px;
@@ -227,40 +227,40 @@ h2 {
     box-shadow: 0 5px 20px rgba(0,0,0,0.1);
     text-align: center;
   }
-  
+
   .reviewer {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 15px;
   }
-  
+
   .reviewer img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
   }
-  
+
   /* Swiper Pagination */
   .swiper-pagination-bullet {
     background: var(--main-color);
   }
-  
+
   @media (max-width: 768px) {
     .steps, .features {
       flex-direction: column;
       align-items: center;
     }
   }
-  
+
 
 
   /* start tracking banner */
   .start-tracking{
     width: 100%;
     height: 315px;
-    background-image: url('/images/banner-two-img.png');
+    background-image: url('../images/banner-two-img.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -302,10 +302,10 @@ h2 {
   }
   /* end Simple & Affordable */
 
-  
+
   /* FAQ Section */
-  
-  
+
+
   /*end FAQ Section */
 
   .faq-section .faq-card {
@@ -350,7 +350,7 @@ h2 {
 .track-a-phone{
     width: 100%;
     height: 315px;
-    background-image: url('/images/track-a-phone-bg.png');
+    background-image: url('../images/track-a-phone-bg.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -375,7 +375,7 @@ h2 {
     height: 60vh;
     background-color: #000;
     /* background-image: radial-gradient(circle at center, #0f0f0f 20%, #000 70%); */
-    background-image: url(/images/banner-img.png);
+    background-image: url(../images/banner-img.png);
     background-size: cover;
     background-position: center;
     position: relative;
@@ -393,7 +393,7 @@ h2 {
   }
 
   .contact-left {
-    background-image: url('../images/contact-us-form-left-img.png');
+    background-image: url('..../images/contact-us-form-left-img.png');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -486,7 +486,7 @@ h2 {
 
   /* end of constact us page */
 
-  
+
   /* Find Location */
   .find-loca .main-heading{
     max-width: 730px;
@@ -508,7 +508,7 @@ h2 {
     padding:4px 12px;
     list-style:none;
     background-color:#e9ecefd1;
-    
+
 }
 .pay-card {
   display: flex;
@@ -593,12 +593,12 @@ h2 {
     justify-content: space-between;
     height: 100%;
     align-items: center;
-  }  
+  }
   .copy-right{
     display: flex;
     justify-content: space-between;
   }
-  
+
 
 
 
@@ -623,7 +623,7 @@ h2 {
     .banner {
       height: 100vh;
       background-color: #000;
-      background-image: url(/images/banner-mobile-img.png);
+      background-image: url(../images/banner-mobile-img.png);
       background-size: cover;
       background-position: center;
       position: relative;
@@ -632,7 +632,7 @@ h2 {
     .want-to-locate-banner {
         width: 100%;
         height: 315px;
-        background-image: url(/images/mobile-banner-one.png) !important;
+        background-image: url(../images/mobile-banner-one.png) !important;
         background-repeat: no-repeat;
         background-position: center;
         background-size: 100% 100%;
@@ -646,7 +646,7 @@ h2 {
     .start-tracking {
         width: 100%;
         height: 315px;
-        background-image: url(/images/mobile-banner-two.png) !important;
+        background-image: url(../images/mobile-banner-two.png) !important;
         background-repeat: no-repeat;
         background-position: center;
         background-size: 100% 100%;
@@ -671,12 +671,12 @@ h2 {
     margin-left: 10px;
   }
   .get-tril-card {
-    padding: unset !important;    
+    padding: unset !important;
   }
     .track-a-phone {
         width: 100%;
         height: 315px;
-        background-image: url(/images/mobile-banner-three.png) !important;
+        background-image: url(../images/mobile-banner-three.png) !important;
         background-repeat: no-repeat;
         background-position: center;
         background-size: 100% 100%;
