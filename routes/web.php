@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
+
+
+Route::post('/payment-complete', [PaymentController::class, 'paymentComplete'])->name('process.payment');
+Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent'])->name('process.payment');
 
 
 Route::middleware(['guest'])->group(function () {
