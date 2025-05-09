@@ -6,11 +6,7 @@
                 <a href="{{ route('dashboard') }}"
                     class="link-dark text-center link-offset-2 link-opacity-100 link-opacity-50-hover">
                     {{-- <h1 class="mb-0"><b>Admin</b>LTE</h1> --}}
-<<<<<<< HEAD
                     <img src="{{ asset('web/images/logo-location-finder.png') }}" alt="" class="footer-logo">
-=======
-                    <img src="http://127.0.0.1:8000/web/images/logo-location-finder.png" alt="" class="footer-logo">
->>>>>>> dd639b8ec783d714a0045be8a96fa90e417e9dd6
                 </a>
             </div>
             <div class="card-body login-card-body">
