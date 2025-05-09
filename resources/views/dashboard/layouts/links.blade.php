@@ -1,4 +1,5 @@
     <!--begin::Fonts-->
+    <link rel="icon" type="image/x-icon" href="{{ asset('web/images/logo-location-finder.png') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
         integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous" />
     <!--end::Fonts-->
@@ -16,6 +17,7 @@
     <!--begin::Required Plugin(AdminLTE)-->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/adminlte.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/assets/css/custom.css') }}" />
+
     <!--end::Required Plugin(AdminLTE)-->
     <!-- apexcharts -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"

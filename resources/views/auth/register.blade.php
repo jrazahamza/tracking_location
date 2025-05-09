@@ -6,7 +6,9 @@
             <div class="card-header">
                 <a href="{{ route('dashboard') }}"
                     class="link-dark text-center link-offset-2 link-opacity-100 link-opacity-50-hover">
-                    <h1 class="mb-0"><b>Admin</b>LTE</h1>
+                    {{-- <h1 class="mb-0"><b>Admin</b>LTE</h1> --}}
+                    <img src="http://127.0.0.1:8000/web/images/logo-location-finder.png" alt="" class="footer-logo">
+
                 </a>
             </div>
             <div class="card-body register-card-body">
