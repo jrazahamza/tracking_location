@@ -8,7 +8,8 @@
                 <h2 class="main-heading"><span class="gradient-text">Track</span> Any Phone<br>with Consent in Seconds</h2>
                 <p class="banner-p mt-3">Instant, secure, and legal phone tracking. Just enter a phone number, send a
                     request, and get the location—only with recipient's consent.</p>
-                <a href="{{ auth()->check() ? route('dashboard') : route('login') }}" class="btn btn-bg mt-4 px-5 py-2">Start Tracking Now →</a>
+                <a href="{{ auth()->check() ? route('dashboard') : route('login') }}" class="btn btn-bg mt-4 px-5 py-2">Start
+                    Tracking Now →</a>
             </div>
         </div>
     </section>
@@ -31,36 +32,49 @@
                 <div class="col-md-6 right-form-card">
 
                     <div class="card p-4">
-                        <form class="home-form">
+                        <form action="{{ route('tracking.send') }}" method="POST" class="home-form">
+                            @csrf
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Method*</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="sms" checked>
+                                    <input class="form-check-input" type="checkbox" name="methods[]" value="sms"
+                                        id="sms" checked>
                                     <label class="form-check-label" for="sms">SMS</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="whatsapp">
+                                    <input class="form-check-input" type="checkbox" name="methods[]" value="whatsapp"
+                                        id="whatsapp">
                                     <label class="form-check-label" for="whatsapp">WhatsApp</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="email">
+                                    <input class="form-check-input" type="checkbox" name="methods[]" value="email"
+                                        id="email">
                                     <label class="form-check-label" for="email">Email</label>
                                 </div>
                             </div>
 
-                            <div class="mb-3">
+                            {{-- Email Input Field (hidden by default) --}}
+                            <div class="mb-3 d-none" id="email-field">
+                                <label class="form-label fw-bold">Email*</label>
+                                <input type="email" class="form-control" name="email" id="email-input"
+                                    placeholder="example@email.com">
+                            </div>
+
+                            {{-- Contact Number Field (hidden by default) --}}
+                            <div class="mb-3 d-none" id="contact-number-field">
                                 <label class="form-label fw-bold">Contact Number*</label>
                                 <div class="input-group">
                                     <span class="input-group-text">
                                         <img src="https://flagcdn.com/us.svg" width="20" alt="USA">
                                     </span>
-                                    <input type="text" class="form-control" placeholder="446 552 3323">
+                                    <input type="text" class="form-control" name="contact_number"
+                                        placeholder="446 552 3323" required>
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Message Box</label>
-                                <textarea class="form-control" rows="3" placeholder="Type Here"></textarea>
+                                <textarea class="form-control" name="message" rows="3" placeholder="Type Here"></textarea>
                             </div>
 
                             <button type="submit" class="btn btn-bg w-100">Start Tracking Now →</button>
@@ -74,11 +88,11 @@
 
     <!-- Call-to-Action Section -->
     <!-- <section class="cta-section text-center py-5">
-          <div class="container">
-            <h2 class="text-primary mb-3">Track a Phone Now—It Only Takes Seconds!</h2>
-            <button class="btn btn-warning">Locate Now →</button>
-          </div>
-        </section> -->
+                                          <div class="container">
+                                            <h2 class="text-primary mb-3">Track a Phone Now—It Only Takes Seconds!</h2>
+                                            <button class="btn btn-warning">Locate Now →</button>
+                                          </div>
+                                        </section> -->
 
     <div class="container">
         <section class="want-to-locate-banner">
@@ -204,7 +218,7 @@
                 <div class="card-pricing text-center">
                     <h2 class="text-primary mb-2">$0.95</h2>
                     <p>Track any phone for just $0.95 for the first 24 hours.</p>
-                    <button class="btn btn-bg w-100 mb-4">Get Trial</button>
+                    <a href="{{ route('find.location') }}" class="btn btn-bg w-100 mb-4">Get Trial</a>
                     <div class="text-start">
                         <p><i class="bi bi-check-circle-fill icon-check"></i>Unlimited tracking</p>
                         <p><i class="bi bi-check-circle-fill icon-check"></i>No per-user charges</p>
@@ -297,4 +311,47 @@
             </div>
         </section>
     </div>
+@endsection
+@section('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const smsCheckbox = document.getElementById('sms');
+            const whatsappCheckbox = document.getElementById('whatsapp');
+            const emailCheckbox = document.getElementById('email');
+
+            const emailField = document.getElementById('email-field');
+            const emailInput = document.getElementById('email-input');
+
+            const contactNumberField = document.getElementById('contact-number-field');
+            const contactNumberInput = document.querySelector('input[name="contact_number"]');
+
+            function toggleFields() {
+                // Toggle the Contact Number field visibility based on SMS/WhatsApp selection
+                if (smsCheckbox.checked || whatsappCheckbox.checked) {
+                    contactNumberField.classList.remove('d-none');
+                    contactNumberInput.setAttribute('required', 'required');
+                } else {
+                    contactNumberField.classList.add('d-none');
+                    contactNumberInput.removeAttribute('required');
+                }
+
+                // Toggle the Email field visibility based on Email checkbox selection
+                if (emailCheckbox.checked) {
+                    emailField.classList.remove('d-none');
+                    emailInput.setAttribute('required', 'required');
+                } else {
+                    emailField.classList.add('d-none');
+                    emailInput.removeAttribute('required');
+                }
+            }
+
+            // Watch for changes on SMS, WhatsApp, and Email checkboxes
+            smsCheckbox.addEventListener('change', toggleFields);
+            whatsappCheckbox.addEventListener('change', toggleFields);
+            emailCheckbox.addEventListener('change', toggleFields);
+
+            // On page load, ensure the correct fields are shown/hidden
+            toggleFields();
+        });
+    </script>
 @endsection

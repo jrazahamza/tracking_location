@@ -51,14 +51,6 @@
                         <input type="email" id="email" class="form-control" required>
                     </div>
 
-                    {{-- <div class="mb-3">
-        <label class="form-label">Card Information <span class="text-danger">*</span></label>
-        <div id="card-element" class="card-element form-control">
-            <!-- Stripe Element will be inserted here -->
-        </div>
-        <div id="card-errors" role="alert" style="color: red; margin-top: 5px;"></div>
-    </div> --}}
-
                     <div class="mb-3">
                         <label for="card-number" class="form-label">Card Number <span class="text-danger">*</span></label>
                         <div id="card-number" class="form-control">
@@ -194,9 +186,10 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         // Initialize Stripe
-        const stripe = Stripe(
-            'pk_test_51OyYVmDxo3C22BxLXaQMUe5zQ9fcUwTnhvYsLI2XIuUfBZKRlAa7oMCmchkddFKKWKthZqcfsgtgKLSMf8mt0RCW00vqPfFwnn'
-        );
+        // const stripe = Stripe(
+        //     'pk_test_51OyYVmDxo3C22BxLXaQMUe5zQ9fcUwTnhvYsLI2XIuUfBZKRlAa7oMCmchkddFKKWKthZqcfsgtgKLSMf8mt0RCW00vqPfFwnn'
+        // );
+        const stripe = Stripe('{{ $stripeKey }}');
         const elements = stripe.elements();
 
         // // Create and mount the card Element
@@ -331,7 +324,9 @@
                     console.log(response);
                     if (intentData.error === 'User not authenticated. Please log in.') {
                         toastr.error(response.error || 'User not authenticated. Please log in');
-                        window.location.href = response.redirect || '/login';
+                        setTimeout(() => {
+                            window.location.href = response.redirect || '/login';
+                        }, 1500); // Wait 1.5 seconds before redirect
                         return;
                     }
                     toastr.error(intentData.error);

@@ -19,7 +19,7 @@ Route::post('/contact-submit', [WebController::class, 'contactFormSubmission'])-
 
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'check.subscription'])->group(function () {
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::get('/contacts', [HomeController::class, 'contacts'])->name('contacts');
     Route::get('/contact-delete/{id}', [HomeController::class, 'contact_delete'])->name('contact.delete');
@@ -33,14 +33,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tracking-requests', [TrackingController::class, 'trackingRequests'])->name('tracking.requests');
     Route::post('/tracking/send', [TrackingController::class, 'sendTrackingRequest'])->name('tracking.send');
     Route::get('/track/{id}', [TrackingController::class, 'trackUser'])->name('tracking.view');
-    Route::get('/approve-tracking-request/{token}', [TrackingController::class, 'approveTrackingRequest'])->name('approve.tracking.request');
     Route::post('/tracking/save-location', [TrackingController::class, 'saveLocation'])->name('tracking.save-location');
     Route::get('/tracking-history', [TrackingController::class, 'trackingHistory'])->name('tracking.history');
-    Route::get('/tracking-historys', [TrackingController::class, 'trackingHistory'])->name('tracking.historys');
-
-
-    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
+
+Route::get('/approve-tracking-request/{token}', [TrackingController::class, 'approveTrackingRequest'])->name('approve.tracking.request');
+
+
+Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 
 Route::post('/payment-complete', [PaymentController::class, 'paymentComplete'])->name('process.payment');
@@ -58,4 +58,3 @@ Route::middleware(['guest'])->group(function () {
     Route::get('reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
     Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });
-

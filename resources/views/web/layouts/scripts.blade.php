@@ -2,7 +2,7 @@
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
 
@@ -18,6 +18,21 @@
         },
     });
 
+    @if ($errors->any())
+
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "debug": false,
+            "positionClass": "toast-top-right",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+        };
+
+        @foreach ($errors->all() as $error)
+            toastr.error("{{ $error }}");
+        @endforeach
+    @endif
 
     @if (Session::has('message'))
         toastr.options = {

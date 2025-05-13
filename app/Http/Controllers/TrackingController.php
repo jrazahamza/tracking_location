@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Models\TrackingRequest;
+use App\Services\TwilioService;
+use Illuminate\Support\Facades\Log;
 
 class TrackingController extends Controller
 {
@@ -36,21 +38,98 @@ class TrackingController extends Controller
         return view('dashboard.pages.send_request')->with('title', 'Send Tracking Request');
     }
 
+    // public function sendTrackingRequest(Request $request)
+    // {
+    //     $request->validate(['email' => 'required|email']);
+    //     $token = Str::random(60);
+
+    //     TrackingRequest::create([
+    //         'user_id' => Auth::id(),
+    //         'target_user_email' => $request->email,
+    //         'token' => $token,
+    //         'status' => 'pending',
+    //     ]);
+
+    //     Mail::to($request->email)->send(new TrackingRequestEmail($token));
+    //     return back()->with('message', 'Tracking request sent successfully!');
+    // }
+
     public function sendTrackingRequest(Request $request)
     {
-        $request->validate(['email' => 'required|email']);
-        $token = Str::random(60);
+        // Dynamically set the validation rules
+        $rules = [
+            'methods' => 'required|array|min:1',
+            'message' => 'nullable|string',
+        ];
 
-        TrackingRequest::create([
-            'user_id' => Auth::id(),
-            'target_user_email' => $request->email,
-            'token' => $token,
-            'status' => 'pending',
-        ]);
+        if (in_array('sms', $request->methods) || in_array('whatsapp', $request->methods)) {
+            $rules['contact_number'] = 'required|string';
+        }
 
-        Mail::to($request->email)->send(new TrackingRequestEmail($token));
-        return back()->with('message', 'Tracking request sent successfully!');
+        if (in_array('email', $request->methods)) {
+            $rules['email'] = 'required|email|string';
+        }
+
+        $request->validate($rules);
+
+        try {
+            $user = Auth::user();
+            $token = Str::random(60);
+            $methods = $request->methods;
+            $contactNumber = $request->contact_number;
+            $email = $request->email;
+            $message = $request->message ?? 'You are being tracked. Click to approve location sharing.';
+
+            // Store the tracking request
+            $trackingRequest = TrackingRequest::create([
+                'user_id' => $user->id,
+                'target_user_email' => $email ?? null,
+                'token' => $token,
+                'status' => 'pending',
+                'contact_number' => $contactNumber ?? null,
+                'message' => $message,
+                'methods' => json_encode($methods),
+            ]);
+
+            $trackingLink = route('approve.tracking.request', $token);
+            $fullMessage = $message . "\nClick here to approve: " . $trackingLink;
+
+            $twilio = new TwilioService();
+            // Send via selected methods
+            foreach ($methods as $method) {
+                if ($method === 'sms') {
+
+                    // Simulate SMS sending (for example, with Twilio)
+                    $twilio->sendSMS($contactNumber, $fullMessage);
+                    logger("Sending SMS to {$contactNumber}: {$fullMessage}");
+                }
+
+                if ($method === 'whatsapp') {
+                    // Simulate WhatsApp sending (for example, with Twilio)
+                    $twilio->sendWhatsApp($contactNumber, $fullMessage);
+                    logger("Sending WhatsApp to {$contactNumber}: {$fullMessage}");
+                }
+
+                if ($method === 'email') {
+                    if (!$email) {
+                        return back()->withErrors(['email' => 'Email is required if Email method is selected.']);
+                    }
+                    $trackingRequest->update(['target_user_email' => $email]);
+                    Mail::to($email)->send(new TrackingRequestEmail($token));
+                }
+            }
+
+            // Redirect back with success message
+            return back()->with('message', 'Tracking request sent successfully via selected method(s).');
+        } catch (\Exception $e) {
+            Log::error('Error while sending tracking request: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
+
+            return back()->withInput()->with('error', $e->getMessage());
+        }
     }
+
+
 
     public function approveTrackingRequest($token)
     {

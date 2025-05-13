@@ -20,7 +20,10 @@ class WebController extends Controller
 
     public function findLocation()
     {
-        return view('web.pages.findlocation')->with('title', 'Find Location');
+        return view('web.pages.findlocation')->with([
+        'title' => 'Find Location',
+        'stripeKey' => env('STRIPE_KEY'),
+    ]);
     }
 
     public function faqs()

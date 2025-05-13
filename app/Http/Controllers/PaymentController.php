@@ -17,26 +17,30 @@ class PaymentController extends Controller
      */
     public function createPaymentIntent(Request $request)
     {
-        // Check if the user is authenticated
+        $request->validate([
+            'email' => 'required|email',
+            'name' => 'required|string',
+        ]);
+
         if (!auth()->check()) {
             return response()->json([
                 'error' => 'User not authenticated. Please log in.'
             ], 401); // 401 Unauthorized
         }
 
-        // Validate request
-        $request->validate([
-            'email' => 'required|email',
-            'name' => 'required|string',
-        ]);
+        $user = auth()->user();
 
-        // Set Stripe API key
+        $hasUsedTrial = Subscription::where('user_id', $user->id)
+            ->where('amount', 0.95)
+            ->exists();
+
+        $amount = $hasUsedTrial ? 50.00 : 0.95;
+
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
         try {
-            // Create a Payment Intent
             $paymentIntent = PaymentIntent::create([
-                'amount' => 95, // Amount in cents (0.95 USD)
+                "amount" => $amount * 100,
                 'currency' => 'usd',
                 'metadata' => [
                     'user_id' => auth()->user()->id,
@@ -63,7 +67,7 @@ class PaymentController extends Controller
         // Check if the user is authenticated
         if (!auth()->check()) {
             return response()->json([
-                'redirect' => '{{route("login.form")}}',
+                'redirect' => route("login.form"),
                 'error' => 'User not authenticated. Please log in.'
             ], 401); // 401 Unauthorized
         }
@@ -95,7 +99,7 @@ class PaymentController extends Controller
                 ]);
 
                 return response()->json([
-                    'redirect' => '{{route("dashboard")}}',
+                    'redirect' => route("dashboard"),
                     'success' => true,
                     'message' => 'Payment processed successfully',
                 ]);
