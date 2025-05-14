@@ -15,6 +15,7 @@ Route::get('/', [WebController::class, 'home'])->name('home');
 Route::get('/find-location', [WebController::class, 'findLocation'])->name('find.location');
 Route::get('/faqs', [WebController::class, 'faqs'])->name('faqs');
 Route::get('/contact-us', [WebController::class, 'contactUs'])->name('contact-us');
+Route::get('/checkout', [WebController::class, 'checkout'])->name('checkout');
 Route::post('/contact-submit', [WebController::class, 'contactFormSubmission'])->name('contact.submit');
 
 

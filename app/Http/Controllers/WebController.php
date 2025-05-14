@@ -35,6 +35,12 @@ class WebController extends Controller
     {
         return view('web.pages.contact-us')->with('title', 'Contact Us');
     }
+
+    public function checkout()
+    {
+        return view('web.pages.checkout')->with('title', 'Contact Us');
+    }
+
     // contact submit
     public function contactFormSubmission(Request $request)
 {

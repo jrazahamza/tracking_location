@@ -3,11 +3,11 @@
     <div class="container">
         <a class="navbar-brand text-warning" href="{{ route('home') }}"><img
                 src="{{ asset('web/images/logo-location-finder.png') }}" alt=""></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="cus-cls-toggle navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav align-items-center">
+        <div class="cus-nav-links collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="nav-ul-cus navbar-nav align-items-center">
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('home') }}">Home</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('faqs') }}">Faqs</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('find.location') }}">Find
@@ -25,12 +25,14 @@
                         @csrf
                     </form>
                 @else
-                    <li class="nav-item mx-2">
+                {{-- <div class="signin-singup"> --}}
+                    <li class="singup nav-item mx-2">
                         <a href="{{ route('register.form') }}" class="btn btn-outline">Sign up</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="signin nav-item">
                         <a href="{{ route('login.form') }}" class="btn btn-bg">Log In</a>
                     </li>
+                {{-- </div> --}}
                 @endauth
             </ul>
         </div>
