@@ -1,5 +1,6 @@
 @extends('web.layouts.main')
 @section('content')
+@dd($stripeKey)
     <!-- Banner Section -->
     <section class="banner contact-banner text-center d-flex align-items-center justify-content-center text-white">
 
@@ -182,6 +183,7 @@
         </div>
     </div>
 @endsection
+
 @section('js')
     <script src="https://js.stripe.com/v3/"></script>
     <script>
