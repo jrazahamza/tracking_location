@@ -21,6 +21,7 @@ class WebController extends Controller
     public function findLocation()
     {
         $stripeKey = env('STRIPE_KEY');
+        dd($stripeKey);
         return view('web.pages.findlocation', compact('stripeKey'))->with('title','Find Location',);
     }
 

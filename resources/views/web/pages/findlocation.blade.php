@@ -1,6 +1,6 @@
 @extends('web.layouts.main')
 @section('content')
-@dd($stripeKey)
+{{-- @dd($stripeKey) --}}
     <!-- Banner Section -->
     <section class="banner contact-banner text-center d-flex align-items-center justify-content-center text-white">
 
