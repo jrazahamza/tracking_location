@@ -186,10 +186,10 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         // Initialize Stripe
-        const stripe = Stripe(
-            'pk_test_51OyYVmDxo3C22BxLXaQMUe5zQ9fcUwTnhvYsLI2XIuUfBZKRlAa7oMCmchkddFKKWKthZqcfsgtgKLSMf8mt0RCW00vqPfFwnn'
-        );
-        // const stripe = Stripe('{{ $stripeKey }}');
+        // const stripe = Stripe(
+        //     'pk_test_51OyYVmDxo3C22BxLXaQMUe5zQ9fcUwTnhvYsLI2XIuUfBZKRlAa7oMCmchkddFKKWKthZqcfsgtgKLSMf8mt0RCW00vqPfFwnn'
+        // );
+        const stripe = Stripe('{{ $stripeKey }}');
         const elements = stripe.elements();
 
         // // Create and mount the card Element
