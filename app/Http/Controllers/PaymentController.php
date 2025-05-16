@@ -36,7 +36,7 @@ class PaymentController extends Controller
 
         $amount = $hasUsedTrial ? 50.00 : 0.95;
 
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe::setApiKey(config('services.stripe.secret'));
 
         try {
             $paymentIntent = PaymentIntent::create([
@@ -78,7 +78,7 @@ class PaymentController extends Controller
         ]);
 
         // Set Stripe API key
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe::setApiKey(config('services.stripe.secret'));
 
         try {
             // Retrieve the payment intent to verify its status
