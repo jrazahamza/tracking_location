@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Models\TrackingRequest;
 use App\Services\TwilioService;
+use Exception;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class TrackingController extends Controller
 {
@@ -56,7 +58,6 @@ class TrackingController extends Controller
 
     public function sendTrackingRequest(Request $request)
     {
-        // Dynamically set the validation rules
         $rules = [
             'methods' => 'required|array|min:1',
             'message' => 'nullable|string',
@@ -80,7 +81,6 @@ class TrackingController extends Controller
             $email = $request->email;
             $message = $request->message ?? 'You are being tracked. Click to approve location sharing.';
 
-            // Store the tracking request
             $trackingRequest = TrackingRequest::create([
                 'user_id' => $user->id,
                 'target_user_email' => $email ?? null,
@@ -95,17 +95,14 @@ class TrackingController extends Controller
             $fullMessage = $message . "\nClick here to approve: " . $trackingLink;
 
             $twilio = new TwilioService();
-            // Send via selected methods
             foreach ($methods as $method) {
                 if ($method === 'sms') {
 
-                    // Simulate SMS sending (for example, with Twilio)
                     $twilio->sendSMS($contactNumber, $fullMessage);
                     logger("Sending SMS to {$contactNumber}: {$fullMessage}");
                 }
 
                 if ($method === 'whatsapp') {
-                    // Simulate WhatsApp sending (for example, with Twilio)
                     $twilio->sendWhatsApp($contactNumber, $fullMessage);
                     logger("Sending WhatsApp to {$contactNumber}: {$fullMessage}");
                 }
@@ -119,7 +116,6 @@ class TrackingController extends Controller
                 }
             }
 
-            // Redirect back with success message
             return back()->with('message', 'Tracking request sent successfully via selected method(s).');
         } catch (\Exception $e) {
             Log::error('Error while sending tracking request: ' . $e->getMessage());
@@ -139,39 +135,70 @@ class TrackingController extends Controller
 
     public function saveLocation(Request $request)
     {
-        $request->validate([
-            'token' => 'required',
-            'latitude' => 'required_if:denied,false',
-            'longitude' => 'required_if:denied,false',
-        ]);
-
-        $trackingRequest = TrackingRequest::where('token', $request->token)->firstOrFail();
-
-        if (!$trackingRequest) {
-            return response()->json(['message' => 'Invalid tracking token.'], 404);
-        }
-
-        if ($request->denied == true) {
-            $trackingRequest->update([
-                'status' => 'cancelled',
+        try {
+            // Validate request
+            $validated = $request->validate([
+                'token' => 'required',
+                'latitude' => 'required_if:denied,false|nullable|numeric',
+                'longitude' => 'required_if:denied,false|nullable|numeric',
+                'denied' => 'nullable|boolean',
             ]);
-            return response()->json(['message' => 'Location access denied. Tracking cancelled.']);
-        }
 
-        if ($trackingRequest->status === 'pending' || $trackingRequest->status === 'cancelled') {
-            $trackingRequest->update([
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'status' => 'active',
-            ]);
-        } else {
-            $trackingRequest->update([
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-            ]);
-        }
+            // Check if tracking token exists
+            $trackingRequest = TrackingRequest::where('token', $request->token)->first();
 
-        return response()->json(['message' => 'Location saved successfully.']);
+            if (!$trackingRequest) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Invalid tracking token.',
+                ], 404);
+            }
+
+            // If user denied location access
+            if ($request->denied == true) {
+                $trackingRequest->update([
+                    'status' => 'cancelled',
+                ]);
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Location access denied. Tracking cancelled.',
+                ]);
+            }
+
+            // Update location based on status
+            if (in_array($trackingRequest->status, ['pending', 'cancelled'])) {
+                $trackingRequest->update([
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
+                    'status' => 'active',
+                ]);
+            } else {
+                $trackingRequest->update([
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
+                ]);
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Location saved successfully.',
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation error',
+                'errors' => $e->errors(),
+            ], 422);
+        } catch (Exception $e) {
+            // Log error for debugging (optional)
+            Log::error('Tracking error: ' . $e->getMessage());
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong. Please try again later.',
+                'error' => $e->getMessage(), // Optional: Remove in production
+            ], 500);
+        }
     }
 
 
