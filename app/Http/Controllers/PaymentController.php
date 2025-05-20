@@ -99,7 +99,7 @@ class PaymentController extends Controller
                 ]);
 
                 return response()->json([
-                    'redirect' => route("dashboard"),
+                    'redirect' => route("checkout"),
                     'success' => true,
                     'message' => 'Payment processed successfully',
                 ]);

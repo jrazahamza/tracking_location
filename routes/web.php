@@ -15,7 +15,6 @@ Route::get('/', [WebController::class, 'home'])->name('home');
 Route::get('/find-location', [WebController::class, 'findLocation'])->name('find.location');
 Route::get('/faqs', [WebController::class, 'faqs'])->name('faqs');
 Route::get('/contact-us', [WebController::class, 'contactUs'])->name('contact-us');
-Route::get('/checkout', [WebController::class, 'checkout'])->name('checkout');
 Route::post('/contact-submit', [WebController::class, 'contactFormSubmission'])->name('contact.submit');
 
 
@@ -46,6 +45,7 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middle
 
 Route::post('/payment-complete', [PaymentController::class, 'paymentComplete'])->name('process.payment');
 Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent'])->name('process.payment');
+Route::get('/checkout', [WebController::class, 'checkout'])->name('checkout');
 
 
 Route::middleware(['guest'])->group(function () {
