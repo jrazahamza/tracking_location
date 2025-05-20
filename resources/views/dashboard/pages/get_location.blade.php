@@ -88,6 +88,8 @@
                             window.close();
                         }
                     } catch (error) {
+                        console.log(error.message);
+
                         msg.textContent = "❌ Error: " + error.message;
                     } finally {
                         loading.style.display = "none";
