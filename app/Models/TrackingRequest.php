@@ -7,10 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class TrackingRequest extends Model
 {
     protected $fillable = [
-        'target_user_email', 'user_id', 'token', 'latitude', 'longitude', 'status'
+        'target_user_email',
+        'user_id',
+        'token',
+        'latitude',
+        'longitude',
+        'status'
     ];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 }

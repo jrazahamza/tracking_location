@@ -7,6 +7,9 @@
 </head>
 <body>
     <h1>Tracking Request</h1>
+    @if (!empty($user_message))
+    <p>{{ $user_message }}</p>
+@endif
     <p>You are requested to share your location. Click below:</p>
     <a href="{{ route('approve.tracking.request', $token) }}" class="btn">Share Location</a>
 </body>

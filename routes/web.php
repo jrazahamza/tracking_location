@@ -15,7 +15,6 @@ Route::get('/', [WebController::class, 'home'])->name('home');
 Route::get('/find-location', [WebController::class, 'findLocation'])->name('find.location');
 Route::get('/faqs', [WebController::class, 'faqs'])->name('faqs');
 Route::get('/contact-us', [WebController::class, 'contactUs'])->name('contact-us');
-Route::get('/checkout', [WebController::class, 'checkout'])->name('checkout');
 Route::post('/contact-submit', [WebController::class, 'contactFormSubmission'])->name('contact.submit');
 
 
@@ -34,11 +33,11 @@ Route::middleware(['auth', 'check.subscription'])->group(function () {
     Route::get('/tracking-requests', [TrackingController::class, 'trackingRequests'])->name('tracking.requests');
     Route::post('/tracking/send', [TrackingController::class, 'sendTrackingRequest'])->name('tracking.send');
     Route::get('/track/{id}', [TrackingController::class, 'trackUser'])->name('tracking.view');
-    Route::post('/tracking/save-location', [TrackingController::class, 'saveLocation'])->name('tracking.save-location');
     Route::get('/tracking-history', [TrackingController::class, 'trackingHistory'])->name('tracking.history');
 });
 
 Route::get('/approve-tracking-request/{token}', [TrackingController::class, 'approveTrackingRequest'])->name('approve.tracking.request');
+Route::post('/tracking/save-location', [TrackingController::class, 'saveLocation'])->name('tracking.save-location');
 
 
 Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
@@ -46,6 +45,7 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middle
 
 Route::post('/payment-complete', [PaymentController::class, 'paymentComplete'])->name('process.payment');
 Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent'])->name('process.payment');
+Route::get('/checkout', [WebController::class, 'checkout'])->name('checkout');
 
 
 Route::middleware(['guest'])->group(function () {

@@ -20,10 +20,8 @@ class WebController extends Controller
 
     public function findLocation()
     {
-        return view('web.pages.findlocation')->with([
-        'title' => 'Find Location',
-        'stripeKey' => env('STRIPE_KEY'),
-    ]);
+        $stripeKey = config('services.stripe.key');
+        return view('web.pages.findlocation', compact('stripeKey'))->with('title','Find Location',);
     }
 
     public function faqs()
@@ -38,10 +36,9 @@ class WebController extends Controller
 
     public function checkout()
     {
-        return view('web.pages.checkout')->with('title', 'Contact Us');
+        return view('web.pages.checkout')->with('title', 'Payment Successful');
     }
 
-    // contact submit
     public function contactFormSubmission(Request $request)
 {
     $request->validate([

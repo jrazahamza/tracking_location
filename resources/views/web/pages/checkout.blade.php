@@ -4,7 +4,7 @@
 <!-- Banner Section -->
 
 <section class="checkout-banner text-center d-flex align-items-center justify-content-center text-white">
-    
+
     <div class="main-banner-content">
         <div class="container">
             <img src="{{ asset('web/images/success-icon.png') }}" alt="">
@@ -57,7 +57,7 @@
       </div>
 
       <div class="mt-5">
-        <a href="#" class="btn btn-orange">Go to Dashboard →</a>
+        <a href="{{ route('dashboard') }}" class="btn btn-orange">Go to Dashboard →</a>
         <p class="text-muted mt-2">Start your first tracking request now from your dashboard.</p>
       </div>
     </div>

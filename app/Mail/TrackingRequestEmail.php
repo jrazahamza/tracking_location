@@ -14,12 +14,15 @@ class TrackingRequestEmail extends Mailable
     use Queueable, SerializesModels;
 
     public $token;
+    public $message;
     /**
      * Create a new message instance.
      */
-    public function __construct($token)
+
+    public function __construct($token, $message)
     {
         $this->token = $token;
+        $this->message = $message;
     }
 
     /**
@@ -37,10 +40,12 @@ class TrackingRequestEmail extends Mailable
      */
     public function content(): Content
     {
+
         return new Content(
-            view: 'emails.tracking_request', // Replace this with the actual view path.
+            view: 'emails.tracking_request', 
             with: [
-                'token' => $this->token, // Pass the token to the view
+                'token' => $this->token,
+                'user_message' => $this->message,
             ]
         );
     }
