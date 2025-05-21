@@ -33,7 +33,7 @@ Route::middleware(['auth', 'check.subscription'])->group(function () {
     Route::get('/tracking-requests', [TrackingController::class, 'trackingRequests'])->name('tracking.requests');
     Route::post('/tracking/send', [TrackingController::class, 'sendTrackingRequest'])->name('tracking.send');
     Route::get('/track/{id}', [TrackingController::class, 'trackUser'])->name('tracking.view');
-    Route::post('/tracking/save-location', [TrackingController::class, 'saveLocation'])->name('tracking.save-location')->middleware('web');;
+    Route::post('/tracking/save-location', [TrackingController::class, 'saveLocation'])->name('tracking.save-location');
     Route::get('/tracking-history', [TrackingController::class, 'trackingHistory'])->name('tracking.history');
 });
 
