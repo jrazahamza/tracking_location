@@ -29,12 +29,18 @@
                 <div class="header-conten">
                     <h1>Payment</h1>
                     <ul class="security">
-                        <li>SSL Secure payment</li>
-                        <li>100% satisfaction Guarantee</li>
+                        <li><span><img src="{{ asset('web/images/ssl-pay-icon.png') }}" alt="" class="icon-ssl"></span>SSL Secure payment</li>
+                        <li><span><img src="{{ asset('web/images/ssl-pay-icon.png') }}" alt="" class="icon-ssl"></span>100% satisfaction Guarantee</li>
                     </ul>
-                    <div class="pay-card">
-                        <div class="card-item"><img src="{{ asset('web/images/visa-card.png') }}" alt=""></div>
-                        <div class="card-item"><img src="{{ asset('web/images/master-card.png') }}" alt=""></div>
+                    <div class="paycard-ssl-icons">
+                        <div class="pay-card">                        
+                            <div class="card-item"><img src="{{ asset('web/images/visa-card.png') }}" alt=""></div>
+                            <div class="card-item"><img src="{{ asset('web/images/master-card.png') }}" alt=""></div>
+                        </div>
+                        <div class="pay-card">                        
+                            <div class="card-item"><img src="{{ asset('web/images/ssl-icon.png') }}" alt=""></div>
+                            <div class="card-item"><img src="{{ asset('web/images/ssl-oky.png') }}" alt=""></div>
+                        </div>
                     </div>
                 </div>
 

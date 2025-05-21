@@ -72,9 +72,14 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
+                            <div class="mb-3 message-box">
                                 <label class="form-label fw-bold">Message Box</label>
                                 <textarea class="form-control" name="message" rows="3" placeholder="Type Here"></textarea>
+
+                                <div class="message-box-buttons">
+                                    <button class="track-locaton">track location</button>
+                                    <button class="track-locaton">Start Tracking Now</button>
+                                </div>
                             </div>
 
                             <button type="submit" class="btn btn-bg w-100">Start Tracking Now →</button>
@@ -88,11 +93,11 @@
 
     <!-- Call-to-Action Section -->
     <!-- <section class="cta-section text-center py-5">
-                                          <div class="container">
-                                            <h2 class="text-primary mb-3">Track a Phone Now—It Only Takes Seconds!</h2>
-                                            <button class="btn btn-warning">Locate Now →</button>
-                                          </div>
-                                        </section> -->
+                                              <div class="container">
+                                                <h2 class="text-primary mb-3">Track a Phone Now—It Only Takes Seconds!</h2>
+                                                <button class="btn btn-warning">Locate Now →</button>
+                                              </div>
+                                            </section> -->
 
     <div class="container">
         <section class="want-to-locate-banner">
@@ -163,35 +168,72 @@
 
     <!-- Trusted By Users Section -->
     <section class="trusted-users">
-        <h2 class="heading-two">Trusted by Thousands of Users Worldwide</h2>
-
-        <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
-
-                <!-- Slide 1 -->
-                <div class="swiper-slide review">
-                    <p>"I found my lost phone instantly using LocationFinder. Super easy and secure!"</p>
-                    <div class="reviewer">
-                        <img src="user1.png" alt="John D.">
-                        <span>John D.</span>
-                    </div>
-                </div>
-
-                <!-- Slide 2 -->
-                <div class="swiper-slide review">
-                    <p>"Amazing service! Found my kid's phone within minutes."</p>
-                    <div class="reviewer">
-                        <img src="user2.png" alt="Jane D.">
-                        <span>Jane D.</span>
-                    </div>
-                </div>
-
-                <!-- Add more slides as needed -->
-
+     <div class="container">
+        <h2 class="heading-two">Trusted by Thousands of Users Worldwide</h2>     
+        
+     <!-- Swiper -->     
+<div class="swiper-slider-sec">
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper ">
+      <div class="swiper-slide">
+        <div class="testimonial-card">
+            <div class="quote-mark">“</div>
+            <p class="testimonial-text">
+              I found my lost phone instantly using <strong>LocationFinder</strong>. <br />
+              Super easy and secure!
+            </p>
+            <div class="user-info">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John D." class="user-img" />
+              <span class="user-name">John D.</span>
             </div>
-            <div class="swiper-pagination"></div>
-        </div>
-
+          </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="testimonial-card">
+            <div class="quote-mark">“</div>
+            <p class="testimonial-text">
+              I found my lost phone instantly using <strong>LocationFinder</strong>. <br />
+              Super easy and secure!
+            </p>
+            <div class="user-info">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John D." class="user-img" />
+              <span class="user-name">John D.</span>
+            </div>
+          </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="testimonial-card">
+            <div class="quote-mark">“</div>
+            <p class="testimonial-text">
+              I found my lost phone instantly using <strong>LocationFinder</strong>. <br />
+              Super easy and secure!
+            </p>
+            <div class="user-info">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John D." class="user-img" />
+              <span class="user-name">John D.</span>
+            </div>
+          </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="testimonial-card">
+            <div class="quote-mark">“</div>
+            <p class="testimonial-text">
+              I found my lost phone instantly using <strong>LocationFinder</strong>. <br />
+              Super easy and secure!
+            </p>
+            <div class="user-info">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John D." class="user-img" />
+              <span class="user-name">John D.</span>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+</div>
+</div>
     </section>
 
 
@@ -312,9 +354,51 @@
         </section>
     </div>
 @endsection
+
 @section('js')
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
+
+            const swiper = new Swiper(".mySwiper", {
+                slidesPerView: 3,
+                spaceBetween: 10,
+                cssMode: true,
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                pagination: {
+                    el: ".swiper-pagination",
+                },
+                breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                },
+                425: {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                },
+                375: {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                },
+                768: {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                },
+                1280: {
+                    slidesPerView: 3,
+                    spaceBetween: 10,
+                }
+                },
+                mousewheel: true,
+                keyboard: true,
+                });
+
+
             const smsCheckbox = document.getElementById('sms');
             const whatsappCheckbox = document.getElementById('whatsapp');
             const emailCheckbox = document.getElementById('email');
