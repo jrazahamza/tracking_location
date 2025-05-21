@@ -92,7 +92,7 @@ class TrackingController extends Controller
             ]);
 
             $trackingLink = route('approve.tracking.request', $token);
-            $fullMessage = $message . "\nClick here to approve: " . $trackingLink;
+            $fullMessage = $message . "\n\n Click the link to approve:\n" . $trackingLink;
 
             $twilio = new TwilioService();
             foreach ($methods as $method) {
@@ -112,7 +112,7 @@ class TrackingController extends Controller
                         return back()->withErrors(['email' => 'Email is required if Email method is selected.']);
                     }
                     $trackingRequest->update(['target_user_email' => $email]);
-                    Mail::to($email)->send(new TrackingRequestEmail($token));
+                    Mail::to($email)->send(new TrackingRequestEmail($token, $message));
                 }
             }
 
