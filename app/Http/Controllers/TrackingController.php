@@ -134,67 +134,72 @@ class TrackingController extends Controller
     }
 
     public function saveLocation(Request $request)
-{
-    try {
-        $validated = $request->validate([
-            'token' => 'required|string',
-            'latitude' => 'required_if:denied,false|nullable|numeric',
-            'longitude' => 'required_if:denied,false|nullable|numeric',
-            'denied' => 'nullable|boolean',
-        ]);
-
-        $trackingRequest = TrackingRequest::where('token', $request->token)->first();
-
-        if (!$trackingRequest) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Invalid tracking token.',
-            ], 404);
-        }
-
-        if ($request->denied == true) {
-            $trackingRequest->update([
-                'status' => 'cancelled',
+    {
+        try {
+            // Validate request
+            $validated = $request->validate([
+                'token' => 'required',
+                'latitude' => 'required_if:denied,false|nullable|numeric',
+                'longitude' => 'required_if:denied,false|nullable|numeric',
+                'denied' => 'nullable|boolean',
             ]);
+
+            // Check if tracking token exists
+            $trackingRequest = TrackingRequest::where('token', $request->token)->first();
+
+            if (!$trackingRequest) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Invalid tracking token.',
+                ], 404);
+            }
+
+            // If user denied location access
+            if ($request->denied == true) {
+                $trackingRequest->update([
+                    'status' => 'cancelled',
+                ]);
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Location access denied. Tracking cancelled.',
+                ]);
+            }
+
+            // Update location based on status
+            if (in_array($trackingRequest->status, ['pending', 'cancelled'])) {
+                $trackingRequest->update([
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
+                    'status' => 'active',
+                ]);
+            } else {
+                $trackingRequest->update([
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
+                ]);
+            }
+
             return response()->json([
                 'status' => true,
-                'message' => 'Location access denied. Tracking cancelled.',
+                'message' => 'Location saved successfully.',
             ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation error',
+                'errors' => $e->errors(),
+            ], 422);
+        } catch (Exception $e) {
+            // Log error for debugging (optional)
+            Log::error('Tracking error: ' . $e->getMessage());
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong. Please try again later.',
+                'error' => $e->getMessage(), // Optional: Remove in production
+            ], 500);
         }
-
-        if (in_array($trackingRequest->status, ['pending', 'cancelled'])) {
-            $trackingRequest->update([
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'status' => 'active',
-            ]);
-        } else {
-            $trackingRequest->update([
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-            ]);
-        }
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Location saved successfully.',
-        ]);
-    } catch (ValidationException $e) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Validation error',
-            'errors' => $e->errors(),
-        ], 422);
-    } catch (\Exception $e) {
-        Log::error('Tracking error: ' . $e->getMessage());
-
-        return response()->json([
-            'status' => false,
-            'message' => 'Something went wrong. Please try again later.',
-            'error' => $e->getMessage(), // Remove in production
-        ], 500);
     }
-}
 
 
     public function cancelTrackingByToken(Request $request)
