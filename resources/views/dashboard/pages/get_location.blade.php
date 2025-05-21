@@ -70,6 +70,7 @@
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
+                                "Accept": "application/json",
                                 "X-CSRF-TOKEN": csrf
                             },
                             body: JSON.stringify({
@@ -105,6 +106,7 @@
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
+                                    "Accept": "application/json",
                                     'X-CSRF-TOKEN': csrf
                                 },
                                 body: JSON.stringify({
