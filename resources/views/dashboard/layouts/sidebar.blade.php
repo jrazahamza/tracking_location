@@ -44,12 +44,12 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="./index3.html" class="nav-link ">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>Track Multiple Devices</p>
                     </a>
-                </li>
+                </li> --}}
 
                 <li class="nav-item">
                     <a href="{{ route('tracking.history') }}"
