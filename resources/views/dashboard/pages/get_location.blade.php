@@ -65,21 +65,24 @@
             }
 
             navigator.geolocation.getCurrentPosition(async function(position) {
-                    try {
-                        const response = await fetch("{{ route('tracking.save-location') }}", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "X-CSRF-TOKEN": csrf
-                            },
-                            body: JSON.stringify({
-                                token: "{{ $trackingRequest->token }}",
-                                latitude: position.coords.latitude,
-                                longitude: position.coords.longitude
-                            })
-                        });
+                    const response = await fetch("{{ route('tracking.save-location') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": csrf
+                        },
+                        body: JSON.stringify({
+                            token: "{{ $trackingRequest->token }}",
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        })
+                    });
 
-                        const data = await response.json();
+                    const data = await response.text();
+                    console.log('Raw Response:', text);
+
+                    try {
+                        const data = JSON.parse(text);
 
                         if (!response.ok) {
                             msg.textContent = data.message || "Something went wrong.";
@@ -88,8 +91,8 @@
                             window.close();
                         }
                     } catch (error) {
-                        console.log(error.message);
-
+                        msg.textContent = "⚠️ Invalid response format. See console for details.";
+                        console.error("Invalid JSON response:", text);
                         msg.textContent = "❌ Error: " + error.message;
                     } finally {
                         loading.style.display = "none";
