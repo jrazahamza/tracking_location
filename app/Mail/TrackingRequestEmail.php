@@ -22,7 +22,7 @@ class TrackingRequestEmail extends Mailable
     public function __construct($token, $message)
     {
         $this->token = $token;
-        $this->message = $message; // Make sure this is a plain string
+        $this->message = $message;
     }
 
     /**
@@ -42,7 +42,7 @@ class TrackingRequestEmail extends Mailable
     {
 
         return new Content(
-            view: 'emails.tracking_request', // Replace this with the actual view path.
+            view: 'emails.tracking_request', 
             with: [
                 'token' => $this->token,
                 'user_message' => $this->message,
