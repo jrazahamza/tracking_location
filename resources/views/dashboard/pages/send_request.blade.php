@@ -10,7 +10,7 @@
             <p style="color: red;">{{ session('error') }}</p>
         @endif
 
-        <form method="POST" action="{{ route('tracking.send') }}">
+        <form method="POST" action="{{ route('tracking.send') }}" id="tracking-form">
             @csrf
 
             {{-- Method Selection --}}
@@ -39,8 +39,9 @@
             {{-- Email Field (shown if "email" is selected) --}}
             <div class="mb-3 d-none" id="email-field">
                 <label class="form-label fw-bold">Email*</label>
-                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                    placeholder="Enter email to track" value="{{ old('email') }}">
+                <input type="email" id="email-input" name="email"
+                    class="form-control @error('email') is-invalid @enderror" placeholder="Enter email to track"
+                    value="{{ old('email') }}">
                 @error('email')
                     <span class="text-danger small">{{ $message }}</span>
                 @enderror
@@ -66,12 +67,36 @@
             <div class="mb-3">
                 <label class="form-label fw-bold">Message Box</label>
                 <textarea class="form-control" name="message" rows="3" placeholder="Type Here">{{ old('message') }}</textarea>
+                <div class="message-box-buttons">
+                    <button class="track-locaton" data-message="Your location is being tracked. Please stay online.">Track
+                        Location</button>
+                    <button class="track-locaton"
+                        data-message="Tracking has started now. We’ll notify you once the target is reached.">Start
+                        Tracking Now</button>
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary w-100">Send Request</button>
         </form>
 
     </div>
+@endsection
+@section('css')
+    <style>
+        .message-box-buttons .track-locaton {
+            border: unset;
+            padding: 5px 18px;
+            border-radius: 25px;
+            text-transform: capitalize;
+        }
+
+        .message-box-buttons {
+            margin-top: -39px;
+            width: 100%;
+            text-align: right;
+            padding-right: 10px;
+        }
+    </style>
 @endsection
 
 @section('js')
@@ -86,6 +111,8 @@
 
             const contactNumberField = document.getElementById('contact-number-field');
             const contactNumberInput = document.querySelector('input[name="contact_number"]');
+
+            const form = document.getElementById('tracking-form');
 
             function toggleFields() {
                 // Toggle the Contact Number field visibility based on SMS/WhatsApp selection
@@ -114,6 +141,27 @@
 
             // On page load, ensure the correct fields are shown/hidden
             toggleFields();
+
+            form.addEventListener('submit', function(e) {
+                const isAnyChecked = smsCheckbox.checked || whatsappCheckbox.checked || emailCheckbox
+                    .checked;
+
+                if (!isAnyChecked) {
+                    e.preventDefault();
+                    alert('Please select at least one method (SMS, WhatsApp, or Email).');
+                }
+            });
+
+            const messageBox = document.querySelector('textarea[name="message"]');
+            const buttons = document.querySelectorAll('.track-locaton');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const message = this.getAttribute('data-message');
+                    messageBox.value = message;
+                });
+            });
         });
     </script>
 @endsection

@@ -8,10 +8,13 @@ class TrackingRequest extends Model
 {
     protected $fillable = [
         'target_user_email',
+        'target_contact_number',
         'user_id',
         'token',
         'latitude',
         'longitude',
+        'message',
+        'methods',
         'status'
     ];
 

@@ -77,6 +77,7 @@ class TrackingController extends Controller
             $user = Auth::user();
             $token = Str::random(60);
             $methods = $request->methods;
+            // dd($methods);
             $contactNumber = $request->contact_number;
             $email = $request->email;
             $message = $request->message ?? 'You are being tracked. Click to approve location sharing.';
@@ -86,7 +87,7 @@ class TrackingController extends Controller
                 'target_user_email' => $email ?? null,
                 'token' => $token,
                 'status' => 'pending',
-                'contact_number' => $contactNumber ?? null,
+                'target_contact_number' => $contactNumber ?? null,
                 'message' => $message,
                 'methods' => json_encode($methods),
             ]);

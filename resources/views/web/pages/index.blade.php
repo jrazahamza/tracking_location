@@ -15,7 +15,7 @@
     </section>
 
     <!-- Locate Phone Section -->
-    <section class="py-5">
+    <section class="py-5" id="locate-form">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6">
@@ -32,7 +32,7 @@
                 <div class="col-md-6 right-form-card">
 
                     <div class="card p-4">
-                        <form action="{{ route('tracking.send') }}" method="POST" class="home-form">
+                        <form action="{{ route('tracking.send') }}" method="POST" class="tracking-home-form">
                             @csrf
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Method*</label><br>
@@ -77,8 +77,12 @@
                                 <textarea class="form-control" name="message" rows="3" placeholder="Type Here"></textarea>
 
                                 <div class="message-box-buttons">
-                                    <button class="track-locaton">track location</button>
-                                    <button class="track-locaton">Start Tracking Now</button>
+                                    <button class="track-locaton"
+                                        data-message="Your location is being tracked. Please stay online.">Track
+                                        Location</button>
+                                    <button class="track-locaton"
+                                        data-message="Tracking has started now. We’ll notify you once the target is reached.">Start
+                                        Tracking Now</button>
                                 </div>
                             </div>
 
@@ -93,17 +97,17 @@
 
     <!-- Call-to-Action Section -->
     <!-- <section class="cta-section text-center py-5">
-                                              <div class="container">
-                                                <h2 class="text-primary mb-3">Track a Phone Now—It Only Takes Seconds!</h2>
-                                                <button class="btn btn-warning">Locate Now →</button>
-                                              </div>
-                                            </section> -->
+                                                                  <div class="container">
+                                                                    <h2 class="text-primary mb-3">Track a Phone Now—It Only Takes Seconds!</h2>
+                                                                    <button class="btn btn-warning">Locate Now →</button>
+                                                                  </div>
+                                                                </section> -->
 
     <div class="container">
         <section class="want-to-locate-banner">
             <div class="want-content">
                 <h4 class="heading-two">Want to <span class="success">Locate</span> a Phone Instantly?</h4>
-                <a href="#" class="btn btn-bg">Locate Now</a>
+                <a href="#locate-form" class="btn btn-bg">Locate Now</a>
             </div>
         </section>
     </div>
@@ -163,77 +167,81 @@
     <!-- Locate Now CTA -->
     <section class="cta-locate">
         <h2 class="heading-two">Find Any Phone Now with One Click!</h2>
-        <a href="#" class="btn btn-bg">Locate Now →</a>
+        <a href="#locate-form" class="btn btn-bg">Locate Now →</a>
     </section>
 
     <!-- Trusted By Users Section -->
     <section class="trusted-users">
-     <div class="container">
-        <h2 class="heading-two">Trusted by Thousands of Users Worldwide</h2>     
-        
-     <!-- Swiper -->     
-<div class="swiper-slider-sec">
-  <div class="swiper mySwiper">
-    <div class="swiper-wrapper ">
-      <div class="swiper-slide">
-        <div class="testimonial-card">
-            <div class="quote-mark">“</div>
-            <p class="testimonial-text">
-              I found my lost phone instantly using <strong>LocationFinder</strong>. <br />
-              Super easy and secure!
-            </p>
-            <div class="user-info">
-              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John D." class="user-img" />
-              <span class="user-name">John D.</span>
+        <div class="container">
+            <h2 class="heading-two">Trusted by Thousands of Users Worldwide</h2>
+
+            <!-- Swiper -->
+            <div class="swiper-slider-sec">
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper ">
+                        <div class="swiper-slide">
+                            <div class="testimonial-card">
+                                <div class="quote-mark">“</div>
+                                <p class="testimonial-text">
+                                    I found my lost phone instantly using <strong>LocationFinder</strong>. <br />
+                                    Super easy and secure!
+                                </p>
+                                <div class="user-info">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John D."
+                                        class="user-img" />
+                                    <span class="user-name">John D.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="testimonial-card">
+                                <div class="quote-mark">“</div>
+                                <p class="testimonial-text">
+                                    I found my lost phone instantly using <strong>LocationFinder</strong>. <br />
+                                    Super easy and secure!
+                                </p>
+                                <div class="user-info">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John D."
+                                        class="user-img" />
+                                    <span class="user-name">John D.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="testimonial-card">
+                                <div class="quote-mark">“</div>
+                                <p class="testimonial-text">
+                                    I found my lost phone instantly using <strong>LocationFinder</strong>. <br />
+                                    Super easy and secure!
+                                </p>
+                                <div class="user-info">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John D."
+                                        class="user-img" />
+                                    <span class="user-name">John D.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="testimonial-card">
+                                <div class="quote-mark">“</div>
+                                <p class="testimonial-text">
+                                    I found my lost phone instantly using <strong>LocationFinder</strong>. <br />
+                                    Super easy and secure!
+                                </p>
+                                <div class="user-info">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John D."
+                                        class="user-img" />
+                                    <span class="user-name">John D.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
             </div>
-          </div>
-      </div>
-      <div class="swiper-slide">
-        <div class="testimonial-card">
-            <div class="quote-mark">“</div>
-            <p class="testimonial-text">
-              I found my lost phone instantly using <strong>LocationFinder</strong>. <br />
-              Super easy and secure!
-            </p>
-            <div class="user-info">
-              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John D." class="user-img" />
-              <span class="user-name">John D.</span>
-            </div>
-          </div>
-      </div>
-      <div class="swiper-slide">
-        <div class="testimonial-card">
-            <div class="quote-mark">“</div>
-            <p class="testimonial-text">
-              I found my lost phone instantly using <strong>LocationFinder</strong>. <br />
-              Super easy and secure!
-            </p>
-            <div class="user-info">
-              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John D." class="user-img" />
-              <span class="user-name">John D.</span>
-            </div>
-          </div>
-      </div>
-      <div class="swiper-slide">
-        <div class="testimonial-card">
-            <div class="quote-mark">“</div>
-            <p class="testimonial-text">
-              I found my lost phone instantly using <strong>LocationFinder</strong>. <br />
-              Super easy and secure!
-            </p>
-            <div class="user-info">
-              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John D." class="user-img" />
-              <span class="user-name">John D.</span>
-            </div>
-          </div>
-      </div>
-    </div>
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-pagination"></div>
-  </div>
-</div>
-</div>
+        </div>
     </section>
 
 
@@ -241,7 +249,7 @@
         <section class="start-tracking">
             <div class="start-tack-content">
                 <h4 class="heading-two">Start <span class="success">Tracking </span> a Phone Now!</h4>
-                <a href="#" class="btn btn-bg">Locate Now</a>
+                <a href="#locate-form" class="btn btn-bg">Locate Now</a>
             </div>
         </section>
     </div>
@@ -339,7 +347,7 @@
                 </div>
             </div>
             <div class="locate-btn">
-                <button class="btn btn-orange">Locate Now →</button>
+                <a href="#locate-form" class="btn btn-orange">Locate Now →</a>
             </div>
         </div>
     </div>
@@ -349,14 +357,13 @@
         <section class="track-a-phone">
             <div class="track-phone-content">
                 <h4 class="heading-two">Track a <span class="success">Phone </span> Now—It Only Takes Seconds!</h4>
-                <a href="#" class="btn btn-bg">Locate Now</a>
+                <a href="#locate-form" class="btn btn-bg">Locate Now</a>
             </div>
         </section>
     </div>
 @endsection
 
 @section('js')
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -373,30 +380,30 @@
                     el: ".swiper-pagination",
                 },
                 breakpoints: {
-                640: {
-                    slidesPerView: 1,
-                    spaceBetween: 10,
-                },
-                425: {
-                    slidesPerView: 1,
-                    spaceBetween: 10,
-                },
-                375: {
-                    slidesPerView: 1,
-                    spaceBetween: 10,
-                },
-                768: {
-                    slidesPerView: 1,
-                    spaceBetween: 10,
-                },
-                1280: {
-                    slidesPerView: 3,
-                    spaceBetween: 10,
-                }
+                    640: {
+                        slidesPerView: 1,
+                        spaceBetween: 10,
+                    },
+                    425: {
+                        slidesPerView: 1,
+                        spaceBetween: 10,
+                    },
+                    375: {
+                        slidesPerView: 1,
+                        spaceBetween: 10,
+                    },
+                    768: {
+                        slidesPerView: 1,
+                        spaceBetween: 10,
+                    },
+                    1280: {
+                        slidesPerView: 3,
+                        spaceBetween: 10,
+                    }
                 },
                 mousewheel: true,
                 keyboard: true,
-                });
+            });
 
 
             const smsCheckbox = document.getElementById('sms');
@@ -409,8 +416,10 @@
             const contactNumberField = document.getElementById('contact-number-field');
             const contactNumberInput = document.querySelector('input[name="contact_number"]');
 
+            const form = document.querySelector('.tracking-home-form');
+
+
             function toggleFields() {
-                // Toggle the Contact Number field visibility based on SMS/WhatsApp selection
                 if (smsCheckbox.checked || whatsappCheckbox.checked) {
                     contactNumberField.classList.remove('d-none');
                     contactNumberInput.setAttribute('required', 'required');
@@ -419,7 +428,6 @@
                     contactNumberInput.removeAttribute('required');
                 }
 
-                // Toggle the Email field visibility based on Email checkbox selection
                 if (emailCheckbox.checked) {
                     emailField.classList.remove('d-none');
                     emailInput.setAttribute('required', 'required');
@@ -429,13 +437,32 @@
                 }
             }
 
-            // Watch for changes on SMS, WhatsApp, and Email checkboxes
             smsCheckbox.addEventListener('change', toggleFields);
             whatsappCheckbox.addEventListener('change', toggleFields);
             emailCheckbox.addEventListener('change', toggleFields);
 
-            // On page load, ensure the correct fields are shown/hidden
             toggleFields();
+
+            form.addEventListener('submit', function(e) {
+                const isAnyChecked = smsCheckbox.checked || whatsappCheckbox.checked || emailCheckbox
+                    .checked;
+
+                if (!isAnyChecked) {
+                    e.preventDefault();
+                    alert('Please select at least one method (SMS, WhatsApp, or Email).');
+                }
+            });
+
+            const messageBox = document.querySelector('textarea[name="message"]');
+            const buttons = document.querySelectorAll('.track-locaton');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const message = this.getAttribute('data-message');
+                    messageBox.value = message;
+                });
+            });
         });
     </script>
 @endsection
