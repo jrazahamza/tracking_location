@@ -46,6 +46,7 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middle
 Route::post('/payment-complete', [PaymentController::class, 'paymentComplete'])->name('process.payment');
 Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent'])->name('process.payment');
 Route::get('/checkout', [WebController::class, 'checkout'])->name('checkout');
+Route::get('/checkouterror', [WebController::class, 'checkouterror'])->name('checkouterror');
 
 
 Route::middleware(['guest'])->group(function () {

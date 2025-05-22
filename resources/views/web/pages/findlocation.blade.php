@@ -4,7 +4,7 @@
     <!-- Banner Section -->
     <section class="banner contact-banner text-center d-flex align-items-center justify-content-center text-white">
 
-        <div class="main-banner-content">
+        <div class="main-banner-content find-location-banner-content">
             <div class="container find-loca">
                 <h2 class="main-heading">Find Location Now – Secure & Instant Access</h2>
                 <p>Secure your account now for instant phone tracking. No waiting—just pay $0.95, and start locating right

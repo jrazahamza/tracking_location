@@ -39,6 +39,11 @@ class WebController extends Controller
         return view('web.pages.checkout')->with('title', 'Payment Successful');
     }
 
+    public function checkouterror()
+    {
+        return view('web.pages.checkouterror')->with('title', 'Payment Error');
+    }
+
     public function contactFormSubmission(Request $request)
 {
     $request->validate([
