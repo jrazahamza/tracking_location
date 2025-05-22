@@ -2,7 +2,7 @@
 @section('content')
 {{-- @dd($stripeKey) --}}
     <!-- Banner Section -->
-    <section class="banner contact-banner text-center d-flex align-items-center justify-content-center text-white">
+    <section class="banner inner-banner contact-banner text-center d-flex align-items-center justify-content-center text-white">
 
         <div class="main-banner-content find-location-banner-content">
             <div class="container find-loca">
