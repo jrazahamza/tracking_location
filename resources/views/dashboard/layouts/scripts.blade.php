@@ -152,6 +152,22 @@
     </script> --}}
 
     <script>
+        @if ($errors->any())
+
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "debug": false,
+                "positionClass": "toast-top-right",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+            };
+
+            @foreach ($errors->all() as $error)
+                toastr.error("{{ $error }}");
+            @endforeach
+        @endif
+
         @if (Session::has('message'))
             toastr.options = {
                 "closeButton": true,
