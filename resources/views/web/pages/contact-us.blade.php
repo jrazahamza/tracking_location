@@ -16,7 +16,7 @@
     <section class="want-to-locate-banner">
         <div class="want-content">
             <h4 class="heading-two">Want to <span class="success">Locate</span> a Phone Instantly?</h4>
-            <a href="#" class="btn btn-bg">Locate Now</a>
+            <a href="{{ route('home') }}#locate-form" class="btn btn-bg">Locate Now</a>
         </div>
     </section>
 </div>
@@ -137,7 +137,7 @@
       </div>
     </div>
     <div class="locate-btn">
-        <button class="btn btn-orange">Locate Now →</button>
+        <a href="{{ route('home') }}#locate-form" class="btn btn-orange">Locate Now →</a>
     </div>
   </div>
 </div>
@@ -148,7 +148,7 @@
     <section class="start-tracking">
         <div class="start-tack-content">
             <h4 class="heading-two">Start <span class="success">Tracking </span> a Phone Now!</h4>
-            <a href="#" class="btn btn-bg">Locate Now</a>
+            <a href="{{ route('home') }}#locate-form" class="btn btn-bg">Locate Now</a>
         </div>
     </section>
 </div>

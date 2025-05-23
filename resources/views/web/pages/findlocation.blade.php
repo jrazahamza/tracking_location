@@ -161,7 +161,7 @@
                 </div>
             </div>
             <div class="locate-btn">
-                <button class="btn btn-orange">Locate Now →</button>
+                <a href="{{ route('home') }}#locate-form" class="btn btn-orange">Locate Now →</a>
             </div>
         </div>
     </div>

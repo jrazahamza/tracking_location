@@ -3,7 +3,7 @@
 
 <!-- Banner Section -->
 <section class="banner inner-banner contact-banner text-center d-flex align-items-center justify-content-center text-white">
-    
+
     <div class="main-banner-content">
   <div class="container">
         <h2 class="main-heading">Frequently Asked Question</h2>
@@ -24,7 +24,7 @@
     <section class="want-to-locate-banner">
         <div class="want-content">
             <h4 class="heading-two">Want to <span class="success">Locate</span> a Phone Instantly?</h4>
-            <a href="#" class="btn btn-bg">Locate Now</a>
+            <a href="{{ route('home') }}#locate-form" class="btn btn-bg">Locate Now</a>
         </div>
     </section>
 </div>
@@ -34,7 +34,7 @@
     <div class="container">
         <div class="tracking-section">
             <h2 class="heading-two">Tracking</h2>
-        
+
             <div class="tracking-box">
             <h5>How does phone tracking work?</h5>
             <p>
@@ -42,7 +42,7 @@
                 The recipient must give explicit consent before their location is shared. Once they approve, their last known location is displayed on an interactive map in your account.
             </p>
             </div>
-        
+
             <div class="tracking-box">
             <h5>Is tracking legal?</h5>
             <p>
@@ -59,7 +59,7 @@
     <section class="start-tracking">
         <div class="start-tack-content">
             <h4 class="heading-two">Start <span class="success">Tracking </span> a Phone Now!</h4>
-            <a href="#" class="btn btn-bg">Locate Now</a>
+            <a href="{{ route('home') }}#locate-form" class="btn btn-bg">Locate Now</a>
         </div>
     </section>
   </div>
@@ -69,7 +69,7 @@
     <div class="container">
         <div class="tracking-section">
             <h2 class="heading-two">Payment</h2>
-        
+
             <div class="tracking-box">
             <h5>How does phone tracking work?</h5>
             <p>
@@ -77,7 +77,7 @@
                 The recipient must give explicit consent before their location is shared. Once they approve, their last known location is displayed on an interactive map in your account.
             </p>
             </div>
-        
+
             <div class="tracking-box">
             <h5>Is tracking legal?</h5>
             <p>
@@ -94,7 +94,7 @@
     <div class="container">
         <div class="tracking-section">
             <h2 class="heading-two">Account Management</h2>
-        
+
             <div class="tracking-box">
             <h5>How does phone tracking work?</h5>
             <p>
@@ -102,7 +102,7 @@
                 The recipient must give explicit consent before their location is shared. Once they approve, their last known location is displayed on an interactive map in your account.
             </p>
             </div>
-        
+
             <div class="tracking-box">
             <h5>Is tracking legal?</h5>
             <p>
@@ -118,7 +118,7 @@
     <div class="container">
         <div class="tracking-section">
             <h2 class="heading-two">Legal & Privacy</h2>
-        
+
             <div class="tracking-box">
             <h5>How does phone tracking work?</h5>
             <p>
@@ -126,7 +126,7 @@
                 The recipient must give explicit consent before their location is shared. Once they approve, their last known location is displayed on an interactive map in your account.
             </p>
             </div>
-        
+
             <div class="tracking-box">
             <h5>Is tracking legal?</h5>
             <p>
@@ -143,7 +143,7 @@
     <section class="track-a-phone">
         <div class="track-phone-content">
             <h4 class="heading-two">Track a  <span class="success">Phone </span> Now—It Only Takes Seconds!</h4>
-            <a href="#" class="btn btn-bg">Locate Now</a>
+            <a href="{{ route('home') }}#locate-form" class="btn btn-bg">Locate Now</a>
         </div>
     </section>
   </div>
