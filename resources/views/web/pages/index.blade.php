@@ -268,7 +268,7 @@
                 <div class="card-pricing text-center">
                     <h2 class="text-primary mb-2">$0.95</h2>
                     <p>Track any phone for just $0.95 for the first 24 hours.</p>
-                    <a href="{{ route('find.location') }}" class="btn btn-bg w-100 mb-4">Get Trial</a>
+                    <a href="{{ route('find.location') }}#payment-sec" class="btn btn-bg w-100 mb-4">Get Trial</a>
                     <div class="text-start">
                         <p><i class="bi bi-check-circle-fill icon-check"></i>Unlimited tracking</p>
                         <p><i class="bi bi-check-circle-fill icon-check"></i>No per-user charges</p>
