@@ -1,8 +1,9 @@
 @extends('web.layouts.main')
 @section('content')
-{{-- @dd($stripeKey) --}}
+    {{-- @dd($stripeKey) --}}
     <!-- Banner Section -->
-    <section class="banner inner-banner contact-banner text-center d-flex align-items-center justify-content-center text-white">
+    <section
+        class="banner inner-banner contact-banner text-center d-flex align-items-center justify-content-center text-white">
 
         <div class="main-banner-content find-location-banner-content">
             <div class="container find-loca">
@@ -30,15 +31,18 @@
                 <div class="header-conten">
                     <h1>Payment</h1>
                     <ul class="security">
-                        <li><span><img src="{{ asset('web/images/ssl-pay-icon.png') }}" alt="" class="icon-ssl"></span>SSL Secure payment</li>
-                        <li><span><img src="{{ asset('web/images/ssl-pay-icon.png') }}" alt="" class="icon-ssl"></span>100% satisfaction Guarantee</li>
+                        <li><span><img src="{{ asset('web/images/ssl-pay-icon.png') }}" alt=""
+                                    class="icon-ssl"></span>SSL Secure payment</li>
+                        <li><span><img src="{{ asset('web/images/ssl-pay-icon.png') }}" alt=""
+                                    class="icon-ssl"></span>100% satisfaction Guarantee</li>
                     </ul>
                     <div class="paycard-ssl-icons">
-                        <div class="pay-card">                        
+                        <div class="pay-card">
                             <div class="card-item"><img src="{{ asset('web/images/visa-card.png') }}" alt=""></div>
-                            <div class="card-item"><img src="{{ asset('web/images/master-card.png') }}" alt=""></div>
+                            <div class="card-item"><img src="{{ asset('web/images/master-card.png') }}" alt="">
+                            </div>
                         </div>
-                        <div class="pay-card">                        
+                        <div class="pay-card">
                             <div class="card-item"><img src="{{ asset('web/images/ssl-icon.png') }}" alt=""></div>
                             <div class="card-item"><img src="{{ asset('web/images/ssl-oky.png') }}" alt=""></div>
                         </div>
@@ -384,14 +388,22 @@
                             window.location.href = response.redirect || '/dashboard';
                         }, 1500); // Wait 1.5 seconds before redirect
                     } else {
+
                         toastr.error(response.message || 'Payment verification failed');
+                        setTimeout(() => {
+                            window.location.href = response.redirect || '/checkouterror';
+                        }, 1500);
                         throw new Error(response.message || 'Payment verification failed');
                     }
                 }
             } catch (error) {
+
                 toastr.error(error.message);
                 document.getElementById('card-errors').textContent = error.message;
                 document.getElementById('submit-btn').disabled = false;
+                setTimeout(() => {
+                    window.location.href = error.redirect || '/checkouterror';
+                }, 1500);
             }
         });
     </script>

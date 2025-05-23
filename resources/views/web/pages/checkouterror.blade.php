@@ -64,7 +64,7 @@
 
       <div class="mt-5">
         <p class="text-muted mt-2">Please review your details and try again. If the issue persists, consider using a different card or contacting your bank for more information.</p>
-        <a href="#" class="btn btn-orange"> Try Again →</a>
+        <a href="{{ route('find.location') }}" class="btn btn-orange"> Try Again →</a>
         <p class="text-muted mt-2">Return to checkout and review your payment details.</p>
       </div>
     </div>

@@ -105,12 +105,14 @@ class PaymentController extends Controller
                 ]);
             } else {
                 return response()->json([
+                    'redirect' => route("checkouterror"),
                     'success' => false,
                     'message' => 'Payment has not been completed',
                 ], 400);
             }
         } catch (ApiErrorException $e) {
             return response()->json([
+                'redirect' => route("checkouterror"),
                 'success' => false,
                 'message' => 'Payment verification error: ' . $e->getMessage(),
             ], 400);
