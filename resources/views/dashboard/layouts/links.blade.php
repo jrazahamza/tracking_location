@@ -1,5 +1,7 @@
     <!--begin::Fonts-->
-    <link rel="icon" type="image/x-icon" href="{{ asset('web/images/logo-location-finder.png') }}">
+    {{-- <link rel="icon" type="image/x-icon" href="{{ asset('web/images/logo-location-finder.png') }}"> --}}
+  <link rel="icon" type="image/x-icon" href="{{ asset('web/images/location-finder-feveicon.png') }}">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
         integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous" />
     <!--end::Fonts-->
