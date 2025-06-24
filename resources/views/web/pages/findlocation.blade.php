@@ -86,7 +86,11 @@
 
                     <div id="card-errors" role="alert" style="color: red; margin-top: 5px;"></div>
 
-                    <button type="submit" id="submit-btn" class="submit-btn btn btn-primary">Start Tracking Now</button>
+                    {{-- <button type="submit" id="submit-btn" class="submit-btn btn btn-primary">Start Tracking Now</button> --}}
+                    <button type="submit" id="submit-btn" class="submit-btn btn btn-primary">
+                        <span class="btn-text">Start Tracking Now</span>
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    </button>
                 </form>
 
             </div>
@@ -193,7 +197,26 @@
         </div>
     </div>
 @endsection
+@section('css')
+    <style>
+        .spinner-border {
+            width: 1rem;
+            height: 1rem;
+            border: 0.15em solid currentColor;
+            border-right-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            vertical-align: middle;
+            animation: spinner-border .75s linear infinite;
+        }
 
+        @keyframes spinner-border {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+@endsection
 @section('js')
     <script src="https://js.stripe.com/v3/"></script>
     <script>
@@ -310,10 +333,19 @@
         const form = document.getElementById('payment-form');
         form.addEventListener('submit', async function(event) {
             event.preventDefault();
-            document.getElementById('submit-btn').disabled = true;
+
+            const submitBtn = document.getElementById('submit-btn');
+            const spinner = submitBtn.querySelector('.spinner-border');
+            const btnText = submitBtn.querySelector('.btn-text');
+
+            // Disable and show loader
+            submitBtn.disabled = true;
+            btnText.textContent = "Processing...";
+            spinner.classList.remove('d-none');
 
             const fullName = document.getElementById('fullName').value;
             const email = document.getElementById('email').value;
+
 
             try {
                 // Step 1: Create Payment Intent on the server
@@ -400,10 +432,13 @@
 
                 toastr.error(error.message);
                 document.getElementById('card-errors').textContent = error.message;
-                document.getElementById('submit-btn').disabled = false;
-                setTimeout(() => {
-                    window.location.href = error.redirect || '/checkouterror';
-                }, 1500);
+                // document.getElementById('submit-btn').disabled = false;
+                // setTimeout(() => {
+                //     window.location.href = error.redirect || '/checkouterror';
+                // }, 1500);
+                submitBtn.disabled = false;
+                btnText.textContent = "Start Tracking Now";
+                spinner.classList.add('d-none');
             }
         });
     </script>
