@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AccountCreatedEmail;
 use Illuminate\Http\Request;
 use Stripe\PaymentIntent;
 use App\Models\Subscription;  // Model for subscription
 use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
 use Stripe\Subscription as StripeSubscription;
@@ -21,6 +25,24 @@ class PaymentController extends Controller
             'email' => 'required|email',
             'name' => 'required|string',
         ]);
+
+        $email = $request->email;
+        $name = $request->name;
+
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            $password = Str::random(10); // Random password
+            $user = User::create([
+                'first_name' => $name,
+                'email' => $email,
+                'password' => bcrypt($password),
+            ]);
+
+            Mail::to($email)->send(new AccountCreatedEmail($name, $email, $password));
+        }
+
+        Auth::login($user);
 
         if (!auth()->check()) {
             return response()->json([
