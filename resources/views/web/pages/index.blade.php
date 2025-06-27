@@ -8,7 +8,7 @@
                 <h2 class="main-heading"><span class="gradient-text">Track</span> Any Phone<br>with Consent in Seconds</h2>
                 <p class="banner-p mt-3">Instant, secure, and legal phone tracking. Just enter a phone number, send a
                     request, and get the location—only with recipient's consent.</p>
-                <a href="#" id="#locate-form" class="btn btn-bg mt-4 px-5 py-2">Start
+                <a href="#locate-form"  class="btn btn-bg mt-4 px-5 py-2">Start
                     Tracking Now →</a>
             </div>
         </div>
