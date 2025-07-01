@@ -130,6 +130,10 @@ class TrackingController extends Controller
 
     public function sendTrackingRequest(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect()->to(route('find.location') . '#payment-sec')->with('error', 'User not authenticated. Please log in');
+        }
+
         $rules = [
             'methods' => 'required|array|min:1',
             'message' => 'nullable|string',
