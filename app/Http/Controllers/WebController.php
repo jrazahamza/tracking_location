@@ -17,7 +17,7 @@ class WebController extends Controller
     {
         return view('web.pages.index')->with('title', 'Home');
     }
-
+    
     public function findLocation()
     {
         $stripeKey = config('services.stripe.key');

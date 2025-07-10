@@ -8,7 +8,7 @@
                 <h2 class="main-heading"><span class="gradient-text">Track</span> Any Phone<br>with Consent in Seconds</h2>
                 <p class="banner-p mt-3">Instant, secure, and legal phone tracking. Just enter a phone number, send a
                     request, and get the location—only with recipient's consent.</p>
-                <a href="#locate-form"  class="btn btn-bg mt-4 px-5 py-2">Start
+                <a href="#locate-form" class="btn btn-bg mt-4 px-5 py-2">Start
                     Tracking Now →</a>
             </div>
         </div>
@@ -61,16 +61,26 @@
                             </div>
 
                             {{-- Contact Number Field (hidden by default) --}}
-                            <div class="mb-3 d-none" id="contact-number-field">
+                            {{-- <div class="mb-3 d-none" id="contact-number-field">
                                 <label class="form-label fw-bold">Contact Number*</label>
                                 <div class="input-group">
                                     <span class="input-group-text">
                                         <img src="https://flagcdn.com/us.svg" width="20" alt="USA">
                                     </span>
-                                    <input type="text" class="form-control" name="contact_number"
+                                    <input type="tel" id="contact_number" class="form-control" name="contact_number"
                                         placeholder="446 552 3323" required>
                                 </div>
+                            </div> --}}
+
+                            {{-- Contact Number Field (hidden by default) --}}
+                            <div class="mb-3 d-none" id="contact-number-field">
+                                <label class="form-label fw-bold">Contact Number*</label>
+                                <div class="input-group">
+                                    <input type="tel" id="contact_number" class="form-control" name="contact_number"
+                                        placeholder="300 1234567">
+                                </div>
                             </div>
+
 
                             <div class="mb-3 message-box">
                                 <label class="form-label fw-bold">Message Box</label>
@@ -97,11 +107,11 @@
 
     <!-- Call-to-Action Section -->
     <!-- <section class="cta-section text-center py-5">
-                                                                  <div class="container">
-                                                                    <h2 class="text-primary mb-3">Track a Phone Now—It Only Takes Seconds!</h2>
-                                                                    <button class="btn btn-warning">Locate Now →</button>
-                                                                  </div>
-                                                                </section> -->
+                                                                                      <div class="container">
+                                                                                        <h2 class="text-primary mb-3">Track a Phone Now—It Only Takes Seconds!</h2>
+                                                                                        <button class="btn btn-warning">Locate Now →</button>
+                                                                                      </div>
+                                                                                    </section> -->
 
     <div class="container">
         <section class="want-to-locate-banner">
@@ -362,8 +372,28 @@
         </section>
     </div>
 @endsection
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" />
+    <style>
+        .iti {
+            width: 100%;
+        }
 
+        input#contact_number {
+            padding-left: 70px !important;
+            /* leaves space for flag */
+        }
+
+        .iti__country-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+@endsection
 @section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -443,15 +473,15 @@
 
             toggleFields();
 
-            form.addEventListener('submit', function(e) {
-                const isAnyChecked = smsCheckbox.checked || whatsappCheckbox.checked || emailCheckbox
-                    .checked;
+            // form.addEventListener('submit', function(e) {
+            //     const isAnyChecked = smsCheckbox.checked || whatsappCheckbox.checked || emailCheckbox
+            //         .checked;
 
-                if (!isAnyChecked) {
-                    e.preventDefault();
-                    alert('Please select at least one method (SMS, WhatsApp, or Email).');
-                }
-            });
+            //     if (!isAnyChecked) {
+            //         e.preventDefault();
+            //         alert('Please select at least one method (SMS, WhatsApp, or Email).');
+            //     }
+            // });
 
             const messageBox = document.querySelector('textarea[name="message"]');
             const buttons = document.querySelectorAll('.track-locaton');
@@ -462,6 +492,32 @@
                     const message = this.getAttribute('data-message');
                     messageBox.value = message;
                 });
+            });
+
+            // ---- intl-tel-input setup ---- //
+            const iti = window.intlTelInput(contactNumberInput, {
+                initialCountry: "us",
+                separateDialCode: true,
+                dropdownContainer: document.body,
+
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+
+            // ---- Form submit: override number ---- //
+            form.addEventListener('submit', function(e) {
+                const isAnyChecked = smsCheckbox.checked || whatsappCheckbox.checked || emailCheckbox
+                    .checked;
+
+                if (!isAnyChecked) {
+                    e.preventDefault();
+                    alert('Please select at least one method (SMS, WhatsApp, or Email).');
+                    return;
+                }
+
+                // Set full number with country code
+                if (contactNumberInput.value.trim() !== "") {
+                    contactNumberInput.value = iti.getNumber();
+                }
             });
         });
     </script>

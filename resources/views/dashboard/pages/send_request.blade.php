@@ -48,7 +48,7 @@
             </div>
 
             {{-- Contact Number Field (shown if "sms" or "whatsapp" is selected) --}}
-            <div class="mb-3 d-none" id="contact-number-field">
+            {{-- <div class="mb-3 d-none" id="contact-number-field">
                 <label class="form-label fw-bold">Contact Number*</label>
                 <div class="input-group">
                     <span class="input-group-text">
@@ -58,6 +58,16 @@
                         class="form-control @error('contact_number') is-invalid @enderror" placeholder="446 552 3323"
                         value="{{ old('contact_number') }}">
                 </div>
+                @error('contact_number')
+                    <span class="text-danger small">{{ $message }}</span>
+                @enderror
+            </div> --}}
+
+            <div class="mb-3 d-none" id="contact-number-field">
+                <label class="form-label fw-bold">Contact Number*</label>
+                <input type="tel" id="contact_number" name="contact_number"
+                    class="form-control @error('contact_number') is-invalid @enderror" placeholder="300 1234567"
+                    value="{{ old('contact_number') }}">
                 @error('contact_number')
                     <span class="text-danger small">{{ $message }}</span>
                 @enderror
@@ -82,6 +92,8 @@
     </div>
 @endsection
 @section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" />
+
     <style>
         .message-box-buttons .track-locaton {
             border: unset;
@@ -96,10 +108,27 @@
             text-align: right;
             padding-right: 10px;
         }
+
+        .iti {
+            width: 100%;
+        }
+
+        input#contact_number {
+            padding-left: 70px !important;
+            /* leaves space for flag */
+        }
+
+        .iti__country-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
     </style>
 @endsection
 
 @section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const smsCheckbox = document.getElementById('sms');
@@ -142,15 +171,15 @@
             // On page load, ensure the correct fields are shown/hidden
             toggleFields();
 
-            form.addEventListener('submit', function(e) {
-                const isAnyChecked = smsCheckbox.checked || whatsappCheckbox.checked || emailCheckbox
-                    .checked;
+            // form.addEventListener('submit', function(e) {
+            //     const isAnyChecked = smsCheckbox.checked || whatsappCheckbox.checked || emailCheckbox
+            //         .checked;
 
-                if (!isAnyChecked) {
-                    e.preventDefault();
-                    alert('Please select at least one method (SMS, WhatsApp, or Email).');
-                }
-            });
+            //     if (!isAnyChecked) {
+            //         e.preventDefault();
+            //         alert('Please select at least one method (SMS, WhatsApp, or Email).');
+            //     }
+            // });
 
             const messageBox = document.querySelector('textarea[name="message"]');
             const buttons = document.querySelectorAll('.track-locaton');
@@ -161,6 +190,32 @@
                     const message = this.getAttribute('data-message');
                     messageBox.value = message;
                 });
+            });
+
+            // ---- intl-tel-input setup ---- //
+            const iti = window.intlTelInput(contactNumberInput, {
+                initialCountry: "us",
+                separateDialCode: true,
+                dropdownContainer: document.body,
+
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+
+            // ---- Form submit: override number ---- //
+            form.addEventListener('submit', function(e) {
+                const isAnyChecked = smsCheckbox.checked || whatsappCheckbox.checked || emailCheckbox
+                    .checked;
+
+                if (!isAnyChecked) {
+                    e.preventDefault();
+                    alert('Please select at least one method (SMS, WhatsApp, or Email).');
+                    return;
+                }
+
+                // Set full number with country code
+                if (contactNumberInput.value.trim() !== "") {
+                    contactNumberInput.value = iti.getNumber();
+                }
             });
         });
     </script>

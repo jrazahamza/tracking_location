@@ -156,6 +156,7 @@ class TrackingController extends Controller
             $token = Str::random(60);
             $methods = $request->methods;
             $contactNumber = $request->contact_number;
+            // dd($contactNumber);
             $email = $request->email;
             $message = $request->message ?? 'You are being tracked. Click to approve location sharing.';
 
