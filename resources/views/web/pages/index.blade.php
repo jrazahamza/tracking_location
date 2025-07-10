@@ -107,11 +107,11 @@
 
     <!-- Call-to-Action Section -->
     <!-- <section class="cta-section text-center py-5">
-                                                                                      <div class="container">
-                                                                                        <h2 class="text-primary mb-3">Track a Phone Now—It Only Takes Seconds!</h2>
-                                                                                        <button class="btn btn-warning">Locate Now →</button>
-                                                                                      </div>
-                                                                                    </section> -->
+                                                                                          <div class="container">
+                                                                                            <h2 class="text-primary mb-3">Track a Phone Now—It Only Takes Seconds!</h2>
+                                                                                            <button class="btn btn-warning">Locate Now →</button>
+                                                                                          </div>
+                                                                                        </section> -->
 
     <div class="container">
         <section class="want-to-locate-banner">
@@ -379,14 +379,28 @@
             width: 100%;
         }
 
+        .iti__selected-flag {
+            background-color: #f8f9fa;
+            border-right: 1px solid #ddd;
+            padding: 6px 8px;
+        }
+
         input#contact_number {
             padding-left: 70px !important;
-            /* leaves space for flag */
+        }
+
+        .iti--separate-dial-code input#contact_number {
+            padding-left: 90px !important;
         }
 
         .iti__country-list {
             max-height: 300px;
             overflow-y: auto;
+        }
+
+        .iti input:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
         }
     </style>
 @endsection
