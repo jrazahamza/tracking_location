@@ -193,8 +193,7 @@
                             <div class="testimonial-card">
                                 <div class="quote-mark">“</div>
                                 <p class="testimonial-text">
-                                    I found my lost phone instantly using <strong>LocationFinder</strong>. <br />
-                                    Super easy and secure!
+                                    I found my lost phone instantly using LocationFinder. Super easy and secure!
                                 </p>
                                 <div class="user-info">
                                     <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John D."
@@ -207,13 +206,12 @@
                             <div class="testimonial-card">
                                 <div class="quote-mark">“</div>
                                 <p class="testimonial-text">
-                                    I found my lost phone instantly using <strong>LocationFinder</strong>. <br />
-                                    Super easy and secure!
+                                    Perfect for checking on my kids when needed. Works flawlessly!
                                 </p>
                                 <div class="user-info">
                                     <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John D."
                                         class="user-img" />
-                                    <span class="user-name">John D.</span>
+                                    <span class="user-name">Emily R.</span>
                                 </div>
                             </div>
                         </div>
