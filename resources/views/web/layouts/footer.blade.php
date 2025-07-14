@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="copy-right small py-3">
-        <p class="mb-0">&copy; 2022 Location Finder Inc. All rights reserved</p>
+        <p class="mb-0">&copy; 2025 Location Finder Inc. All rights reserved</p>
         <p class="terms-privacy-links"><a href="#" class="text-white text-decoration-none">Terms and Conditions</a> • <a href="#" class="text-white text-decoration-none">Privacy Policy</a></p>
       </div>
     </div>
