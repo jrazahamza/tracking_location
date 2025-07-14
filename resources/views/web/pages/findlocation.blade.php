@@ -111,7 +111,7 @@
                             <img src="{{ asset('web/images/faq-icon.png') }}" alt="">
                         </div>
                         <h6>How does phone tracking work?</h6>
-                        <p><a href="#">LocationTracker.site</a> allows you to locate a phone by accessing its GPS
+                        <p><a href="#">Locationfinder.online</a> allows you to locate a phone by accessing its GPS
                             coordinates remotely through a simple consent-based flow.</p>
                     </div>
                 </div>
@@ -185,7 +185,7 @@
                 <div class="card-pricing text-center">
                     <h2 class="text-primary mb-2">$0.95</h2>
                     <p>Track any phone for just $0.95 for the first 24 hours.</p>
-                    <a href="#payment-sec" class="btn btn-bg w-100 mb-4">Get Trial</a>
+                    <a href="#payment-sec" class="btn btn-bg w-100 mb-4">Start Now</a>
                     <div class="text-start">
                         <p><i class="bi bi-check-circle-fill icon-check"></i>Unlimited tracking</p>
                         <p><i class="bi bi-check-circle-fill icon-check"></i>No per-user charges</p>

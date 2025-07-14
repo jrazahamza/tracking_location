@@ -37,7 +37,7 @@
           <p class="mb-0">support@locationfinder.online</p>
         </div>
       </div>
-      <p class="response-time">Average response time: 24 hours</p>
+      {{-- <p class="response-time">Average response time: 24 hours</p> --}}
     </div>
     @if ($errors->any())
     <div class="alert alert-danger">
@@ -87,7 +87,7 @@
                 <img src="{{ asset('web/images/faq-icon.png') }}" alt="">
             </div>
           <h6>How does phone tracking work?</h6>
-          <p><a href="#">LocationTracker.site</a> allows you to locate a phone by accessing its GPS coordinates remotely through a simple consent-based flow.</p>
+          <p><a href="#">Locationfinder.online</a> allows you to locate a phone by accessing its GPS coordinates remotely through a simple consent-based flow.</p>
         </div>
       </div>
       <div class="col-md-4">

@@ -12,7 +12,7 @@
                 </a>
             </div>
             <div class="card-body register-card-body">
-                <p class="register-box-msg">Register a new membership</p>
+                <p class="register-box-msg">Create new account</p>
 
                 <form action="{{ route('register') }}" method="POST">
                     @csrf
@@ -102,7 +102,7 @@
 
 
                 <p class="mb-0">
-                    <a href="{{ route('login.form') }}" class="link-primary text-center">I already have a membership</a>
+                    <a href="{{ route('login.form') }}" class="link-primary text-center">Have an account? Login!</a>
                 </p>
             </div>
 
