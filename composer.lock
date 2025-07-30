@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f79388b9b848d3b80a47d573c3bab14",
+    "content-hash": "b8dfe940f673c2c101e437a6a6fb57ec",
     "packages": [
         {
             "name": "brick/math",
@@ -5630,22 +5630,23 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "8.6.0",
+            "version": "8.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twilio/twilio-php",
-                "reference": "6b50788637a27d27409cbb6bbf69fada8195888e"
+                "reference": "88b8c4e82943267106424f903ffa881b0fd9074b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/6b50788637a27d27409cbb6bbf69fada8195888e",
-                "reference": "6b50788637a27d27409cbb6bbf69fada8195888e",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/88b8c4e82943267106424f903ffa881b0fd9074b",
+                "reference": "88b8c4e82943267106424f903ffa881b0fd9074b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1.0"
             },
             "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
                 "guzzlehttp/guzzle": "^6.3 || ^7.0",
                 "phpunit/phpunit": ">=7.0 < 10"
             },
@@ -5675,7 +5676,7 @@
                 "sms",
                 "twilio"
             ],
-            "time": "2025-05-05T10:42:37+00:00"
+            "time": "2025-07-24T08:04:30+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

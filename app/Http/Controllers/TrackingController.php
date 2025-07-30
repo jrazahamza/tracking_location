@@ -133,7 +133,6 @@ class TrackingController extends Controller
         if (!Auth::check()) {
             return redirect()->to(route('find.location') . '#payment-sec');
         }
-
         $rules = [
             'methods' => 'required|array|min:1',
             'message' => 'nullable|string',

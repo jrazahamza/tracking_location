@@ -21,6 +21,7 @@ class TwilioService
             'body' => $message,
         ]);
 
+
         if ($response->status === 'failed' || $response->status === 'undelivered') {
             throw new \Exception("Twilio SMS failed to send. Status: " . $response->status);
         }
