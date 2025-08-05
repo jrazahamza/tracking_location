@@ -60,6 +60,14 @@
                 </li>
 
                 @if (Auth::user()->role_id == '1')
+                <li class="nav-item">
+                        <a href="{{ route('manage-users') }}"
+                            class="nav-link {{ Request::path() == 'manage-users' ? 'active' : '' }}">
+                            <i class="nav-icon bi bi-speedometer"></i>
+                            <p>All Users</p>
+                        </a>
+                    </li>
+
                     <li class="nav-item">
                         <a href="{{ route('contacts') }}"
                             class="nav-link {{ Request::path() == 'contacts' ? 'active' : '' }}">

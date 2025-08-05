@@ -41,6 +41,79 @@ class HomeController extends Controller
         return view('dashboard.pages.user-profile', compact('user'))->with('title', 'Profile');
     }
 
+    public function manage_users()
+    {
+        $user = Auth::user();
+        if ($user->role_id != '1') {
+            abort(403, 'Access Denied.');
+        }
+        $users = User::where('role_id', '!=', 1)->where('is_active', 1)->where('is_deleted', 0)->latest()->paginate(10);
+        return view('dashboard.pages.manage-users', compact('users'))->with('title', 'Manage Users');
+    }
+
+    public function edit_user($id)
+    {
+        $user = User::where('is_active', 1)->where('is_deleted', 0)->findOrFail($id);
+        return view('dashboard.pages.edit-user', compact('user'))->with('title', 'Edit User');
+    }
+    public function update_user(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            // 'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            // 'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'phone_no' => 'nullable|string|max:20',
+            'gender' => 'nullable|in:male,female,other',
+            'street_address' => 'nullable|string',
+            'city' => 'nullable|string',
+            'state' => 'nullable|string',
+            'country' => 'nullable|string',
+            'description' => 'nullable|string',
+            'profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('profile')) {
+            if ($user->profile && file_exists(public_path($user->profile))) {
+                unlink(public_path($user->profile));
+            }
+
+            $file = $request->file('profile');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/profile'), $filename);
+            $user->profile = 'uploads/profile/' . $filename;
+        }
+
+        // Update user fields
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        // $user->username = $request->username;
+        $user->email = $request->email;
+        $user->phone_no = $request->phone_no;
+        $user->gender = $request->gender;
+        $user->street_address = $request->street_address;
+        $user->city = $request->city;
+        $user->state = $request->state;
+        $user->country = $request->country;
+        $user->description = $request->description;
+
+        $user->save();
+
+        return redirect()->route('manage-users')->with('message', 'User updated successfully!');
+    }
+
+    public function delete_user($id)
+    {
+        $user = User::findOrFail($id);
+        $user->is_active = 0;
+        $user->is_deleted = 1;
+        $user->save();
+
+        return redirect()->route('manage-users')->with('success', 'User deleted successfully.');
+    }
+
     public function contacts()
     {
         $user = Auth::user();
@@ -69,8 +142,8 @@ class HomeController extends Controller
         $validated = $request->validate([
             'first_name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
-            'username' => 'nullable|string|max:255|unique:users,username,' . $user->id,
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            // 'username' => 'nullable|string|max:255|unique:users,username,' . $user->id,
+            // 'email' => 'required|email|unique:users,email,' . $user->id,
             'phone_no' => 'nullable|string|max:20',
             'gender' => 'nullable|in:male,female,other',
             'street_address' => 'nullable|string',

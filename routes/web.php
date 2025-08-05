@@ -23,6 +23,10 @@ Route::middleware(['auth', 'check.subscription'])->group(function () {
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::get('/contacts', [HomeController::class, 'contacts'])->name('contacts');
     Route::get('/contact-delete/{id}', [HomeController::class, 'contact_delete'])->name('contact.delete');
+    Route::get('/manage-users', [HomeController::class, 'manage_users'])->name('manage-users');
+    Route::get('/user/{id}/edit', [HomeController::class, 'edit_user'])->name('user.edit');
+    Route::post('/user/{id}/update', [HomeController::class, 'update_user'])->name('user.update');
+    Route::get('/user/{id}/delete', [HomeController::class, 'delete_user'])->name('user.delete');
 
     Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
     Route::post('/update-profile', [HomeController::class, 'updateProfile'])->name('profile.update');
@@ -61,5 +65,3 @@ Route::middleware(['guest'])->group(function () {
     Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });
 
-// test
-// test
