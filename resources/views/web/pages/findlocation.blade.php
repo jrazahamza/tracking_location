@@ -389,7 +389,8 @@
                                 name: fullName,
                                 email: email
                             }
-                        }
+                        },
+                        setup_future_usage: 'off_session' // ✅ Save payment method for future charges
                     }
                 );
 
@@ -399,7 +400,6 @@
                 }
 
                 if (paymentIntent.status === 'succeeded') {
-
                     // Payment succeeded - notify server and redirect
                     const result = await fetch('/payment-complete', {
                         method: 'POST',
@@ -418,9 +418,8 @@
                         toastr.success(response.message || 'Payment successful');
                         setTimeout(() => {
                             window.location.href = response.redirect || '/dashboard';
-                        }, 1500); // Wait 1.5 seconds before redirect
+                        }, 1500);
                     } else {
-
                         toastr.error(response.message || 'Payment verification failed');
                         setTimeout(() => {
                             window.location.href = response.redirect || '/checkouterror';
