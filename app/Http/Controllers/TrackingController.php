@@ -233,7 +233,6 @@ class TrackingController extends Controller
     public function saveLocation(Request $request)
     {
         try {
-            // Validate request
             $validated = $request->validate([
                 'token' => 'required',
                 'latitude' => 'required_if:denied,false|nullable|numeric',
@@ -241,7 +240,6 @@ class TrackingController extends Controller
                 'denied' => 'nullable|boolean',
             ]);
 
-            // Check if tracking token exists
             $trackingRequest = TrackingRequest::where('token', $request->token)->first();
 
             if (!$trackingRequest) {
@@ -262,7 +260,6 @@ class TrackingController extends Controller
                 ]);
             }
 
-            // Update location based on status
             if (in_array($trackingRequest->status, ['pending', 'cancelled'])) {
                 $trackingRequest->update([
                     'latitude' => $request->latitude,
@@ -287,13 +284,12 @@ class TrackingController extends Controller
                 'errors' => $e->errors(),
             ], 422);
         } catch (Exception $e) {
-            // Log error for debugging (optional)
             Log::error('Tracking error: ' . $e->getMessage());
 
             return response()->json([
                 'status' => false,
                 'message' => 'Something went wrong. Please try again later.',
-                'error' => $e->getMessage(), // Optional: Remove in production
+                'error' => $e->getMessage(),
             ], 500);
         }
     }

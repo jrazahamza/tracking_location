@@ -62,10 +62,10 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();  // Logs the user out
-        $request->session()->invalidate();  // Invalidates the session data
-        $request->session()->regenerateToken();  // Regenerates CSRF token to prevent attacks
-        return redirect()->route('login');  // Redirect to login page
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login');
     }
 
 
@@ -74,7 +74,6 @@ class AuthController extends Controller
         return view('auth.passwords.forgot-password');
     }
 
-    // Send password reset link
     public function sendResetLinkEmail(Request $request)
     {
         $request->validate([
@@ -92,14 +91,12 @@ class AuthController extends Controller
         }
     }
 
-    // Show the reset password form
     public function showResetPasswordForm(Request $request, $token)
     {
         $email = $request->query('email');
         return view('auth.passwords.reset-password', ['token' => $token , 'email' => $email]);
     }
 
-    // Handle the password reset
     public function resetPassword(Request $request)
     {
         $request->validate([

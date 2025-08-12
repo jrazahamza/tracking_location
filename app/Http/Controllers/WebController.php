@@ -17,7 +17,7 @@ class WebController extends Controller
     {
         return view('web.pages.index')->with('title', 'Home');
     }
-    
+
     public function findLocation()
     {
         $stripeKey = config('services.stripe.key');
@@ -61,7 +61,6 @@ class WebController extends Controller
         'userIP' => Auth::check() ? Auth::id() : $request->ip(),
     ]);
 
-    // Mail to admin
     Mail::to(env('Admin_Email', 'admin@example.com'))->send(new ContactUsEmail($create));
 
     return back()->with('message', 'Your message has been sent successfully!');

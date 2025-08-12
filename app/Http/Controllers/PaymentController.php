@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\AccountCreatedEmail;
 use Illuminate\Http\Request;
 use Stripe\PaymentIntent;
-use App\Models\Subscription;  // Model for subscription
+use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +17,7 @@ use Stripe\Subscription as StripeSubscription;
 
 class PaymentController extends Controller
 {
-    /**
-     * Create a PaymentIntent on the server
-     */
+
     public function createPaymentIntent(Request $request)
     {
         $request->validate([
@@ -53,7 +51,6 @@ class PaymentController extends Controller
 
         $user = auth()->user();
 
-        // Check if user already used $0.95 trial
         $hasUsedTrial = Subscription::where('user_id', $user->id)
             ->where('amount', 0.95)
             ->exists();
@@ -72,7 +69,7 @@ class PaymentController extends Controller
                 "customer" => $customer,
                 "payment_method_types" => ["card"],
                 "description" => $hasUsedTrial ? "Monthly Subscription" : "1-Day Trial ($0.95)",
-                "setup_future_usage" => "off_session", // ✅ Save payment method for future use
+                "setup_future_usage" => "off_session",
                 "metadata" => [
                     'user_id' => $user->id,
                     'email' => $email,
@@ -138,11 +135,10 @@ class PaymentController extends Controller
             }
 
             $user = auth()->user();
-            $amountInDollars = $paymentIntent->amount / 100; // Convert cents to dollars
-            $isTrial = $amountInDollars == 0.95; // ✅ Fixed comparison
+            $amountInDollars = $paymentIntent->amount / 100;
+            $isTrial = $amountInDollars == 0.95;
 
             if ($paymentIntent->status === 'succeeded') {
-                // Create subscription record
                 $subscription = Subscription::create([
                     'user_id' => $user->id,
                     'stripe_payment_id' => $paymentIntent->id,
@@ -156,7 +152,6 @@ class PaymentController extends Controller
                     'status' => 'active',
                 ]);
 
-                // No need to update user table - subscription table handles everything
 
                 return response()->json([
                     'redirect' => route("checkout"),
