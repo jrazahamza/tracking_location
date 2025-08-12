@@ -28,6 +28,7 @@ class CheckSubscription
         // Check for active subscription
         $subscription = $user->subscriptions()
             ->where('subscription_ends_at', '>', now())
+            ->where('status', 'active')
             ->orderByDesc('subscription_ends_at')
             ->first();
 

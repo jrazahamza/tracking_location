@@ -78,6 +78,14 @@
                 @endif
 
                 <li class="nav-item">
+                        <a href="{{ route('subscriptions') }}"
+                            class="nav-link {{ Request::path() == 'subscriptions' ? 'active' : '' }}">
+                            <i class="nav-icon bi bi-speedometer"></i>
+                            <p>Subscriptions</p>
+                        </a>
+                    </li>
+
+                <li class="nav-item">
                     <a href="{{ route('profile') }}"
                         class="nav-link {{ Request::path() == 'profile' ? 'active' : '' }}">
                         <i class="nav-icon bi bi-speedometer"></i>

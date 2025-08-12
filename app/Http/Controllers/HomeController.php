@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\contactUs;
+use App\Models\Subscription;
 use App\Models\TrackingRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -194,5 +195,32 @@ class HomeController extends Controller
         $user->save();
 
         return back()->with('message', 'Password updated successfully!');
+    }
+
+    public function subscriptions()
+    {
+        $user = Auth::user();
+
+        $query = Subscription::with('user');
+
+        if ($user->role_id != '1') {
+            $query->where('user_id', $user->id);
+        }
+
+        $subscriptions = $query->orderByDesc('id')->paginate(10);
+        return view('dashboard.pages.subscriptions', compact('subscriptions'))->with('title', 'Subscriptions');
+    }
+
+    public function cancelSubscription($id)
+    {
+
+        $subscription = Subscription::findOrFail($id);
+        if (auth()->user()->role_id != 1 && $subscription->user_id != auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+        $subscription->status = 'inactive';
+        $subscription->save();
+
+        return redirect()->route('subscriptions')->with('message', 'Subscription canceled successfully!');
     }
 }

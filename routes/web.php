@@ -28,6 +28,9 @@ Route::middleware(['auth', 'check.subscription'])->group(function () {
     Route::post('/user/{id}/update', [HomeController::class, 'update_user'])->name('user.update');
     Route::get('/user/{id}/delete', [HomeController::class, 'delete_user'])->name('user.delete');
 
+    Route::get('/subscriptions', [HomeController::class, 'subscriptions'])->name('subscriptions');
+    Route::get('/subscription/cancel/{id}', [HomeController::class, 'cancelSubscription'])->name('subscription.cancel');
+
     Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
     Route::post('/update-profile', [HomeController::class, 'updateProfile'])->name('profile.update');
     Route::get('/change-password', [HomeController::class, 'changePassword'])->name('change.password');
