@@ -220,28 +220,13 @@
 @section('js')
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-        // Initialize Stripe
         // const stripe = Stripe(
         //     'pk_test_51OyYVmDxo3C22BxLXaQMUe5zQ9fcUwTnhvYsLI2XIuUfBZKRlAa7oMCmchkddFKKWKthZqcfsgtgKLSMf8mt0RCW00vqPfFwnn'
         // );
         const stripe = Stripe('{{ $stripeKey }}');
         const elements = stripe.elements();
 
-        // // Create and mount the card Element
-        // const cardElement = elements.create('card');
-        // cardElement.mount('#card-element');
 
-        // // Handle real-time validation errors
-        // cardElement.addEventListener('change', function(event) {
-        //     const displayError = document.getElementById('card-errors');
-        //     if (event.error) {
-        //         displayError.textContent = event.error.message;
-        //     } else {
-        //         displayError.textContent = '';
-        //     }
-        // });
-
-        // Style for the card input fields
         const cardNumber = elements.create('cardNumber', {
             style: {
                 base: {
@@ -296,12 +281,10 @@
             }
         });
 
-        // Mount Stripe Elements into individual fields
         cardNumber.mount('#card-number');
         expiryDate.mount('#expiry-date');
         cvc.mount('#cvc');
 
-        // Handle real-time validation errors for individual fields
         cardNumber.addEventListener('change', function(event) {
             const displayError = document.getElementById('card-errors');
             if (event.error) {
@@ -329,7 +312,6 @@
             }
         });
 
-        // Handle form submission
         const form = document.getElementById('payment-form');
         form.addEventListener('submit', async function(event) {
             event.preventDefault();
@@ -338,7 +320,6 @@
             const spinner = submitBtn.querySelector('.spinner-border');
             const btnText = submitBtn.querySelector('.btn-text');
 
-            // Disable and show loader
             submitBtn.disabled = true;
             btnText.textContent = "Processing...";
             spinner.classList.remove('d-none');
@@ -348,7 +329,6 @@
 
 
             try {
-                // Step 1: Create Payment Intent on the server
                 const intentResponse = await fetch('/create-payment-intent', {
                     method: 'POST',
                     headers: {
@@ -370,14 +350,13 @@
                         toastr.error(response.error || 'User not authenticated. Please log in');
                         setTimeout(() => {
                             window.location.href = response.redirect || '/login';
-                        }, 1500); // Wait 1.5 seconds before redirect
+                        }, 1500);
                         return;
                     }
                     toastr.error(intentData.error);
                     throw new Error(intentData.error);
                 }
 
-                // Step 2: Confirm the card payment with Stripe
                 const {
                     error,
                     paymentIntent
@@ -390,7 +369,7 @@
                                 email: email
                             }
                         },
-                        setup_future_usage: 'off_session' // ✅ Save payment method for future charges
+                        setup_future_usage: 'off_session'
                     }
                 );
 
@@ -400,7 +379,6 @@
                 }
 
                 if (paymentIntent.status === 'succeeded') {
-                    // Payment succeeded - notify server and redirect
                     const result = await fetch('/payment-complete', {
                         method: 'POST',
                         headers: {

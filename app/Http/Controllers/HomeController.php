@@ -87,7 +87,6 @@ class HomeController extends Controller
             $user->profile = 'uploads/profile/' . $filename;
         }
 
-        // Update user fields
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         // $user->username = $request->username;
@@ -125,7 +124,6 @@ class HomeController extends Controller
         return view('dashboard.pages.contacts', compact('contacts'))->with('title', 'All Contacts');
     }
 
-    // contact_delete
     public function contact_delete($id)
     {
         $contact = contactUs::findOrFail($id);
@@ -161,7 +159,7 @@ class HomeController extends Controller
 
         if ($request->file('profile')) {
             $file = $request->file('profile');
-            $filename = time() . '_' . $file->getClientOriginalName(); // Optional: add user ID for uniqueness
+            $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('uploads/profile'), $filename);
             $validated['profile'] = 'uploads/profile/' . $filename;
         }

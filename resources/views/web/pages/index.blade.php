@@ -41,11 +41,11 @@
                                         id="sms" checked>
                                     <label class="form-check-label" for="sms">SMS</label>
                                 </div>
-                                <div class="form-check form-check-inline">
+                                {{-- <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="checkbox" name="methods[]" value="whatsapp"
                                         id="whatsapp">
                                     <label class="form-check-label" for="whatsapp">WhatsApp</label>
-                                </div>
+                                </div> --}}
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="checkbox" name="methods[]" value="email"
                                         id="email">
@@ -107,11 +107,11 @@
 
     <!-- Call-to-Action Section -->
     <!-- <section class="cta-section text-center py-5">
-                                                                                          <div class="container">
-                                                                                            <h2 class="text-primary mb-3">Track a Phone Now—It Only Takes Seconds!</h2>
-                                                                                            <button class="btn btn-warning">Locate Now →</button>
-                                                                                          </div>
-                                                                                        </section> -->
+                                                                                              <div class="container">
+                                                                                                <h2 class="text-primary mb-3">Track a Phone Now—It Only Takes Seconds!</h2>
+                                                                                                <button class="btn btn-warning">Locate Now →</button>
+                                                                                              </div>
+                                                                                            </section> -->
 
     <div class="container">
         <section class="want-to-locate-banner">
@@ -449,7 +449,7 @@
 
 
             const smsCheckbox = document.getElementById('sms');
-            const whatsappCheckbox = document.getElementById('whatsapp');
+            // const whatsappCheckbox = document.getElementById('whatsapp');
             const emailCheckbox = document.getElementById('email');
 
             const emailField = document.getElementById('email-field');
@@ -462,7 +462,8 @@
 
 
             function toggleFields() {
-                if (smsCheckbox.checked || whatsappCheckbox.checked) {
+                // if (smsCheckbox.checked || whatsappCheckbox.checked) {
+                if (smsCheckbox.checked) {
                     contactNumberField.classList.remove('d-none');
                     contactNumberInput.setAttribute('required', 'required');
                 } else {
@@ -480,7 +481,7 @@
             }
 
             smsCheckbox.addEventListener('change', toggleFields);
-            whatsappCheckbox.addEventListener('change', toggleFields);
+            // whatsappCheckbox.addEventListener('change', toggleFields);
             emailCheckbox.addEventListener('change', toggleFields);
 
             toggleFields();
@@ -517,12 +518,12 @@
 
             // ---- Form submit: override number ---- //
             form.addEventListener('submit', function(e) {
-                const isAnyChecked = smsCheckbox.checked || whatsappCheckbox.checked || emailCheckbox
-                    .checked;
+                // const isAnyChecked = smsCheckbox.checked || whatsappCheckbox.checked || emailCheckbox.checked;
+                const isAnyChecked = smsCheckbox.checked || emailCheckbox.checked;
 
                 if (!isAnyChecked) {
                     e.preventDefault();
-                    alert('Please select at least one method (SMS, WhatsApp, or Email).');
+                    alert('Please select at least one method (SMS or Email).');
                     return;
                 }
 

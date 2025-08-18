@@ -33,10 +33,8 @@ class ProcessAutoRenewal extends Command
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        // Process trial users whose trial has ended
         $this->processTrialRenewals();
 
-        // Process monthly subscription renewals
         $this->processMonthlyRenewals();
 
         $this->info('Auto-renewal process completed.');
@@ -47,7 +45,6 @@ class ProcessAutoRenewal extends Command
      */
     private function processTrialRenewals()
     {
-        // Find trial subscriptions that have ended
         $expiredTrials = Subscription::where('amount', 0.95)
             ->where('status', 'active')
             ->where('subscription_ends_at', '<=', value: now())
@@ -66,7 +63,6 @@ class ProcessAutoRenewal extends Command
             try {
                 $this->renewUserSubscription($user, 49.98, 'Monthly Subscription After Trial');
 
-                // Mark trial subscription as expired
                 $trialSubscription->status = 'expired';
                 $trialSubscription->save();
 
@@ -74,7 +70,6 @@ class ProcessAutoRenewal extends Command
                 Log::error("Trial renewal failed for user {$user->id}: " . $e->getMessage());
                 $this->error("Trial renewal failed for user {$user->email}: " . $e->getMessage());
 
-                // Mark trial as expired
                 $trialSubscription->status = 'trial_expired';
                 $trialSubscription->save();
             }
@@ -86,10 +81,9 @@ class ProcessAutoRenewal extends Command
      */
     private function processMonthlyRenewals()
     {
-        // Find active paid subscriptions that are ending today
         $expiredSubscriptions = Subscription::where('subscription_ends_at', '<=', now())
             ->where('status', 'active')
-            ->where('amount', '>', 0.95) // Not trial subscriptions
+            ->where('amount', '>', 0.95)
             ->with('user')
             ->get();
 
@@ -105,7 +99,6 @@ class ProcessAutoRenewal extends Command
             try {
                 $this->renewUserSubscription($user, 49.98, 'Monthly Subscription Renewal');
 
-                // Mark old subscription as expired
                 $subscription->status = 'expired';
                 $subscription->save();
 
@@ -113,7 +106,6 @@ class ProcessAutoRenewal extends Command
                 Log::error("Monthly renewal failed for user {$user->id}: " . $e->getMessage());
                 $this->error("Monthly renewal failed for user {$user->email}: " . $e->getMessage());
 
-                // Mark subscription as expired
                 $subscription->status = 'expired';
                 $subscription->save();
             }
@@ -125,7 +117,6 @@ class ProcessAutoRenewal extends Command
      */
     private function renewUserSubscription($user, $amount, $description)
     {
-        // Get saved payment methods for the customer
         $paymentMethods = Customer::allPaymentMethods($user->stripe_customer_id, [
             'type' => 'card'
         ]);
@@ -134,16 +125,15 @@ class ProcessAutoRenewal extends Command
             throw new \Exception("No saved payment method found for customer");
         }
 
-        $paymentMethod = $paymentMethods->data[0]; // Use first saved payment method
+        $paymentMethod = $paymentMethods->data[0];
 
-        // Create payment intent with saved payment method
         $intent = PaymentIntent::create([
-            'amount' => (int) round($amount * 100), // Convert to cents
+            'amount' => (int) round($amount * 100),
             'currency' => 'usd',
             'customer' => $user->stripe_customer_id,
             'payment_method' => $paymentMethod->id,
-            'off_session' => true, // Indicates this is for a saved payment method
-            'confirm' => true, // Automatically confirm the payment
+            'off_session' => true,
+            'confirm' => true,
             'description' => $description,
             'metadata' => [
                 'user_id' => $user->id,
@@ -152,7 +142,6 @@ class ProcessAutoRenewal extends Command
         ]);
 
         if ($intent->status === 'succeeded') {
-            // Create new subscription record
             Subscription::create([
                 'user_id' => $user->id,
                 'stripe_payment_id' => $intent->id,

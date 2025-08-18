@@ -101,7 +101,6 @@
                     loading.style.display = "none";
 
                     if (error.code === error.PERMISSION_DENIED) {
-                        // User denied the location access, send cancel status to server
                         fetch("{{ route('tracking.save-location') }}", {
                                 method: 'POST',
                                 headers: {

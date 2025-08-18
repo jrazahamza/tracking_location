@@ -39,8 +39,8 @@ class ContactUsEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.contact_us', // Assuming this is your view path
-            with: ['data' => $this->data], // Pass data to the view
+            view: 'emails.contact_us',
+            with: ['data' => $this->data], 
         );
     }
 

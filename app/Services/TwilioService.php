@@ -13,7 +13,6 @@ class TwilioService
         $this->client = new Client(config('services.twilio.sid'), config('services.twilio.token'));
     }
 
-    // Method for sending SMS
     public function sendSMS($to, $message)
     {
         $response = $this->client->messages->create($to, [
@@ -30,7 +29,6 @@ class TwilioService
     }
 
 
-    // Method for sending WhatsApp messages
     public function sendWhatsApp($to, $message)
     {
         $response = $this->client->messages->create("whatsapp:{$to}", [

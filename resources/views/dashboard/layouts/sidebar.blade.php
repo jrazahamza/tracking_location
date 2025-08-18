@@ -81,7 +81,7 @@
                         <a href="{{ route('subscriptions') }}"
                             class="nav-link {{ Request::path() == 'subscriptions' ? 'active' : '' }}">
                             <i class="nav-icon bi bi-speedometer"></i>
-                            <p>Subscriptions</p>
+                            <p>Account Status</p>
                         </a>
                     </li>
 

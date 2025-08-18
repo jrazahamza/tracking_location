@@ -40,93 +40,6 @@ class TrackingController extends Controller
         return view('dashboard.pages.send_request')->with('title', 'Send Tracking Request');
     }
 
-    // public function sendTrackingRequest(Request $request)
-    // {
-    //     $request->validate(['email' => 'required|email']);
-    //     $token = Str::random(60);
-
-    //     TrackingRequest::create([
-    //         'user_id' => Auth::id(),
-    //         'target_user_email' => $request->email,
-    //         'token' => $token,
-    //         'status' => 'pending',
-    //     ]);
-
-    //     Mail::to($request->email)->send(new TrackingRequestEmail($token));
-    //     return back()->with('message', 'Tracking request sent successfully!');
-    // }
-
-    // public function sendTrackingRequest(Request $request)
-    // {
-    //     $rules = [
-    //         'methods' => 'required|array|min:1',
-    //         'message' => 'nullable|string',
-    //     ];
-
-    //     if (in_array('sms', $request->methods) || in_array('whatsapp', $request->methods)) {
-    //         $rules['contact_number'] = 'required|string';
-    //     }
-
-    //     if (in_array('email', $request->methods)) {
-    //         $rules['email'] = 'required|email|string';
-    //     }
-
-    //     $request->validate($rules);
-
-    //     try {
-    //         $user = Auth::user();
-    //         $token = Str::random(60);
-    //         $methods = $request->methods;
-    //         // dd($methods);
-    //         $contactNumber = $request->contact_number;
-    //         $email = $request->email;
-    //         $message = $request->message ?? 'You are being tracked. Click to approve location sharing.';
-
-    //         $trackingRequest = TrackingRequest::create([
-    //             'user_id' => $user->id,
-    //             'target_user_email' => $email ?? null,
-    //             'token' => $token,
-    //             'status' => 'pending',
-    //             'target_contact_number' => $contactNumber ?? null,
-    //             'message' => $message,
-    //             'methods' => json_encode($methods),
-    //         ]);
-
-    //         $trackingLink = route('approve.tracking.request', $token);
-    //         $fullMessage = $message . "\n\n Click the link to approve:\n" . $trackingLink;
-
-    //         $twilio = new TwilioService();
-    //         foreach ($methods as $method) {
-    //             if ($method === 'sms') {
-
-    //                 $twilio->sendSMS($contactNumber, $fullMessage);
-    //                 logger("Sending SMS to {$contactNumber}: {$fullMessage}");
-    //             }
-
-    //             if ($method === 'whatsapp') {
-    //                 $twilio->sendWhatsApp($contactNumber, $fullMessage);
-    //                 logger("Sending WhatsApp to {$contactNumber}: {$fullMessage}");
-    //             }
-
-    //             if ($method === 'email') {
-    //                 if (!$email) {
-    //                     return back()->withErrors(['email' => 'Email is required if Email method is selected.']);
-    //                 }
-    //                 $trackingRequest->update(['target_user_email' => $email]);
-    //                 Mail::to($email)->send(new TrackingRequestEmail($token, $message));
-    //             }
-    //         }
-
-    //         return back()->with('message', 'Tracking request sent successfully via selected method(s).');
-    //     } catch (\Exception $e) {
-    //         Log::error('Error while sending tracking request: ' . $e->getMessage());
-    //         Log::error('Stack trace: ' . $e->getTraceAsString());
-
-    //         return back()->withInput()->with('error', $e->getMessage());
-    //     }
-    // }
-
-
 
     public function sendTrackingRequest(Request $request)
     {
@@ -155,7 +68,6 @@ class TrackingController extends Controller
             $token = Str::random(60);
             $methods = $request->methods;
             $contactNumber = $request->contact_number;
-            // dd($contactNumber);
             $email = $request->email;
             $message = $request->message ?? 'You are being tracked. Click to approve location sharing.';
 
@@ -249,7 +161,6 @@ class TrackingController extends Controller
                 ], 404);
             }
 
-            // If user denied location access
             if ($request->denied == true) {
                 $trackingRequest->update([
                     'status' => 'cancelled',

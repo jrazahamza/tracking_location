@@ -213,7 +213,6 @@
             toastr.warning("{{ session('warning') }}");
         @endif
         $('.toast').on('click', function(event) {
-            event.stopPropagation(); // Prevent the toast from closing when clicked
-            // Optionally, add custom actions on click here
+            event.stopPropagation(); 
         });
     </script>
