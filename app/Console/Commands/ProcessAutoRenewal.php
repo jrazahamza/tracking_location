@@ -65,7 +65,6 @@ class ProcessAutoRenewal extends Command
 
                 $trialSubscription->status = 'expired';
                 $trialSubscription->save();
-
             } catch (\Exception $e) {
                 Log::error("Trial renewal failed for user {$user->id}: " . $e->getMessage());
                 $this->error("Trial renewal failed for user {$user->email}: " . $e->getMessage());
@@ -101,7 +100,6 @@ class ProcessAutoRenewal extends Command
 
                 $subscription->status = 'expired';
                 $subscription->save();
-
             } catch (\Exception $e) {
                 Log::error("Monthly renewal failed for user {$user->id}: " . $e->getMessage());
                 $this->error("Monthly renewal failed for user {$user->email}: " . $e->getMessage());
@@ -117,6 +115,10 @@ class ProcessAutoRenewal extends Command
      */
     private function renewUserSubscription($user, $amount, $description)
     {
+        if ($this->hasRecentRenewal($user->id)) {
+            throw new \Exception("Renewal already processed recently");
+        }
+
         $paymentMethods = Customer::allPaymentMethods($user->stripe_customer_id, [
             'type' => 'card'
         ]);
@@ -142,7 +144,7 @@ class ProcessAutoRenewal extends Command
         ]);
 
         if ($intent->status === 'succeeded') {
-            Subscription::create([
+            Subscription::create( [
                 'user_id' => $user->id,
                 'stripe_payment_id' => $intent->id,
                 'amount' => $amount,
@@ -155,11 +157,18 @@ class ProcessAutoRenewal extends Command
                 'status' => 'active',
             ]);
 
-            Log::info("Successfully renewed subscription for user: {$user->email} - Amount: ${$amount}");
+            Log::info("Successfully renewed subscription for user: {$user->email} - Amount: \${$amount}");
             $this->info("Renewed subscription for: {$user->email}");
-
         } else {
             throw new \Exception("Payment intent status: {$intent->status}");
         }
+    }
+
+    private function hasRecentRenewal($userId)
+    {
+        return Subscription::where('user_id', $userId)
+            ->where('amount', 49.98)
+            ->where('created_at', '>=', now()->subHours(24))
+            ->exists();
     }
 }

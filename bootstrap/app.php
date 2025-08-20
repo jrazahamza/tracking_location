@@ -25,5 +25,5 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command('billing:auto-renew')->dailyAt('00:00');
     })
     ->withCommands([
-        ProcessAutoRenewal::class, // ✅ Register command
+        ProcessAutoRenewal::class,
     ])->create();
